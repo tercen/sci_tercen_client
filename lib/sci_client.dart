@@ -1,0 +1,29 @@
+library sci_client;
+
+export "package:sci_http_client/error.dart";
+export "package:sci_tercen_model/sci_model.dart";
+import "sci_client_base.dart";
+import "package:sci_tercen_model/sci_model.dart";
+
+part 'src/client/impl/worker_service.dart';
+part 'src/client/impl/garbage_collector_service.dart';
+part 'src/client/impl/file_service.dart';
+part 'src/client/impl/lock_service.dart';
+part 'src/client/impl/subscription_plan_service.dart';
+part 'src/client/impl/persistent_service.dart';
+part 'src/client/impl/activity_service.dart';
+part 'src/client/impl/folder_service.dart';
+part 'src/client/impl/table_schema_service.dart';
+part 'src/client/impl/task_service.dart';
+part 'src/client/impl/user_secret_service.dart';
+part 'src/client/impl/patch_record_service.dart';
+part 'src/client/impl/event_service.dart';
+part 'src/client/impl/workflow_service.dart';
+part 'src/client/impl/user_service.dart';
+part 'src/client/impl/project_document_service.dart';
+part 'src/client/impl/cran_library_service.dart';
+part 'src/client/impl/team_service.dart';
+part 'src/client/impl/project_service.dart';
+part 'src/client/impl/document_service.dart';
+part 'src/client/impl/operator_service.dart';
+part 'src/client/impl/factory.dart';

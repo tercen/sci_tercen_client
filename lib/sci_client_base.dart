@@ -1,0 +1,36 @@
+library sci_client_base;
+
+import "dart:async";
+import "dart:typed_data";
+import "dart:convert";
+import "package:async/async.dart" as async;
+import "package:sci_http_client/http_client.dart";
+import "package:sci_http_client/error.dart";
+import "package:sci_base/sci_client_base.dart";
+import "package:sci_base/sci_service.dart" as service;
+import "sci_client.dart";
+import "sci_client_service_factory.dart" as api;
+import "package:sci_tercen_model/sci_model_base.dart";
+
+part 'src/client/base/worker_service.dart';
+part 'src/client/base/garbage_collector_service.dart';
+part 'src/client/base/file_service.dart';
+part 'src/client/base/lock_service.dart';
+part 'src/client/base/subscription_plan_service.dart';
+part 'src/client/base/persistent_service.dart';
+part 'src/client/base/activity_service.dart';
+part 'src/client/base/folder_service.dart';
+part 'src/client/base/table_schema_service.dart';
+part 'src/client/base/task_service.dart';
+part 'src/client/base/user_secret_service.dart';
+part 'src/client/base/patch_record_service.dart';
+part 'src/client/base/event_service.dart';
+part 'src/client/base/workflow_service.dart';
+part 'src/client/base/user_service.dart';
+part 'src/client/base/project_document_service.dart';
+part 'src/client/base/cran_library_service.dart';
+part 'src/client/base/team_service.dart';
+part 'src/client/base/project_service.dart';
+part 'src/client/base/document_service.dart';
+part 'src/client/base/operator_service.dart';
+part 'src/client/base/factory.dart';
