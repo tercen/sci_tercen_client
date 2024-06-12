@@ -1,6 +1,10 @@
 part of sci_model;
 
 class PersistentObject extends PersistentObjectBase {
-  PersistentObject() : super();
+  PersistentObject() : super() {
+    noEventDo(() {
+      isDeleted = false;
+    });
+  }
   PersistentObject.json(Map m) : super.json(m);
 }

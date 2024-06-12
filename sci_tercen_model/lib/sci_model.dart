@@ -1,6 +1,8 @@
 library sci_model;
 
 import "sci_model_base.dart";
+import "dart:collection";
+import "package:collection/collection.dart" as collection;
 
 part 'src/model/impl/team.dart';
 part 'src/model/impl/double_property.dart';
