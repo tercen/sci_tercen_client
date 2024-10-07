@@ -29,7 +29,8 @@ class TeamServiceBase extends HttpClientService<Team>
       var params = {};
       params["teamId"] = teamId;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -54,7 +55,8 @@ class TeamServiceBase extends HttpClientService<Team>
       var params = {};
       params["teamId"] = teamId;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -80,7 +82,8 @@ class TeamServiceBase extends HttpClientService<Team>
       params["teamIds"] = teamIds;
       params["newOwner"] = newOwner;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {

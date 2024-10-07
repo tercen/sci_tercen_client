@@ -4,7 +4,8 @@ class UserSecretBase extends PersistentObject {
   static const List<String> PROPERTY_NAMES = [
     Vocabulary.userId_DP,
     Vocabulary.salt_DP,
-    Vocabulary.hashPassword_DP
+    Vocabulary.hashPassword_DP,
+    Vocabulary.meta_OP
   ];
   static const List<String> REF_PROPERTY_NAMES = [Vocabulary.userId_DP];
   static const List<base.RefId> REF_IDS = [
@@ -13,11 +14,16 @@ class UserSecretBase extends PersistentObject {
   String _userId;
   String _salt;
   String _hashPassword;
+  final base.ListChanged<Pair> meta;
 
   UserSecretBase()
       : _userId = "",
         _salt = "",
-        _hashPassword = "";
+        _hashPassword = "",
+        meta = base.ListChanged<Pair>() {
+    meta.parent = this;
+  }
+
   UserSecretBase.json(Map m)
       : _userId = base.defaultValue(
             m[Vocabulary.userId_DP] as String?, base.String_DefaultFactory),
@@ -26,8 +32,11 @@ class UserSecretBase extends PersistentObject {
         _hashPassword = base.defaultValue(
             m[Vocabulary.hashPassword_DP] as String?,
             base.String_DefaultFactory),
+        meta = base.ListChanged<Pair>.from(
+            m[Vocabulary.meta_OP] as List?, PairBase.createFromJson),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.UserSecret_CLASS, m);
+    meta.parent = this;
   }
 
   static UserSecret createFromJson(Map m) => UserSecretBase.fromJson(m);
@@ -90,6 +99,8 @@ class UserSecretBase extends PersistentObject {
         return salt;
       case Vocabulary.hashPassword_DP:
         return hashPassword;
+      case Vocabulary.meta_OP:
+        return meta;
       default:
         return super.get($name);
     }
@@ -106,6 +117,9 @@ class UserSecretBase extends PersistentObject {
         return;
       case Vocabulary.hashPassword_DP:
         hashPassword = $value as String;
+        return;
+      case Vocabulary.meta_OP:
+        meta.setValues($value as Iterable<Pair>);
         return;
       default:
         super.set($name, $value);
@@ -132,6 +146,7 @@ class UserSecretBase extends PersistentObject {
     m[Vocabulary.userId_DP] = userId;
     m[Vocabulary.salt_DP] = salt;
     m[Vocabulary.hashPassword_DP] = hashPassword;
+    m[Vocabulary.meta_OP] = meta.toJson();
     return m;
   }
 }

@@ -40,7 +40,8 @@ class FolderServiceBase extends HttpClientService<FolderDocument>
       params["projectId"] = projectId;
       params["path"] = path;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -68,7 +69,8 @@ class FolderServiceBase extends HttpClientService<FolderDocument>
       params["volume"] = volume;
       params["path"] = path;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {

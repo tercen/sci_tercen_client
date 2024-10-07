@@ -115,7 +115,8 @@ class DocumentServiceBase extends HttpClientService<Document>
       params["useFactory"] = useFactory;
       params["bookmark"] = bookmark;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -146,7 +147,8 @@ class DocumentServiceBase extends HttpClientService<Document>
       params["offset"] = offset;
       params["limit"] = limit;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -173,7 +175,8 @@ class DocumentServiceBase extends HttpClientService<Document>
       params["offset"] = offset;
       params["limit"] = limit;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -200,7 +203,8 @@ class DocumentServiceBase extends HttpClientService<Document>
       params["offset"] = offset;
       params["limit"] = limit;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -227,7 +231,8 @@ class DocumentServiceBase extends HttpClientService<Document>
       params["offset"] = offset;
       params["limit"] = limit;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -254,7 +259,8 @@ class DocumentServiceBase extends HttpClientService<Document>
       params["offset"] = offset;
       params["limit"] = limit;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -281,7 +287,8 @@ class DocumentServiceBase extends HttpClientService<Document>
       params["offset"] = offset;
       params["limit"] = limit;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {

@@ -20,7 +20,8 @@ class WorkerServiceBase extends HttpClientService<Task>
       var params = {};
       params["task"] = task.toJson();
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -44,7 +45,8 @@ class WorkerServiceBase extends HttpClientService<Task>
       var params = {};
       params["priority"] = priority;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -68,7 +70,8 @@ class WorkerServiceBase extends HttpClientService<Task>
       var params = {};
       params["status"] = status;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -92,7 +95,8 @@ class WorkerServiceBase extends HttpClientService<Task>
       var params = {};
       params["heartBeat"] = heartBeat;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -115,7 +119,8 @@ class WorkerServiceBase extends HttpClientService<Task>
       var params = {};
       params["all"] = all;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -140,7 +145,8 @@ class WorkerServiceBase extends HttpClientService<Task>
       params["taskId"] = taskId;
       params["env"] = env.map((each) => each.toJson()).toList();
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -166,7 +172,8 @@ class WorkerServiceBase extends HttpClientService<Task>
       var params = {};
       params["taskId"] = taskId;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {

@@ -290,6 +290,7 @@ class Vocabulary {
   static const String separator_DP = "separator";
   static const String quote_DP = "quote";
   static const String headers_DP = "headers";
+  static const String filterSelector_DP = "filterSelector";
   static const String cellSize_DP = "cellSize";
   static const String offset_DP = "offset";
   static const String stringValue_DP = "stringValue";
@@ -366,6 +367,7 @@ class Vocabulary {
   static const String id_DP = "id";
   static const String principalId_DP = "principalId";
   static const String gitToken_DP = "gitToken";
+  static const String isSingleSelection_DP = "isSingleSelection";
   static const String values_DP = "values";
   static const String operatorId_DP = "operatorId";
   static const String testRequired_DP = "testRequired";
@@ -454,6 +456,7 @@ class Vocabulary {
   static const String allowMalformed_DP = "allowMalformed";
   static const String comment_DP = "comment";
   static const String isViewOnly_DP = "isViewOnly";
+  static const String entryType_DP = "entryType";
   static const String exportName_DP = "exportName";
   static const String exportType_DP = "exportType";
   static const String exportToId_DP = "exportToId";

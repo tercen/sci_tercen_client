@@ -129,7 +129,8 @@ class ProjectDocumentServiceBase extends HttpClientService<ProjectDocument>
       var params = {};
       params["documentId"] = documentId;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -157,7 +158,8 @@ class ProjectDocumentServiceBase extends HttpClientService<ProjectDocument>
       params["documentId"] = documentId;
       params["projectId"] = projectId;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {

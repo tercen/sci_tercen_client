@@ -22,7 +22,8 @@ class WorkflowServiceBase extends HttpClientService<Workflow>
       params["workflowId"] = workflowId;
       params["stepId"] = stepId;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -48,7 +49,8 @@ class WorkflowServiceBase extends HttpClientService<Workflow>
       params["workflowId"] = workflowId;
       params["projectId"] = projectId;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {

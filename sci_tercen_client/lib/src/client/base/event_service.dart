@@ -22,7 +22,8 @@ class EventServiceBase extends HttpClientService<Event>
       params["channel"] = channel;
       params["evt"] = evt.toJson();
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -94,7 +95,8 @@ class EventServiceBase extends HttpClientService<Event>
       var params = {};
       params["taskId"] = taskId;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {

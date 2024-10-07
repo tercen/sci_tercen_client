@@ -37,7 +37,8 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       var params = {};
       params["userId"] = userId;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -63,7 +64,8 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       var params = {};
       params["userId"] = userId;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -94,7 +96,8 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       params["successUrl"] = successUrl;
       params["cancelUrl"] = cancelUrl;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -122,7 +125,8 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       params["subscriptionPlanId"] = subscriptionPlanId;
       params["status"] = status;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -149,7 +153,8 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       params["successUrl"] = successUrl;
       params["cancelUrl"] = cancelUrl;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -177,7 +182,8 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       params["subscriptionPlanId"] = subscriptionPlanId;
       params["status"] = status;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -201,7 +207,8 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       var params = {};
       params["subscriptionPlanId"] = subscriptionPlanId;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -226,7 +233,8 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       params["subscriptionPlanId"] = subscriptionPlanId;
       params["plan"] = plan;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {

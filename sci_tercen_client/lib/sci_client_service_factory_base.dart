@@ -175,6 +175,8 @@ abstract class FolderService implements api.Service<FolderDocument> {
 }
 
 abstract class TableSchemaService implements api.Service<Schema> {
+  Future<Schema> uploadTable(FileDocument file, Stream<List> bytes,
+      {api.AclContext? aclContext});
   Future<List<Schema>> findByQueryHash(List<String> ids,
       {api.AclContext? aclContext});
   Future<Table> select(
@@ -186,7 +188,12 @@ abstract class TableSchemaService implements api.Service<Schema> {
   Stream<List<int>> selectStream(
       String tableId, List<String> cnames, int offset, int limit,
       {api.AclContext? aclContext});
+  Stream<List<int>> streamTable(String tableId, List<String> cnames, int offset,
+      int limit, String binaryFormat,
+      {api.AclContext? aclContext});
   Stream<List<int>> selectFileContentStream(String tableId, String filename,
+      {api.AclContext? aclContext});
+  Stream<List<int>> getFileMimetypeStream(String tableId, String filename,
       {api.AclContext? aclContext});
   Stream<List<int>> selectCSV(String tableId, List<String> cnames, int offset,
       int limit, String separator, bool quote, String encoding,
@@ -233,6 +240,8 @@ abstract class TaskService implements api.Service<Task> {
 }
 
 abstract class UserSecretService implements api.Service<UserSecret> {
+  Future<String> getSecret(String id, String name,
+      {api.AclContext? aclContext});
   Future<List<UserSecret>> findSecretByUserId(
       {required List keys,
       bool useFactory = false,

@@ -31,6 +31,36 @@ class TableSchemaServiceBase extends HttpClientService<Schema>
         aclContext: aclContext);
   }
 
+  Future<Schema> uploadTable(FileDocument file, Stream<List> bytes,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/schema" + "/" + "uploadTable");
+      var parts = <MultiPart>[];
+      parts.add(MultiPart({"Content-Type": "application/json"},
+          string: json.encode([file.toJson()])));
+      parts.add(MultiPart({"Content-Type": "application/octet-stream"},
+          stream: bytes.cast<List<int>>()));
+      var frontier = "ab63a1363ab349aa8627be56b0479de2";
+      var bodyBytes = await new MultiPartMixTransformer(frontier).encode(parts);
+      var headers = {"Content-Type": "multipart/mixed; boundary=${frontier}"};
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(headers, aclContext),
+          body: bodyBytes,
+          responseType: "arraybuffer");
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = SchemaBase.fromJson(contentCodec.decode(response.body) as Map);
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as Schema;
+  }
+
   Future<List<Schema>> findByQueryHash(List<String> ids,
       {service.AclContext? aclContext}) async {
     var answer;
@@ -39,7 +69,8 @@ class TableSchemaServiceBase extends HttpClientService<Schema>
       var params = {};
       params["ids"] = ids;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -69,7 +100,8 @@ class TableSchemaServiceBase extends HttpClientService<Schema>
       params["offset"] = offset;
       params["limit"] = limit;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -97,7 +129,8 @@ class TableSchemaServiceBase extends HttpClientService<Schema>
       params["offset"] = offset;
       params["limit"] = limit;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -125,7 +158,41 @@ class TableSchemaServiceBase extends HttpClientService<Schema>
       params["offset"] = offset;
       params["limit"] = limit;
       var resFut = client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      resFut = resFut.then((response) {
+        if (response.statusCode != 200) onResponseError(response);
+        return response;
+      });
+
+      var resFut2 = resFut.then((response) => new Stream.fromIterable(
+          [new Uint8List.view(response.body as ByteBuffer)]));
+      answer = new async.LazyStream(() => resFut2).cast<List<int>>();
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as Stream<List<int>>;
+  }
+
+  Stream<List<int>> streamTable(String tableId, List<String> cnames, int offset,
+      int limit, String binaryFormat,
+      {service.AclContext? aclContext}) {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/schema" + "/" + "streamTable");
+      var params = {};
+      params["tableId"] = tableId;
+      params["cnames"] = cnames;
+      params["offset"] = offset;
+      params["limit"] = limit;
+      params["binaryFormat"] = binaryFormat;
+      var resFut = client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       resFut = resFut.then((response) {
@@ -154,7 +221,40 @@ class TableSchemaServiceBase extends HttpClientService<Schema>
       params["filename"] = filename;
       var geturi = getServiceUri(uri)
           .replace(queryParameters: {"params": json.encode(params)});
-      var resFut = client.get(geturi, responseType: contentCodec.responseType);
+      var resFut = client.get(geturi,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType);
+      resFut = resFut.then((response) {
+        if (response.statusCode != 200) onResponseError(response);
+        return response;
+      });
+
+      var resFut2 = resFut.then((response) => new Stream.fromIterable(
+          [new Uint8List.view(response.body as ByteBuffer)]));
+      answer = new async.LazyStream(() => resFut2).cast<List<int>>();
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as Stream<List<int>>;
+  }
+
+  Stream<List<int>> getFileMimetypeStream(String tableId, String filename,
+      {service.AclContext? aclContext}) {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/schema" + "/" + "getFileMimetypeStream");
+      var params = {};
+      params["tableId"] = tableId;
+      params["filename"] = filename;
+      var geturi = getServiceUri(uri)
+          .replace(queryParameters: {"params": json.encode(params)});
+      var resFut = client.get(geturi,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType);
       resFut = resFut.then((response) {
         if (response.statusCode != 200) onResponseError(response);
         return response;
@@ -187,7 +287,10 @@ class TableSchemaServiceBase extends HttpClientService<Schema>
       params["encoding"] = encoding;
       var geturi = getServiceUri(uri)
           .replace(queryParameters: {"params": json.encode(params)});
-      var resFut = client.get(geturi, responseType: contentCodec.responseType);
+      var resFut = client.get(geturi,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType);
       resFut = resFut.then((response) {
         if (response.statusCode != 200) onResponseError(response);
         return response;

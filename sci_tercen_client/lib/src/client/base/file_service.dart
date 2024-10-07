@@ -63,7 +63,9 @@ class FileServiceBase extends HttpClientService<FileDocument>
       var bodyBytes = await new MultiPartMixTransformer(frontier).encode(parts);
       var headers = {"Content-Type": "multipart/mixed; boundary=${frontier}"};
       var response = await client.post(getServiceUri(uri),
-          headers: headers, body: bodyBytes, responseType: "arraybuffer");
+          headers: getHeaderForAclContext(headers, aclContext),
+          body: bodyBytes,
+          responseType: "arraybuffer");
       if (response.statusCode != 200) {
         onResponseError(response);
       } else {
@@ -92,7 +94,9 @@ class FileServiceBase extends HttpClientService<FileDocument>
       var bodyBytes = await new MultiPartMixTransformer(frontier).encode(parts);
       var headers = {"Content-Type": "multipart/mixed; boundary=${frontier}"};
       var response = await client.post(getServiceUri(uri),
-          headers: headers, body: bodyBytes, responseType: "arraybuffer");
+          headers: getHeaderForAclContext(headers, aclContext),
+          body: bodyBytes,
+          responseType: "arraybuffer");
       if (response.statusCode != 200) {
         onResponseError(response);
       } else {
@@ -116,7 +120,10 @@ class FileServiceBase extends HttpClientService<FileDocument>
       params["fileDocumentId"] = fileDocumentId;
       var geturi = getServiceUri(uri)
           .replace(queryParameters: {"params": json.encode(params)});
-      var resFut = client.get(geturi, responseType: contentCodec.responseType);
+      var resFut = client.get(geturi,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType);
       resFut = resFut.then((response) {
         if (response.statusCode != 200) onResponseError(response);
         return response;

@@ -4,6 +4,8 @@ export "package:sci_http_client/error.dart";
 export "package:sci_tercen_model/sci_model.dart";
 import "sci_client_base.dart";
 import "package:sci_tercen_model/sci_model.dart";
+import "package:sci_http_client/error.dart";
+import "package:sci_http_client/http_auth_client.dart" as httpauth;
 
 part 'src/client/impl/worker_service.dart';
 part 'src/client/impl/garbage_collector_service.dart';

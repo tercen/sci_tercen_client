@@ -40,7 +40,10 @@ class CranLibraryServiceBase extends HttpClientService<RLibrary>
       params["repoName"] = repoName;
       var geturi = getServiceUri(uri)
           .replace(queryParameters: {"params": json.encode(params)});
-      var resFut = client.get(geturi, responseType: contentCodec.responseType);
+      var resFut = client.get(geturi,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType);
       resFut = resFut.then((response) {
         if (response.statusCode != 200) onResponseError(response);
         return response;
@@ -66,7 +69,10 @@ class CranLibraryServiceBase extends HttpClientService<RLibrary>
       params["repoName"] = repoName;
       var geturi = getServiceUri(uri)
           .replace(queryParameters: {"params": json.encode(params)});
-      var resFut = client.get(geturi, responseType: contentCodec.responseType);
+      var resFut = client.get(geturi,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType);
       resFut = resFut.then((response) {
         if (response.statusCode != 200) onResponseError(response);
         return response;
@@ -92,7 +98,10 @@ class CranLibraryServiceBase extends HttpClientService<RLibrary>
       params["repoName"] = repoName;
       var geturi = getServiceUri(uri)
           .replace(queryParameters: {"params": json.encode(params)});
-      var resFut = client.get(geturi, responseType: contentCodec.responseType);
+      var resFut = client.get(geturi,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType);
       resFut = resFut.then((response) {
         if (response.statusCode != 200) onResponseError(response);
         return response;
@@ -120,7 +129,10 @@ class CranLibraryServiceBase extends HttpClientService<RLibrary>
       params["filename"] = filename;
       var geturi = getServiceUri(uri)
           .replace(queryParameters: {"params": json.encode(params)});
-      var resFut = client.get(geturi, responseType: contentCodec.responseType);
+      var resFut = client.get(geturi,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType);
       resFut = resFut.then((response) {
         if (response.statusCode != 200) onResponseError(response);
         return response;
@@ -147,7 +159,10 @@ class CranLibraryServiceBase extends HttpClientService<RLibrary>
       params["package"] = package;
       var geturi = getServiceUri(uri)
           .replace(queryParameters: {"params": json.encode(params)});
-      var resFut = client.get(geturi, responseType: contentCodec.responseType);
+      var resFut = client.get(geturi,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType);
       resFut = resFut.then((response) {
         if (response.statusCode != 200) onResponseError(response);
         return response;

@@ -1,19 +1,28 @@
 part of sci_model_base;
 
 class TableStepModelBase extends StepModel {
-  static const List<String> PROPERTY_NAMES = [Vocabulary.relation_OP];
+  static const List<String> PROPERTY_NAMES = [
+    Vocabulary.relation_OP,
+    Vocabulary.filterSelector_DP
+  ];
   static const List<String> REF_PROPERTY_NAMES = [Vocabulary.relation_OP];
   static const List<base.RefId> REF_IDS = [
     base.RefId("Relation", Vocabulary.relation_OP, isComposite: false)
   ];
   Relation _relation;
+  String _filterSelector;
 
-  TableStepModelBase() : _relation = Relation() {
+  TableStepModelBase()
+      : _filterSelector = "",
+        _relation = Relation() {
     _relation.parent = this;
   }
 
   TableStepModelBase.json(Map m)
-      : _relation =
+      : _filterSelector = base.defaultValue(
+            m[Vocabulary.filterSelector_DP] as String?,
+            base.String_DefaultFactory),
+        _relation =
             RelationBase._createFromJson(m[Vocabulary.relation_OP] as Map?),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.TableStepModel_CLASS, m);
@@ -35,6 +44,18 @@ class TableStepModelBase extends StepModel {
 
   @override
   String get kind => Vocabulary.TableStepModel_CLASS;
+  String get filterSelector => _filterSelector;
+
+  set filterSelector(String $o) {
+    if ($o == _filterSelector) return;
+    var $old = _filterSelector;
+    _filterSelector = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.filterSelector_DP, $old, _filterSelector));
+    }
+  }
+
   Relation get relation => _relation;
 
   set relation(Relation $o) {
@@ -54,6 +75,8 @@ class TableStepModelBase extends StepModel {
     switch ($name) {
       case Vocabulary.relation_OP:
         return relation;
+      case Vocabulary.filterSelector_DP:
+        return filterSelector;
       default:
         return super.get($name);
     }
@@ -62,6 +85,9 @@ class TableStepModelBase extends StepModel {
   @override
   set(String $name, dynamic $value) {
     switch ($name) {
+      case Vocabulary.filterSelector_DP:
+        filterSelector = $value as String;
+        return;
       case Vocabulary.relation_OP:
         relation = $value as Relation;
         return;
@@ -88,6 +114,7 @@ class TableStepModelBase extends StepModel {
       m.remove(Vocabulary.SUBKIND);
     }
     m[Vocabulary.relation_OP] = relation.toJson();
+    m[Vocabulary.filterSelector_DP] = filterSelector;
     return m;
   }
 }

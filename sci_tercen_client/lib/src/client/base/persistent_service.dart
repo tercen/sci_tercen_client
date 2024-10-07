@@ -37,7 +37,8 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
       var params = {};
       params["n"] = n;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -61,7 +62,8 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
       var params = {};
       params["teamOrProjectId"] = teamOrProjectId;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -86,7 +88,8 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
       var params = {};
       params["id"] = id;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -112,7 +115,8 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
       var params = {};
       params["id"] = id;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {
@@ -140,7 +144,8 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
       params["limit"] = limit;
       params["useFactory"] = useFactory;
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           responseType: contentCodec.responseType,
           body: contentCodec.encode(params));
       if (response.statusCode != 200) {

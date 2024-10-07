@@ -1,7 +1,7 @@
 library sci_model;
 
 import "sci_model_base.dart";
-import "dart:collection";
+import "package:sci_http_client/error.dart";
 import "package:collection/collection.dart" as collection;
 
 part 'src/model/impl/team.dart';

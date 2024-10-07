@@ -29,6 +29,16 @@ abstract class HttpClientService<T extends base.PersistentBase>
   @override
   DomainConfig get config => DomainConfig();
 
+  Map<String, String>? getHeaderForAclContext(
+      Map<String, String>? headers, AclContext? aclContext) {
+    Map<String, String>? headers;
+    if (aclContext is AclTokenContextImpl) {
+      headers ??= <String, String>{};
+      headers['authorization'] = aclContext.authorization;
+    }
+    return headers;
+  }
+
   @override
   Uri getServiceUri(Uri uri) =>
       http.HttpClient.ResolveUri(baseRestUri, uri.toString());
