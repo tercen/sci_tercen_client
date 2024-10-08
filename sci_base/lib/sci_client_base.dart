@@ -31,12 +31,18 @@ abstract class HttpClientService<T extends base.PersistentBase>
 
   Map<String, String>? getHeaderForAclContext(
       Map<String, String>? headers, AclContext? aclContext) {
-    Map<String, String>? headers;
-    if (aclContext is AclTokenContextImpl) {
-      headers ??= <String, String>{};
-      headers['authorization'] = aclContext.authorization;
+    Map<String, String>? result;
+
+    if (headers != null) {
+      result = Map.from(headers);
     }
-    return headers;
+
+    if (aclContext is AclTokenContextImpl) {
+      result ??= <String, String>{};
+
+      result['authorization'] = aclContext.authorization;
+    }
+    return result;
   }
 
   @override
