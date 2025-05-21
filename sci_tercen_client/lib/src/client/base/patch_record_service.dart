@@ -13,24 +13,6 @@ class PatchRecordServiceBase extends HttpClientService<PatchRecords>
     return new PatchRecords.json(m);
   }
 
-  Future<List<PatchRecords>> findByChannelId(
-      {startKey,
-      endKey,
-      int limit = 200,
-      int skip = 0,
-      bool descending = true,
-      bool useFactory = false,
-      service.AclContext? aclContext}) {
-    return findStartKeys("findByChannelId",
-        startKey: startKey,
-        endKey: endKey,
-        limit: limit,
-        skip: skip,
-        descending: descending,
-        useFactory: useFactory,
-        aclContext: aclContext);
-  }
-
   Future<List<PatchRecords>> findByChannelIdAndSequence(
       {startKey,
       endKey,

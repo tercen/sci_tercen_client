@@ -249,14 +249,6 @@ abstract class UserSecretService implements api.Service<UserSecret> {
 }
 
 abstract class PatchRecordService implements api.Service<PatchRecords> {
-  Future<List<PatchRecords>> findByChannelId(
-      {startKey,
-      endKey,
-      int limit = 200,
-      int skip = 0,
-      bool descending = true,
-      bool useFactory = false,
-      api.AclContext? aclContext});
   Future<List<PatchRecords>> findByChannelIdAndSequence(
       {startKey,
       endKey,
