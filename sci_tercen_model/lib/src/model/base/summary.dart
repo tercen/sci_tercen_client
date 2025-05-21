@@ -5,7 +5,8 @@ class SummaryBase extends SciObject {
     Vocabulary.tableSummary_OP,
     Vocabulary.computedTableSummary_OP,
     Vocabulary.queryTableSummary_OP,
-    Vocabulary.taskSummary_OP
+    Vocabulary.taskSummary_OP,
+    Vocabulary.fileSummary_OP
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
@@ -13,16 +14,19 @@ class SummaryBase extends SciObject {
   TableSummary _computedTableSummary;
   TableSummary _queryTableSummary;
   TaskSummary _taskSummary;
+  FileSummary _fileSummary;
 
   SummaryBase()
       : _tableSummary = TableSummary(),
         _computedTableSummary = TableSummary(),
         _queryTableSummary = TableSummary(),
-        _taskSummary = TaskSummary() {
+        _taskSummary = TaskSummary(),
+        _fileSummary = FileSummary() {
     _tableSummary.parent = this;
     _computedTableSummary.parent = this;
     _queryTableSummary.parent = this;
     _taskSummary.parent = this;
+    _fileSummary.parent = this;
   }
 
   SummaryBase.json(Map m)
@@ -34,12 +38,15 @@ class SummaryBase extends SciObject {
             m[Vocabulary.queryTableSummary_OP] as Map?),
         _taskSummary = TaskSummaryBase._createFromJson(
             m[Vocabulary.taskSummary_OP] as Map?),
+        _fileSummary = FileSummaryBase._createFromJson(
+            m[Vocabulary.fileSummary_OP] as Map?),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Summary_CLASS, m);
     _tableSummary.parent = this;
     _computedTableSummary.parent = this;
     _queryTableSummary.parent = this;
     _taskSummary.parent = this;
+    _fileSummary.parent = this;
   }
 
   static Summary createFromJson(Map m) => SummaryBase.fromJson(m);
@@ -113,6 +120,20 @@ class SummaryBase extends SciObject {
     }
   }
 
+  FileSummary get fileSummary => _fileSummary;
+
+  set fileSummary(FileSummary $o) {
+    if ($o == _fileSummary) return;
+    _fileSummary.parent = null;
+    $o.parent = this;
+    var $old = _fileSummary;
+    _fileSummary = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.fileSummary_OP, $old, _fileSummary));
+    }
+  }
+
   @override
   dynamic get(String $name) {
     switch ($name) {
@@ -124,6 +145,8 @@ class SummaryBase extends SciObject {
         return queryTableSummary;
       case Vocabulary.taskSummary_OP:
         return taskSummary;
+      case Vocabulary.fileSummary_OP:
+        return fileSummary;
       default:
         return super.get($name);
     }
@@ -143,6 +166,9 @@ class SummaryBase extends SciObject {
         return;
       case Vocabulary.taskSummary_OP:
         taskSummary = $value as TaskSummary;
+        return;
+      case Vocabulary.fileSummary_OP:
+        fileSummary = $value as FileSummary;
         return;
       default:
         super.set($name, $value);
@@ -170,6 +196,7 @@ class SummaryBase extends SciObject {
     m[Vocabulary.computedTableSummary_OP] = computedTableSummary.toJson();
     m[Vocabulary.queryTableSummary_OP] = queryTableSummary.toJson();
     m[Vocabulary.taskSummary_OP] = taskSummary.toJson();
+    m[Vocabulary.fileSummary_OP] = fileSummary.toJson();
     return m;
   }
 }

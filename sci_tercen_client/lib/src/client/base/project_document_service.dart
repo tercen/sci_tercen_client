@@ -175,4 +175,33 @@ class ProjectDocumentServiceBase extends HttpClientService<ProjectDocument>
     }
     return answer as ProjectDocument;
   }
+
+  Future<ProjectDocument> getFromPath(
+      String projectId, String path, bool useFactory,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/pd" + "/" + "getFromPath");
+      var params = {};
+      params["projectId"] = projectId;
+      params["path"] = path;
+      params["useFactory"] = useFactory;
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = ProjectDocumentBase.fromJson(
+            contentCodec.decode(response.body) as Map);
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as ProjectDocument;
+  }
 }

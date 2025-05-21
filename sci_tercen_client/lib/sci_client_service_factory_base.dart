@@ -257,6 +257,14 @@ abstract class PatchRecordService implements api.Service<PatchRecords> {
       bool descending = true,
       bool useFactory = false,
       api.AclContext? aclContext});
+  Future<List<PatchRecords>> findByChannelIdAndSequence(
+      {startKey,
+      endKey,
+      int limit = 200,
+      int skip = 0,
+      bool descending = true,
+      bool useFactory = false,
+      api.AclContext? aclContext});
 }
 
 abstract class EventService implements api.Service<Event> {
@@ -280,6 +288,7 @@ abstract class WorkflowService implements api.Service<Workflow> {
 abstract class UserService implements api.Service<User> {
   Future<String> getSamlMessage(String type, {api.AclContext? aclContext});
   Future<dynamic> cookieConsent(String dummy, {api.AclContext? aclContext});
+  Future<dynamic> logout(String reason, {api.AclContext? aclContext});
   Future<UserSession> connect(String usernameOrEmail, String password,
       {api.AclContext? aclContext});
   Future<UserSession> connect2(
@@ -343,6 +352,9 @@ abstract class ProjectDocumentService implements api.Service<ProjectDocument> {
       {api.AclContext? aclContext});
   Future<ProjectDocument> cloneProjectDocument(
       String documentId, String projectId,
+      {api.AclContext? aclContext});
+  Future<ProjectDocument> getFromPath(
+      String projectId, String path, bool useFactory,
       {api.AclContext? aclContext});
   Future<List<ProjectDocument>> findProjectObjectsByLastModifiedDate(
       {startKey,

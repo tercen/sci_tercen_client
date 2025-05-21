@@ -72,14 +72,20 @@ class SciObjectBase extends base.Base {
         return WhereRelation.json(m);
       case Vocabulary.DistinctRelation_CLASS:
         return DistinctRelation.json(m);
+      case Vocabulary.SelectPairwiseRelation_CLASS:
+        return SelectPairwiseRelation.json(m);
       case Vocabulary.ReferenceRelation_CLASS:
         return ReferenceRelation.json(m);
       case Vocabulary.InMemoryRelation_CLASS:
         return InMemoryRelation.json(m);
+      case Vocabulary.PairwiseRelation_CLASS:
+        return PairwiseRelation.json(m);
       case Vocabulary.RenameRelation_CLASS:
         return RenameRelation.json(m);
       case Vocabulary.UnionRelation_CLASS:
         return UnionRelation.json(m);
+      case Vocabulary.RangeRelation_CLASS:
+        return RangeRelation.json(m);
       case Vocabulary.SimpleRelation_CLASS:
         return SimpleRelation.json(m);
       case Vocabulary.GatherRelation_CLASS:
@@ -392,6 +398,8 @@ class SciObjectBase extends base.Base {
         return ColorElement.json(m);
       case Vocabulary.PreProcessor_CLASS:
         return PreProcessor.json(m);
+      case Vocabulary.FileSummary_CLASS:
+        return FileSummary.json(m);
       case Vocabulary.Properties_CLASS:
         return Properties.json(m);
       case Vocabulary.PropertyValue_CLASS:

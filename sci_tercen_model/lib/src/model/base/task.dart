@@ -13,6 +13,7 @@ class TaskBase extends PersistentObject {
     Vocabulary.owner_DP,
     Vocabulary.taskHash_DP,
     Vocabulary.channelId_DP,
+    Vocabulary.size_DP,
     Vocabulary.meta_OP
   ];
   static const List<String> REF_PROPERTY_NAMES = [Vocabulary.owner_DP];
@@ -30,6 +31,7 @@ class TaskBase extends PersistentObject {
   String _owner;
   String _taskHash;
   String _channelId;
+  int _size;
   final base.ListChanged<Pair> meta;
 
   TaskBase()
@@ -37,6 +39,7 @@ class TaskBase extends PersistentObject {
         _owner = "",
         _taskHash = "",
         _channelId = "",
+        _size = 0,
         environment = base.ListChanged<Pair>(),
         _state = State(),
         _createdDate = Date(),
@@ -63,6 +66,8 @@ class TaskBase extends PersistentObject {
             m[Vocabulary.taskHash_DP] as String?, base.String_DefaultFactory),
         _channelId = base.defaultValue(
             m[Vocabulary.channelId_DP] as String?, base.String_DefaultFactory),
+        _size = base.defaultValue(
+            m[Vocabulary.size_DP] as int?, base.int_DefaultFactory),
         environment = base.ListChanged<Pair>.from(
             m[Vocabulary.environment_OP] as List?, PairBase.createFromJson),
         _state = StateBase._createFromJson(m[Vocabulary.state_OP] as Map?),
@@ -188,6 +193,18 @@ class TaskBase extends PersistentObject {
     }
   }
 
+  int get size => _size;
+
+  set size(int $o) {
+    if ($o == _size) return;
+    var $old = _size;
+    _size = $o;
+    if (hasListener) {
+      sendChangeEvent(
+          base.PropertyChangedEvent(this, Vocabulary.size_DP, $old, _size));
+    }
+  }
+
   State get state => _state;
 
   set state(State $o) {
@@ -297,6 +314,8 @@ class TaskBase extends PersistentObject {
         return taskHash;
       case Vocabulary.channelId_DP:
         return channelId;
+      case Vocabulary.size_DP:
+        return size;
       case Vocabulary.meta_OP:
         return meta;
       default:
@@ -318,6 +337,9 @@ class TaskBase extends PersistentObject {
         return;
       case Vocabulary.channelId_DP:
         channelId = $value as String;
+        return;
+      case Vocabulary.size_DP:
+        size = $value as int;
         return;
       case Vocabulary.environment_OP:
         environment.setValues($value as Iterable<Pair>);
@@ -376,6 +398,7 @@ class TaskBase extends PersistentObject {
     m[Vocabulary.owner_DP] = owner;
     m[Vocabulary.taskHash_DP] = taskHash;
     m[Vocabulary.channelId_DP] = channelId;
+    m[Vocabulary.size_DP] = size;
     m[Vocabulary.meta_OP] = meta.toJson();
     return m;
   }

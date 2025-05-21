@@ -4,19 +4,23 @@ class FilterExprBase extends FilterTopExpr {
   static const List<String> PROPERTY_NAMES = [
     Vocabulary.filterOp_DP,
     Vocabulary.stringValue_DP,
-    Vocabulary.factor_OP
+    Vocabulary.factor_OP,
+    Vocabulary.preProcessors_OP
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
   String _filterOp;
   String _stringValue;
   Factor _factor;
+  final base.ListChanged<PreProcessor> preProcessors;
 
   FilterExprBase()
       : _filterOp = "",
         _stringValue = "",
-        _factor = Factor() {
+        _factor = Factor(),
+        preProcessors = base.ListChanged<PreProcessor>() {
     _factor.parent = this;
+    preProcessors.parent = this;
   }
 
   FilterExprBase.json(Map m)
@@ -26,9 +30,13 @@ class FilterExprBase extends FilterTopExpr {
             m[Vocabulary.stringValue_DP] as String?,
             base.String_DefaultFactory),
         _factor = FactorBase._createFromJson(m[Vocabulary.factor_OP] as Map?),
+        preProcessors = base.ListChanged<PreProcessor>.from(
+            m[Vocabulary.preProcessors_OP] as List?,
+            PreProcessorBase.createFromJson),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.FilterExpr_CLASS, m);
     _factor.parent = this;
+    preProcessors.parent = this;
   }
 
   static FilterExpr createFromJson(Map m) => FilterExprBase.fromJson(m);
@@ -95,6 +103,8 @@ class FilterExprBase extends FilterTopExpr {
         return stringValue;
       case Vocabulary.factor_OP:
         return factor;
+      case Vocabulary.preProcessors_OP:
+        return preProcessors;
       default:
         return super.get($name);
     }
@@ -111,6 +121,9 @@ class FilterExprBase extends FilterTopExpr {
         return;
       case Vocabulary.factor_OP:
         factor = $value as Factor;
+        return;
+      case Vocabulary.preProcessors_OP:
+        preProcessors.setValues($value as Iterable<PreProcessor>);
         return;
       default:
         super.set($name, $value);
@@ -137,6 +150,7 @@ class FilterExprBase extends FilterTopExpr {
     m[Vocabulary.filterOp_DP] = filterOp;
     m[Vocabulary.stringValue_DP] = stringValue;
     m[Vocabulary.factor_OP] = factor.toJson();
+    m[Vocabulary.preProcessors_OP] = preProcessors.toJson();
     return m;
   }
 }

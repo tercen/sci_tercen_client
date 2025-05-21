@@ -1,20 +1,30 @@
 part of sci_model_base;
 
 class EventBase extends PersistentObject {
-  static const List<String> PROPERTY_NAMES = [Vocabulary.date_OP];
+  static const List<String> PROPERTY_NAMES = [
+    Vocabulary.date_OP,
+    Vocabulary.meta_OP
+  ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
   Date _date;
+  final base.ListChanged<Pair> meta;
 
-  EventBase() : _date = Date() {
+  EventBase()
+      : _date = Date(),
+        meta = base.ListChanged<Pair>() {
     _date.parent = this;
+    meta.parent = this;
   }
 
   EventBase.json(Map m)
       : _date = DateBase._createFromJson(m[Vocabulary.date_OP] as Map?),
+        meta = base.ListChanged<Pair>.from(
+            m[Vocabulary.meta_OP] as List?, PairBase.createFromJson),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Event_CLASS, m);
     _date.parent = this;
+    meta.parent = this;
   }
 
   static Event createFromJson(Map m) => EventBase.fromJson(m);
@@ -65,6 +75,8 @@ class EventBase extends PersistentObject {
     switch ($name) {
       case Vocabulary.date_OP:
         return date;
+      case Vocabulary.meta_OP:
+        return meta;
       default:
         return super.get($name);
     }
@@ -75,6 +87,9 @@ class EventBase extends PersistentObject {
     switch ($name) {
       case Vocabulary.date_OP:
         date = $value as Date;
+        return;
+      case Vocabulary.meta_OP:
+        meta.setValues($value as Iterable<Pair>);
         return;
       default:
         super.set($name, $value);
@@ -99,6 +114,7 @@ class EventBase extends PersistentObject {
       m.remove(Vocabulary.SUBKIND);
     }
     m[Vocabulary.date_OP] = date.toJson();
+    m[Vocabulary.meta_OP] = meta.toJson();
     return m;
   }
 }

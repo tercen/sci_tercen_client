@@ -3,27 +3,34 @@ part of sci_model_base;
 class OperatorBase extends Document {
   static const List<String> PROPERTY_NAMES = [
     Vocabulary.properties_OP,
-    Vocabulary.operatorSpec_OP
+    Vocabulary.operatorSpec_OP,
+    Vocabulary.capabilities_DP
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
   final base.ListChanged<Property> properties;
   OperatorSpec _operatorSpec;
+  final base.ListChangedBase<String> capabilities;
 
   OperatorBase()
-      : properties = base.ListChanged<Property>(),
+      : capabilities = base.ListChangedBase<String>(),
+        properties = base.ListChanged<Property>(),
         _operatorSpec = OperatorSpec() {
+    capabilities.parent = this;
     properties.parent = this;
     _operatorSpec.parent = this;
   }
 
   OperatorBase.json(Map m)
-      : properties = base.ListChanged<Property>.from(
+      : capabilities = base.ListChangedBase<String>(
+            m[Vocabulary.capabilities_DP] as List?),
+        properties = base.ListChanged<Property>.from(
             m[Vocabulary.properties_OP] as List?, PropertyBase.createFromJson),
         _operatorSpec = OperatorSpecBase._createFromJson(
             m[Vocabulary.operatorSpec_OP] as Map?),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Operator_CLASS, m);
+    capabilities.parent = this;
     properties.parent = this;
     _operatorSpec.parent = this;
   }
@@ -76,6 +83,8 @@ class OperatorBase extends Document {
         return properties;
       case Vocabulary.operatorSpec_OP:
         return operatorSpec;
+      case Vocabulary.capabilities_DP:
+        return capabilities;
       default:
         return super.get($name);
     }
@@ -84,6 +93,9 @@ class OperatorBase extends Document {
   @override
   set(String $name, dynamic $value) {
     switch ($name) {
+      case Vocabulary.capabilities_DP:
+        capabilities.setValues($value as Iterable<String>);
+        return;
       case Vocabulary.properties_OP:
         properties.setValues($value as Iterable<Property>);
         return;
@@ -114,6 +126,7 @@ class OperatorBase extends Document {
     }
     m[Vocabulary.properties_OP] = properties.toJson();
     m[Vocabulary.operatorSpec_OP] = operatorSpec.toJson();
+    m[Vocabulary.capabilities_DP] = capabilities;
     return m;
   }
 }

@@ -97,6 +97,31 @@ class UserServiceBase extends HttpClientService<User>
     return answer as dynamic;
   }
 
+  Future<dynamic> logout(String reason,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/user" + "/" + "logout");
+      var params = {};
+      params["reason"] = reason;
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = null;
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as dynamic;
+  }
+
   Future<UserSession> connect(String usernameOrEmail, String password,
       {service.AclContext? aclContext}) async {
     var answer;

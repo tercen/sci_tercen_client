@@ -1,20 +1,31 @@
 part of sci_model_base;
 
 class FilterExpr2dBase extends FilterExpr {
-  static const List<String> PROPERTY_NAMES = [Vocabulary.factor2_OP];
+  static const List<String> PROPERTY_NAMES = [
+    Vocabulary.factor2_OP,
+    Vocabulary.preProcessors2_OP
+  ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
   Factor _factor2;
+  final base.ListChanged<PreProcessor> preProcessors2;
 
-  FilterExpr2dBase() : _factor2 = Factor() {
+  FilterExpr2dBase()
+      : _factor2 = Factor(),
+        preProcessors2 = base.ListChanged<PreProcessor>() {
     _factor2.parent = this;
+    preProcessors2.parent = this;
   }
 
   FilterExpr2dBase.json(Map m)
       : _factor2 = FactorBase._createFromJson(m[Vocabulary.factor2_OP] as Map?),
+        preProcessors2 = base.ListChanged<PreProcessor>.from(
+            m[Vocabulary.preProcessors2_OP] as List?,
+            PreProcessorBase.createFromJson),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.FilterExpr2d_CLASS, m);
     _factor2.parent = this;
+    preProcessors2.parent = this;
   }
 
   static FilterExpr2d createFromJson(Map m) => FilterExpr2dBase.fromJson(m);
@@ -51,6 +62,8 @@ class FilterExpr2dBase extends FilterExpr {
     switch ($name) {
       case Vocabulary.factor2_OP:
         return factor2;
+      case Vocabulary.preProcessors2_OP:
+        return preProcessors2;
       default:
         return super.get($name);
     }
@@ -61,6 +74,9 @@ class FilterExpr2dBase extends FilterExpr {
     switch ($name) {
       case Vocabulary.factor2_OP:
         factor2 = $value as Factor;
+        return;
+      case Vocabulary.preProcessors2_OP:
+        preProcessors2.setValues($value as Iterable<PreProcessor>);
         return;
       default:
         super.set($name, $value);
@@ -85,6 +101,7 @@ class FilterExpr2dBase extends FilterExpr {
       m.remove(Vocabulary.SUBKIND);
     }
     m[Vocabulary.factor2_OP] = factor2.toJson();
+    m[Vocabulary.preProcessors2_OP] = preProcessors2.toJson();
     return m;
   }
 }

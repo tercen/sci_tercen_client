@@ -10,8 +10,10 @@ class PatchRecordsBase extends Event {
     Vocabulary.s_DP,
     Vocabulary.rs_OP
   ];
-  static const List<String> REF_PROPERTY_NAMES = [];
-  static const List<base.RefId> REF_IDS = [];
+  static const List<String> REF_PROPERTY_NAMES = [Vocabulary.oI_DP];
+  static const List<base.RefId> REF_IDS = [
+    base.RefId("IdObject", Vocabulary.oI_DP, isComposite: false)
+  ];
   String _u;
   String _cI;
   String _oI;
