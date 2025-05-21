@@ -21,7 +21,7 @@ class PatchRecordServiceBase extends HttpClientService<PatchRecords>
       bool descending = true,
       bool useFactory = false,
       service.AclContext? aclContext}) {
-    return findStartKeys("findByChannelId",
+    return findStartKeys("findByChannelIdAndSequence",
         startKey: startKey,
         endKey: endKey,
         limit: limit,
