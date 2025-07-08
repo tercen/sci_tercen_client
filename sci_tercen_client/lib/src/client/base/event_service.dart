@@ -13,6 +13,50 @@ class EventServiceBase extends HttpClientService<Event>
     return new Event.json(m);
   }
 
+  Future<List<Event>> findByChannelAndDate(
+      {startKey,
+      endKey,
+      int limit = 200,
+      int skip = 0,
+      bool descending = true,
+      bool useFactory = false,
+      service.AclContext? aclContext}) {
+    return findStartKeys("findByChannelAndDate",
+        startKey: startKey,
+        endKey: endKey,
+        limit: limit,
+        skip: skip,
+        descending: descending,
+        useFactory: useFactory,
+        aclContext: aclContext);
+  }
+
+  Future<dynamic> sendPersistentChannel(String channel, Event evt,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/evt" + "/" + "sendPersistentChannel");
+      var params = {};
+      params["channel"] = channel;
+      params["evt"] = evt.toJson();
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = null;
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as dynamic;
+  }
+
   Future<dynamic> sendChannel(String channel, Event evt,
       {service.AclContext? aclContext}) async {
     var answer;

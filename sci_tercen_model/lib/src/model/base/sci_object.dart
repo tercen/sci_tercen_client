@@ -226,6 +226,8 @@ class SciObjectBase extends base.Base {
         return TaskEvent.json(m);
       case Vocabulary.GenericEvent_CLASS:
         return GenericEvent.json(m);
+      case Vocabulary.PersistentChannelEvent_CLASS:
+        return PersistentChannelEvent.json(m);
       case Vocabulary.GarbageObject_CLASS:
         return GarbageObject.json(m);
       case Vocabulary.Activity_CLASS:

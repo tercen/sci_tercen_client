@@ -223,6 +223,7 @@ part 'src/model/impl/api_call_profile.dart';
 part 'src/model/impl/composite_relation.dart';
 part 'src/model/impl/column_schema.dart';
 part 'src/model/impl/git_project_task.dart';
+part 'src/model/impl/persistent_channel_event.dart';
 part 'src/model/impl/computed_table_schema.dart';
 part 'src/model/impl/table_properties.dart';
 part 'src/model/impl/mapping_factor.dart';

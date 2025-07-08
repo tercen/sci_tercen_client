@@ -219,6 +219,7 @@ class Vocabulary {
   static const String CompositeRelation_CLASS = "CompositeRelation";
   static const String ColumnSchema_CLASS = "ColumnSchema";
   static const String GitProjectTask_CLASS = "GitProjectTask";
+  static const String PersistentChannelEvent_CLASS = "PersistentChannelEvent";
   static const String ComputedTableSchema_CLASS = "ComputedTableSchema";
   static const String TableProperties_CLASS = "TableProperties";
   static const String MappingFactor_CLASS = "MappingFactor";
@@ -434,6 +435,8 @@ class Vocabulary {
   static const String reason_DP = "reason";
   static const String backcolor_DP = "backcolor";
   static const String workflowRev_DP = "workflowRev";
+  static const String stepsToReset_DP = "stepsToReset";
+  static const String stepsToRun_DP = "stepsToRun";
   static const String inNames_DP = "inNames";
   static const String outNames_DP = "outNames";
   static const String parentDataStepId_DP = "parentDataStepId";
@@ -501,6 +504,7 @@ class Vocabulary {
   static const String names_DP = "names";
   static const String valueType_DP = "valueType";
   static const String nCalls_DP = "nCalls";
+  static const String channel_DP = "channel";
   static const String sortOrder_DP = "sortOrder";
   static const String factorName_DP = "factorName";
   static const String isSingle_DP = "isSingle";
@@ -639,4 +643,5 @@ class Vocabulary {
   static const String palette_OP = "palette";
   static const String mainRelation_OP = "mainRelation";
   static const String metaData_OP = "metaData";
+  static const String event_OP = "event";
 }

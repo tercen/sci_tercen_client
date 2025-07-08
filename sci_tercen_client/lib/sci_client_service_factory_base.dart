@@ -260,6 +260,8 @@ abstract class PatchRecordService implements api.Service<PatchRecords> {
 }
 
 abstract class EventService implements api.Service<Event> {
+  Future<dynamic> sendPersistentChannel(String channel, Event evt,
+      {api.AclContext? aclContext});
   Future<dynamic> sendChannel(String channel, Event evt,
       {api.AclContext? aclContext});
   Stream<Event> channel(String name, {api.AclContext? aclContext});
@@ -268,6 +270,14 @@ abstract class EventService implements api.Service<Event> {
   Stream<TaskStateEvent> onTaskState(String taskId,
       {api.AclContext? aclContext});
   Future<int> taskListenerCount(String taskId, {api.AclContext? aclContext});
+  Future<List<Event>> findByChannelAndDate(
+      {startKey,
+      endKey,
+      int limit = 200,
+      int skip = 0,
+      bool descending = true,
+      bool useFactory = false,
+      api.AclContext? aclContext});
 }
 
 abstract class WorkflowService implements api.Service<Workflow> {
