@@ -23,34 +23,34 @@ class HttpBrowserClient implements api.HttpClient {
   @override
   Uri resolveUri(Uri uri, String path) => api.HttpClient.ResolveUri(uri, path);
 
-  HttpRequest newRequest() {
-    var request = HttpRequest();
+  XMLHttpRequest newRequest() {
+    var request = XMLHttpRequest();
     return request;
   }
 
-  void setHeaders(HttpRequest request, Map<String, String>? headers) {
+  void setHeaders(XMLHttpRequest request, Map<String, String>? headers) {
     if (withCredentials!) {
-      request.withCredentials = withCredentials;
+      request.withCredentials = withCredentials!;
     }
     if (headers == null) return;
     headers.forEach((k, v) => request.setRequestHeader(k, v));
   }
 
-  Future<api.Response> reponseFromRequest(HttpRequest request) {
-    if (request.readyState == HttpRequest.DONE) {
+  Future<api.Response> reponseFromRequest(XMLHttpRequest request) {
+    if (request.readyState == XMLHttpRequest.DONE) {
       return Future.value(Response(request));
     }
     var completer = Completer<Response>();
 
-    request.onLoad.listen((event) {
+    request.addEventListener('load', (Event event) {
       completer.complete(Response(request));
-    });
+    }.toJS);
 
-    request.onError.listen((ProgressEvent evt) {
+    request.addEventListener('error', (Event evt) {
       var error = api.HttpClientError(
           500, "connection.unvailable", "Host unreachable.");
       completer.completeError(error);
-    });
+    }.toJS);
 
     return completer.future;
   }
@@ -65,8 +65,8 @@ class HttpBrowserClient implements api.HttpClient {
     return reponseFromRequest(request);
   }
 
-  void _openRequest(HttpRequest request, verb, url) {
-    request.open(verb as String, url.toString(), async: true);
+  void _openRequest(XMLHttpRequest request, verb, url) {
+    request.open(verb as String, url.toString(), true);
   }
 
   @override
@@ -103,19 +103,19 @@ class HttpBrowserClient implements api.HttpClient {
 
     var completer = Completer<api.StreamResponse>();
 
-    request.onError.listen((evt) {
+    request.addEventListener('error', (Event evt) {
       if (!completer.isCompleted) {
         completer.completeError('$this : failed : $evt');
       }
-    });
+    }.toJS);
 
-    request.onReadyStateChange.listen((evt) {
-      if (request.readyState == HttpRequest.HEADERS_RECEIVED) {
+    request.addEventListener('readystatechange', (Event evt) {
+      if (request.readyState == XMLHttpRequest.HEADERS_RECEIVED) {
         if (!completer.isCompleted) {
           completer.complete(response);
         }
       }
-    });
+    }.toJS);
 
     return completer.future;
   }
@@ -178,7 +178,7 @@ class HttpBrowserClient implements api.HttpClient {
     _openRequest(request, verb, url.toString());
 
     if (progressCallback != null) {
-      request.upload.onProgress.listen(progressCallback);
+      request.upload.addEventListener('progress', progressCallback.toJS);
     }
 
     setHeaders(request, headers);
@@ -189,9 +189,7 @@ class HttpBrowserClient implements api.HttpClient {
       } else if (body is List) {
         data = body;
         if (data is Uint8List) {
-          data = Blob([data]);
-
-          Blob([data]);
+          data = Blob([data.toJS].toJS);
         }
       } else if (body is Map) {
         request.setRequestHeader(
@@ -244,18 +242,31 @@ class HttpBrowserClient implements api.HttpClient {
 }
 
 class Response implements api.Response {
-  HttpRequest request;
+  XMLHttpRequest request;
   Response(this.request);
   @override
   int? get statusCode => request.status;
   @override
-  Map get headers => request.responseHeaders;
+  Map get headers {
+    final headersMap = <String, String>{};
+    final headersString = request.getAllResponseHeaders();
+    if (headersString.isNotEmpty) {
+      for (var line in headersString.split('\r\n')) {
+        if (line.isEmpty) continue;
+        var idx = line.indexOf(':');
+        if (idx > 0) {
+          headersMap[line.substring(0, idx).trim()] = line.substring(idx + 1).trim();
+        }
+      }
+    }
+    return headersMap;
+  }
   @override
   Object? get body => request.response;
 }
 
 class StreamResponse extends api.StreamResponse {
-  HttpRequest request;
+  XMLHttpRequest request;
   String? responseType;
   Encoding? encoding;
   int _bytesOffset;
@@ -264,39 +275,54 @@ class StreamResponse extends api.StreamResponse {
 
   StreamResponse(this.request, {this.responseType, this.encoding})
       : _bytesOffset = 0 {
-    assert(request.readyState < HttpRequest.LOADING);
+    assert(request.readyState < XMLHttpRequest.LOADING);
     assert(request.responseType == api.HttpClient.RESPONSE_TYPE_STRING);
 
     _controler = StreamController(sync: false);
 
-    request.onError.listen(_controler.addError);
+    request.addEventListener('error', (Event event) {
+      _controler.addError(event);
+    }.toJS);
 
-    request.onReadyStateChange.listen((evt) {
+    request.addEventListener('readystatechange', (Event evt) {
       var bytes = _readNextBytes(evt);
       if (bytes != null) {
         _controler.add(bytes);
       }
-      if (request.readyState == HttpRequest.DONE) {
+      if (request.readyState == XMLHttpRequest.DONE) {
         Future.delayed(Duration(milliseconds: 1), () {
           if (!_controler.isClosed) {
             _controler.close();
           }
         });
       }
-    });
+    }.toJS);
   }
   @override
   int? get statusCode => request.status;
   @override
-  Map get headers => request.responseHeaders;
+  Map get headers {
+    final headersMap = <String, String>{};
+    final headersString = request.getAllResponseHeaders();
+    if (headersString.isNotEmpty) {
+      for (var line in headersString.split('\r\n')) {
+        if (line.isEmpty) continue;
+        var idx = line.indexOf(':');
+        if (idx > 0) {
+          headersMap[line.substring(0, idx).trim()] = line.substring(idx + 1).trim();
+        }
+      }
+    }
+    return headersMap;
+  }
   @override
   Stream get stream => _controler.stream;
 
   _readNextBytes(evt) {
-    if (request.readyState < HttpRequest.LOADING) return null;
+    if (request.readyState < XMLHttpRequest.LOADING) return null;
 
     var str = request.responseText;
-    if (str == null) return null;
+    if (str.isEmpty) return null;
 
     var bytes = Uint8List.fromList(str.substring(_bytesOffset).codeUnits);
     _bytesOffset += bytes.length;
