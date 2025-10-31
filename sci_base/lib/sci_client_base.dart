@@ -454,6 +454,74 @@ abstract class HttpClientService<T extends base.PersistentBase>
     return answer;
   }
 
+  static bool _identicalKeys(key1, key2) {
+    if (key1 == null && key2 == null) return true;
+    if (key1 == null) return false;
+    if (key2 == null) return false;
+
+    if (key1.runtimeType != key2.runtimeType) return false;
+
+    if (key1 is Comparable) {
+      return key1.compareTo(key2) == 0;
+    }
+
+    if (key1 is List<Comparable>) {
+      if (key1.length != key2.length) return false;
+      for (var i = 0; i < key1.length; i++) {
+        if (!_identicalKeys(key1[i], key2[i])) return false;
+      }
+      return true;
+    }
+
+    throw ServiceError(500, "identical_keys.unsupported_type",
+        "Unsupported type for key comparison: ${key1.runtimeType}");
+  }
+
+  Stream<T> findStartKeysStream(
+      String viewName, dynamic Function(T object) getKey,
+      {startKey,
+        endKey,
+        int batch = 100,
+        bool descending = true,
+        bool useFactory = false,
+        AclContext? aclContext}) async* {
+    var list = await findStartKeys(viewName,
+        startKey: startKey,
+        endKey: endKey,
+        limit: batch,
+        descending: descending,
+        useFactory: useFactory,
+        aclContext: aclContext);
+
+    yield* Stream.fromIterable(list);
+
+    var identicalLastKeys = 0;
+
+    while (list.isNotEmpty) {
+      var lastKey = getKey(list.last);
+
+      if (!_identicalKeys(startKey, lastKey)) {
+        identicalLastKeys = 0;
+        startKey = lastKey;
+      }
+
+      identicalLastKeys += list
+          .where((object) => _identicalKeys(startKey, getKey(object)))
+          .length;
+
+      list = await findStartKeys(viewName,
+          startKey: startKey,
+          endKey: endKey,
+          limit: batch,
+          skip: identicalLastKeys,
+          descending: descending,
+          useFactory: useFactory,
+          aclContext: aclContext);
+
+      yield* Stream.fromIterable(list);
+    }
+  }
+
   Future<List<T>> findKeys(String viewName,
       {required List keys,
       bool useFactory = false,
