@@ -178,7 +178,9 @@ class HttpBrowserClient implements api.HttpClient {
     _openRequest(request, verb, url.toString());
 
     if (progressCallback != null) {
-      request.upload.addEventListener('progress', progressCallback.toJS);
+      request.upload.addEventListener('progress', (Event event) {
+        progressCallback(event);
+      }.toJS);
     }
 
     setHeaders(request, headers);
