@@ -15,7 +15,7 @@ dependencies:
   tson:
     git:
       url: https://github.com/tercen/dtson
-      ref: 1.4.2
+      ref: 1.4.1
   logging:
 
 dev_dependencies:
