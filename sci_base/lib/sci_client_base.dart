@@ -89,7 +89,7 @@ abstract class HttpClientService<T extends base.PersistentBase>
     throw error;
   }
 
-  void onError(e, st) {
+  Never onError(e, st) {
     var trace = Trace.current().terse;
     logger.severe('onError', e, trace);
 
