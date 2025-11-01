@@ -51,7 +51,7 @@ abstract class Value<T> {
 
   Value<S> cast<S>() => CastValueConverter<S, T>(this);
 
-  Value<List<S>> asListModel<S>() => ListValue(this.cast<List<S>>());
+  Value<List<S>> asListModel<S>() => ListValue(cast<List<S>>());
 //
 // Value<String> asStringToDoubleToString() => ValueConverter<String, T>(this,
 //     get: (value) => double.parse(value.toString()).toStringAsFixed(2),
@@ -177,7 +177,7 @@ class ValueTimeUpdater<T> extends Value<T> {
 
 class ValueBuffer<T> extends Value<T> {
   StreamSubscription? _sub;
-  Value<T> _value;
+  final Value<T> _value;
   T _buffer;
 
   Value<T> get innerValue => _value;

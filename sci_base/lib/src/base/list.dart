@@ -27,13 +27,13 @@ class ListChangedBase<T> extends ListBase<T> with EventSource {
   }
 
   @override
-  Iterable<T> where(bool Function(T element) test) => this._list.where(test);
+  Iterable<T> where(bool Function(T element) test) => _list.where(test);
 
   @override
-  Iterable<E> map<E>(E Function(T e) f) => this._list.map(f);
+  Iterable<E> map<E>(E Function(T e) f) => _list.map(f);
 
   @override
-  bool any(bool Function(T element) test) => this._list.any(test);
+  bool any(bool Function(T element) test) => _list.any(test);
 
   @override
   void forEach(void Function(T element) action) => _list.forEach(action);
@@ -94,7 +94,7 @@ class ListChangedBase<T> extends ListBase<T> with EventSource {
 
   @override
   bool remove(Object? element) {
-    for (var i = 0; i < this.length; i++) {
+    for (var i = 0; i < length; i++) {
       if (_list[i] == element) {
         _list.remove(element as T);
         if (hasListener) {
@@ -120,7 +120,7 @@ class ListChangedBase<T> extends ListBase<T> with EventSource {
 
   void insertAt(int index, T element, bool before) {
     var i = before ? index : index + 1;
-    if (i >= this.length) {
+    if (i >= length) {
       add(element);
     } else {
       insert(i, element);

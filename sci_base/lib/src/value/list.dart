@@ -35,8 +35,8 @@ class _SingletonListModelImpl<T> extends _ListModelImpl<T> {
   _SingletonListModelImpl.single(T? value)
       : super.from(value != null ? [value] : []);
 
-  _SingletonListModelImpl.from(List<T> list)
-      : super.from(list);
+  _SingletonListModelImpl.from(super.list)
+      : super.from();
 
   @override
   void add(T element) {

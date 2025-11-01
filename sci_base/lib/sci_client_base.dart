@@ -5,7 +5,6 @@ import 'package:logging/logging.dart';
 import 'package:stack_trace/stack_trace.dart';
 import 'package:sci_http_client/http_client.dart' as http;
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:sci_http_client/error.dart';
 import 'package:sci_http_client/content_codec.dart';
 import 'package:tson/tson.dart' as TSON;
 

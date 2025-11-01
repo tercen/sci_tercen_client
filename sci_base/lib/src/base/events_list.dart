@@ -11,7 +11,7 @@ part of sci_base;
 
 sealed class ListChangedEvent<T> extends ChangedEvent<EventSource>
     implements ObjectChangedEvent<EventSource> {
-  ListChangedEvent(EventSource source) : super(source);
+  ListChangedEvent(super.source);
 
   @override
   String toString() => '$runtimeType($source)';
@@ -28,15 +28,14 @@ sealed class ListChangedEvent<T> extends ChangedEvent<EventSource>
 }
 
 class ListClearChangedEvent<T> extends ListChangedEvent<T> {
-  ListClearChangedEvent(EventSource source) : super(source);
+  ListClearChangedEvent(super.source);
 }
 
 class ListInsertChangedEvent<T> extends ListChangedEvent<T> {
   final T element;
   final int index;
 
-  ListInsertChangedEvent(EventSource source, this.index, this.element)
-      : super(source);
+  ListInsertChangedEvent(super.source, this.index, this.element);
 
   @override
   String toString() => '$runtimeType($source, $index, $element )';
@@ -45,7 +44,7 @@ class ListInsertChangedEvent<T> extends ListChangedEvent<T> {
 class ListAddChangedEvent<T> extends ListChangedEvent<T> {
   final List<T> elements;
 
-  ListAddChangedEvent(EventSource source, this.elements) : super(source);
+  ListAddChangedEvent(super.source, this.elements);
 
   @override
   String toString() => '$runtimeType($source, $elements )';
@@ -55,8 +54,7 @@ class ListRemoveChangedEvent<T> extends ListChangedEvent<T> {
   final int index;
   final Object? element;
 
-  ListRemoveChangedEvent(EventSource source, this.element, this.index)
-      : super(source);
+  ListRemoveChangedEvent(super.source, this.element, this.index);
 
   @override
   String toString() => '$runtimeType($source, $element)';
@@ -65,7 +63,7 @@ class ListRemoveChangedEvent<T> extends ListChangedEvent<T> {
 class ListElementChangedEvent<T extends EventSource> extends ChangedEvent<T> {
   final ChangedEvent event;
 
-  ListElementChangedEvent(T source, this.event) : super(source);
+  ListElementChangedEvent(super.source, this.event);
 
   ChangedEvent get sourceEvent {
     var evt = event;

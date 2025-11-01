@@ -26,8 +26,8 @@ mixin SubscriptionHelper {
       _cancelSubscriptionFromSync(_subscriptions, o);
 
   bool _cancelSubscriptionFromSync(
-      Map<dynamic, List<StreamSubscription>> _subscriptionMap, o) {
-    var subs = _subscriptionMap.remove(o);
+      Map<dynamic, List<StreamSubscription>> subscriptionMap, o) {
+    var subs = subscriptionMap.remove(o);
     if (subs == null) return false;
     for (var s in subs) {
       s.cancel();
