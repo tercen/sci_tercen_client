@@ -1,6 +1,6 @@
 name: sci_base
 description: Base library.
-version: 1.4.6
+version: 1.4.8
 
 environment:
   sdk: ^3.3.0
@@ -8,7 +8,7 @@ environment:
 dependencies:
   sci_http_client:
     git:
-      ref: 1.4.6
+      ref: 1.4.8
       url: https://github.com/tercen/sci_tercen_client
       path: sci_http_client
 #  sci_http_client:
