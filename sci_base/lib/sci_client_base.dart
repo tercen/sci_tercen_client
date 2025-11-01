@@ -51,7 +51,7 @@ abstract class HttpClientService<T extends base.PersistentBase>
       .where((evt) => evt is UpdateServiceEvent<T>)
       .cast<UpdateServiceEvent<T>>();
 
-  void onResponseError(response) {
+  Never onResponseError(response) {
     var error = ServiceError(
         response.statusCode, "$serviceName.client.unknown", 'unknown');
 
