@@ -4,20 +4,25 @@ class WorkflowServiceBase extends HttpClientService<Workflow>
     implements api.WorkflowService {
   late ServiceFactoryBase factory;
 
+  @override
   Uri get uri => Uri.parse("api/v1/workflow");
+  @override
   String get serviceName => "Workflow";
 
+  @override
   Map toJson(Workflow object) => object.toJson();
+  @override
   Workflow fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return WorkflowBase.fromJson(m);
-    return new Workflow.json(m);
+    return Workflow.json(m);
   }
 
+  @override
   Future<CubeQuery> getCubeQuery(String workflowId, String stepId,
       {service.AclContext? aclContext}) async {
-    var answer;
+    CubeQuery answer;
     try {
-      var uri = Uri.parse("api/v1/workflow" + "/" + "getCubeQuery");
+      var uri = Uri.parse("api/v1/workflow" "/" "getCubeQuery");
       var params = {};
       params["workflowId"] = workflowId;
       params["stepId"] = stepId;
@@ -37,14 +42,15 @@ class WorkflowServiceBase extends HttpClientService<Workflow>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as CubeQuery;
+    return answer;
   }
 
+  @override
   Future<Workflow> copyApp(String workflowId, String projectId,
       {service.AclContext? aclContext}) async {
-    var answer;
+    Workflow answer;
     try {
-      var uri = Uri.parse("api/v1/workflow" + "/" + "copyApp");
+      var uri = Uri.parse("api/v1/workflow" "/" "copyApp");
       var params = {};
       params["workflowId"] = workflowId;
       params["projectId"] = projectId;
@@ -64,6 +70,6 @@ class WorkflowServiceBase extends HttpClientService<Workflow>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as Workflow;
+    return answer;
   }
 }

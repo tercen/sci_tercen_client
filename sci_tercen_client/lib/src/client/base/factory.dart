@@ -1,53 +1,74 @@
 part of sci_client_base;
 
 class ServiceFactoryBase implements api.ServiceFactory {
+  @override
   late WorkerService workerService;
+  @override
   late GarbageCollectorService garbageCollectorService;
+  @override
   late FileService fileService;
+  @override
   late LockService lockService;
+  @override
   late SubscriptionPlanService subscriptionPlanService;
+  @override
   late PersistentService persistentService;
+  @override
   late ActivityService activityService;
+  @override
   late FolderService folderService;
+  @override
   late TableSchemaService tableSchemaService;
+  @override
   late TaskService taskService;
+  @override
   late UserSecretService userSecretService;
+  @override
   late PatchRecordService patchRecordService;
+  @override
   late EventService eventService;
+  @override
   late WorkflowService workflowService;
+  @override
   late UserService userService;
+  @override
   late ProjectDocumentService projectDocumentService;
+  @override
   late CranLibraryService cranLibraryService;
+  @override
   late TeamService teamService;
+  @override
   late ProjectService projectService;
+  @override
   late DocumentService documentService;
+  @override
   late OperatorService operatorService;
   ServiceFactoryBase() {
-    workerService = new WorkerService()..factory = this;
-    garbageCollectorService = new GarbageCollectorService()..factory = this;
-    fileService = new FileService()..factory = this;
-    lockService = new LockService()..factory = this;
-    subscriptionPlanService = new SubscriptionPlanService()..factory = this;
-    persistentService = new PersistentService()..factory = this;
-    activityService = new ActivityService()..factory = this;
-    folderService = new FolderService()..factory = this;
-    tableSchemaService = new TableSchemaService()..factory = this;
-    taskService = new TaskService()..factory = this;
-    userSecretService = new UserSecretService()..factory = this;
-    patchRecordService = new PatchRecordService()..factory = this;
-    eventService = new EventService()..factory = this;
-    workflowService = new WorkflowService()..factory = this;
-    userService = new UserService()..factory = this;
-    projectDocumentService = new ProjectDocumentService()..factory = this;
-    cranLibraryService = new CranLibraryService()..factory = this;
-    teamService = new TeamService()..factory = this;
-    projectService = new ProjectService()..factory = this;
-    documentService = new DocumentService()..factory = this;
-    operatorService = new OperatorService()..factory = this;
+    workerService = WorkerService()..factory = this;
+    garbageCollectorService = GarbageCollectorService()..factory = this;
+    fileService = FileService()..factory = this;
+    lockService = LockService()..factory = this;
+    subscriptionPlanService = SubscriptionPlanService()..factory = this;
+    persistentService = PersistentService()..factory = this;
+    activityService = ActivityService()..factory = this;
+    folderService = FolderService()..factory = this;
+    tableSchemaService = TableSchemaService()..factory = this;
+    taskService = TaskService()..factory = this;
+    userSecretService = UserSecretService()..factory = this;
+    patchRecordService = PatchRecordService()..factory = this;
+    eventService = EventService()..factory = this;
+    workflowService = WorkflowService()..factory = this;
+    userService = UserService()..factory = this;
+    projectDocumentService = ProjectDocumentService()..factory = this;
+    cranLibraryService = CranLibraryService()..factory = this;
+    teamService = TeamService()..factory = this;
+    projectService = ProjectService()..factory = this;
+    documentService = DocumentService()..factory = this;
+    operatorService = OperatorService()..factory = this;
   }
   Future initialize() async {}
   Future initializeWith(Uri uri, [HttpClient? client]) async {
-    if (client == null) client = new HttpClient();
+    client ??= HttpClient();
     await workerService.initialize(uri, client);
     await garbageCollectorService.initialize(uri, client);
     await fileService.initialize(uri, client);

@@ -4,20 +4,25 @@ class LockServiceBase extends HttpClientService<Lock>
     implements api.LockService {
   late ServiceFactoryBase factory;
 
+  @override
   Uri get uri => Uri.parse("api/v1/lock");
+  @override
   String get serviceName => "Lock";
 
+  @override
   Map toJson(Lock object) => object.toJson();
+  @override
   Lock fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return LockBase.fromJson(m);
-    return new Lock.json(m);
+    return Lock.json(m);
   }
 
+  @override
   Future<Lock> lock(String name, int wait,
       {service.AclContext? aclContext}) async {
-    var answer;
+    Lock answer;
     try {
-      var uri = Uri.parse("api/v1/lock" + "/" + "lock");
+      var uri = Uri.parse("api/v1/lock" "/" "lock");
       var params = {};
       params["name"] = name;
       params["wait"] = wait;
@@ -36,14 +41,15 @@ class LockServiceBase extends HttpClientService<Lock>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as Lock;
+    return answer;
   }
 
+  @override
   Future<dynamic> releaseLock(Lock lock,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/lock" + "/" + "releaseLock");
+      var uri = Uri.parse("api/v1/lock" "/" "releaseLock");
       var params = {};
       params["lock"] = lock.toJson();
       var response = await client.post(getServiceUri(uri),

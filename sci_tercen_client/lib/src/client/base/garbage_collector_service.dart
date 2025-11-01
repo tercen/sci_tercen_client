@@ -4,15 +4,20 @@ class GarbageCollectorServiceBase extends HttpClientService<GarbageObject>
     implements api.GarbageCollectorService {
   late ServiceFactoryBase factory;
 
+  @override
   Uri get uri => Uri.parse("api/v1/gc");
+  @override
   String get serviceName => "GarbageObject";
 
+  @override
   Map toJson(GarbageObject object) => object.toJson();
+  @override
   GarbageObject fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return GarbageObjectBase.fromJson(m);
-    return new GarbageObject.json(m);
+    return GarbageObject.json(m);
   }
 
+  @override
   Future<List<GarbageObject>> findGarbageTasks2ByDate(
       {startKey,
       endKey,

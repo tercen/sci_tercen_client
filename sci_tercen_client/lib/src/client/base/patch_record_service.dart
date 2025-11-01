@@ -4,15 +4,20 @@ class PatchRecordServiceBase extends HttpClientService<PatchRecords>
     implements api.PatchRecordService {
   late ServiceFactoryBase factory;
 
+  @override
   Uri get uri => Uri.parse("api/v1/pr");
+  @override
   String get serviceName => "PatchRecords";
 
+  @override
   Map toJson(PatchRecords object) => object.toJson();
+  @override
   PatchRecords fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return PatchRecordsBase.fromJson(m);
-    return new PatchRecords.json(m);
+    return PatchRecords.json(m);
   }
 
+  @override
   Future<List<PatchRecords>> findByChannelIdAndSequence(
       {startKey,
       endKey,

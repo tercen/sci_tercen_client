@@ -4,15 +4,20 @@ class TeamServiceBase extends HttpClientService<Team>
     implements api.TeamService {
   late ServiceFactoryBase factory;
 
+  @override
   Uri get uri => Uri.parse("api/v1/team");
+  @override
   String get serviceName => "Team";
 
+  @override
   Map toJson(Team object) => object.toJson();
+  @override
   Team fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return TeamBase.fromJson(m);
-    return new Team.json(m);
+    return Team.json(m);
   }
 
+  @override
   Future<List<Team>> findTeamByOwner(
       {required List keys,
       bool useFactory = false,
@@ -21,11 +26,12 @@ class TeamServiceBase extends HttpClientService<Team>
         keys: keys, useFactory: useFactory, aclContext: aclContext);
   }
 
+  @override
   Future<Profiles> profiles(String teamId,
       {service.AclContext? aclContext}) async {
-    var answer;
+    Profiles answer;
     try {
-      var uri = Uri.parse("api/v1/team" + "/" + "profiles");
+      var uri = Uri.parse("api/v1/team" "/" "profiles");
       var params = {};
       params["teamId"] = teamId;
       var response = await client.post(getServiceUri(uri),
@@ -44,14 +50,15 @@ class TeamServiceBase extends HttpClientService<Team>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as Profiles;
+    return answer;
   }
 
+  @override
   Future<ResourceSummary> resourceSummary(String teamId,
       {service.AclContext? aclContext}) async {
-    var answer;
+    ResourceSummary answer;
     try {
-      var uri = Uri.parse("api/v1/team" + "/" + "resourceSummary");
+      var uri = Uri.parse("api/v1/team" "/" "resourceSummary");
       var params = {};
       params["teamId"] = teamId;
       var response = await client.post(getServiceUri(uri),
@@ -70,14 +77,15 @@ class TeamServiceBase extends HttpClientService<Team>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as ResourceSummary;
+    return answer;
   }
 
+  @override
   Future<dynamic> transferOwnership(List<String> teamIds, String newOwner,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/team" + "/" + "transferOwnership");
+      var uri = Uri.parse("api/v1/team" "/" "transferOwnership");
       var params = {};
       params["teamIds"] = teamIds;
       params["newOwner"] = newOwner;

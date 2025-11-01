@@ -4,15 +4,20 @@ class FolderServiceBase extends HttpClientService<FolderDocument>
     implements api.FolderService {
   late ServiceFactoryBase factory;
 
+  @override
   Uri get uri => Uri.parse("api/v1/folder");
+  @override
   String get serviceName => "FolderDocument";
 
+  @override
   Map toJson(FolderDocument object) => object.toJson();
+  @override
   FolderDocument fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return FolderDocumentBase.fromJson(m);
-    return new FolderDocument.json(m);
+    return FolderDocument.json(m);
   }
 
+  @override
   Future<List<FolderDocument>> findFolderByParentFolderAndName(
       {startKey,
       endKey,
@@ -31,11 +36,12 @@ class FolderServiceBase extends HttpClientService<FolderDocument>
         aclContext: aclContext);
   }
 
+  @override
   Future<FolderDocument> getOrCreate(String projectId, String path,
       {service.AclContext? aclContext}) async {
-    var answer;
+    FolderDocument answer;
     try {
-      var uri = Uri.parse("api/v1/folder" + "/" + "getOrCreate");
+      var uri = Uri.parse("api/v1/folder" "/" "getOrCreate");
       var params = {};
       params["projectId"] = projectId;
       params["path"] = path;
@@ -55,15 +61,16 @@ class FolderServiceBase extends HttpClientService<FolderDocument>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as FolderDocument;
+    return answer;
   }
 
+  @override
   Future<List<FolderDocument>> getExternalStorageFolders(
       String projectId, String volume, String path,
       {service.AclContext? aclContext}) async {
-    var answer;
+    List<FolderDocument> answer;
     try {
-      var uri = Uri.parse("api/v1/folder" + "/" + "getExternalStorageFolders");
+      var uri = Uri.parse("api/v1/folder" "/" "getExternalStorageFolders");
       var params = {};
       params["projectId"] = projectId;
       params["volume"] = volume;
@@ -85,6 +92,6 @@ class FolderServiceBase extends HttpClientService<FolderDocument>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as List<FolderDocument>;
+    return answer;
   }
 }

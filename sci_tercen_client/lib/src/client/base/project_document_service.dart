@@ -4,15 +4,20 @@ class ProjectDocumentServiceBase extends HttpClientService<ProjectDocument>
     implements api.ProjectDocumentService {
   late ServiceFactoryBase factory;
 
+  @override
   Uri get uri => Uri.parse("api/v1/pd");
+  @override
   String get serviceName => "ProjectDocument";
 
+  @override
   Map toJson(ProjectDocument object) => object.toJson();
+  @override
   ProjectDocument fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return ProjectDocumentBase.fromJson(m);
-    return new ProjectDocument.json(m);
+    return ProjectDocument.json(m);
   }
 
+  @override
   Future<List<ProjectDocument>> findProjectObjectsByLastModifiedDate(
       {startKey,
       endKey,
@@ -31,6 +36,7 @@ class ProjectDocumentServiceBase extends HttpClientService<ProjectDocument>
         aclContext: aclContext);
   }
 
+  @override
   Future<List<ProjectDocument>> findProjectObjectsByFolderAndName(
       {startKey,
       endKey,
@@ -49,6 +55,7 @@ class ProjectDocumentServiceBase extends HttpClientService<ProjectDocument>
         aclContext: aclContext);
   }
 
+  @override
   Future<List<ProjectDocument>> findFileByLastModifiedDate(
       {startKey,
       endKey,
@@ -67,6 +74,7 @@ class ProjectDocumentServiceBase extends HttpClientService<ProjectDocument>
         aclContext: aclContext);
   }
 
+  @override
   Future<List<ProjectDocument>> findSchemaByLastModifiedDate(
       {startKey,
       endKey,
@@ -85,6 +93,7 @@ class ProjectDocumentServiceBase extends HttpClientService<ProjectDocument>
         aclContext: aclContext);
   }
 
+  @override
   Future<List<ProjectDocument>> findSchemaByOwnerAndLastModifiedDate(
       {startKey,
       endKey,
@@ -103,6 +112,7 @@ class ProjectDocumentServiceBase extends HttpClientService<ProjectDocument>
         aclContext: aclContext);
   }
 
+  @override
   Future<List<ProjectDocument>> findFileByOwnerAndLastModifiedDate(
       {startKey,
       endKey,
@@ -121,11 +131,12 @@ class ProjectDocumentServiceBase extends HttpClientService<ProjectDocument>
         aclContext: aclContext);
   }
 
+  @override
   Future<List<FolderDocument>> getParentFolders(String documentId,
       {service.AclContext? aclContext}) async {
-    var answer;
+    List<FolderDocument> answer;
     try {
-      var uri = Uri.parse("api/v1/pd" + "/" + "getParentFolders");
+      var uri = Uri.parse("api/v1/pd" "/" "getParentFolders");
       var params = {};
       params["documentId"] = documentId;
       var response = await client.post(getServiceUri(uri),
@@ -145,15 +156,16 @@ class ProjectDocumentServiceBase extends HttpClientService<ProjectDocument>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as List<FolderDocument>;
+    return answer;
   }
 
+  @override
   Future<ProjectDocument> cloneProjectDocument(
       String documentId, String projectId,
       {service.AclContext? aclContext}) async {
-    var answer;
+    ProjectDocument answer;
     try {
-      var uri = Uri.parse("api/v1/pd" + "/" + "cloneProjectDocument");
+      var uri = Uri.parse("api/v1/pd" "/" "cloneProjectDocument");
       var params = {};
       params["documentId"] = documentId;
       params["projectId"] = projectId;
@@ -173,15 +185,16 @@ class ProjectDocumentServiceBase extends HttpClientService<ProjectDocument>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as ProjectDocument;
+    return answer;
   }
 
+  @override
   Future<ProjectDocument> getFromPath(
       String projectId, String path, bool useFactory,
       {service.AclContext? aclContext}) async {
-    var answer;
+    ProjectDocument answer;
     try {
-      var uri = Uri.parse("api/v1/pd" + "/" + "getFromPath");
+      var uri = Uri.parse("api/v1/pd" "/" "getFromPath");
       var params = {};
       params["projectId"] = projectId;
       params["path"] = path;
@@ -202,6 +215,6 @@ class ProjectDocumentServiceBase extends HttpClientService<ProjectDocument>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as ProjectDocument;
+    return answer;
   }
 }

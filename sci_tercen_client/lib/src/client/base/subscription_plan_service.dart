@@ -4,15 +4,20 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
     implements api.SubscriptionPlanService {
   late ServiceFactoryBase factory;
 
+  @override
   Uri get uri => Uri.parse("api/v1/subscription");
+  @override
   String get serviceName => "SubscriptionPlan";
 
+  @override
   Map toJson(SubscriptionPlan object) => object.toJson();
+  @override
   SubscriptionPlan fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return SubscriptionPlanBase.fromJson(m);
-    return new SubscriptionPlan.json(m);
+    return SubscriptionPlan.json(m);
   }
 
+  @override
   Future<List<SubscriptionPlan>> findByOwner(
       {required List keys,
       bool useFactory = false,
@@ -21,6 +26,7 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
         keys: keys, useFactory: useFactory, aclContext: aclContext);
   }
 
+  @override
   Future<List<SubscriptionPlan>> findSubscriptionPlanByCheckoutSessionId(
       {required List keys,
       bool useFactory = false,
@@ -29,11 +35,12 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
         keys: keys, useFactory: useFactory, aclContext: aclContext);
   }
 
+  @override
   Future<List<SubscriptionPlan>> getSubscriptionPlans(String userId,
       {service.AclContext? aclContext}) async {
-    var answer;
+    List<SubscriptionPlan> answer;
     try {
-      var uri = Uri.parse("api/v1/subscription" + "/" + "getSubscriptionPlans");
+      var uri = Uri.parse("api/v1/subscription" "/" "getSubscriptionPlans");
       var params = {};
       params["userId"] = userId;
       var response = await client.post(getServiceUri(uri),
@@ -53,14 +60,15 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as List<SubscriptionPlan>;
+    return answer;
   }
 
+  @override
   Future<List<Plan>> getPlans(String userId,
       {service.AclContext? aclContext}) async {
-    var answer;
+    List<Plan> answer;
     try {
-      var uri = Uri.parse("api/v1/subscription" + "/" + "getPlans");
+      var uri = Uri.parse("api/v1/subscription" "/" "getPlans");
       var params = {};
       params["userId"] = userId;
       var response = await client.post(getServiceUri(uri),
@@ -80,16 +88,17 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as List<Plan>;
+    return answer;
   }
 
+  @override
   Future<SubscriptionPlan> createSubscriptionPlan(
       String userId, String plan, String successUrl, String cancelUrl,
       {service.AclContext? aclContext}) async {
-    var answer;
+    SubscriptionPlan answer;
     try {
       var uri =
-          Uri.parse("api/v1/subscription" + "/" + "createSubscriptionPlan");
+          Uri.parse("api/v1/subscription" "/" "createSubscriptionPlan");
       var params = {};
       params["userId"] = userId;
       params["plan"] = plan;
@@ -111,16 +120,17 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as SubscriptionPlan;
+    return answer;
   }
 
+  @override
   Future<dynamic> setSubscriptionPlanStatus(
       String subscriptionPlanId, String status,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
       var uri =
-          Uri.parse("api/v1/subscription" + "/" + "setSubscriptionPlanStatus");
+          Uri.parse("api/v1/subscription" "/" "setSubscriptionPlanStatus");
       var params = {};
       params["subscriptionPlanId"] = subscriptionPlanId;
       params["status"] = status;
@@ -142,12 +152,13 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
     return answer as dynamic;
   }
 
+  @override
   Future<SubscriptionPlan> updatePaymentMethod(
       String subscriptionPlanId, String successUrl, String cancelUrl,
       {service.AclContext? aclContext}) async {
-    var answer;
+    SubscriptionPlan answer;
     try {
-      var uri = Uri.parse("api/v1/subscription" + "/" + "updatePaymentMethod");
+      var uri = Uri.parse("api/v1/subscription" "/" "updatePaymentMethod");
       var params = {};
       params["subscriptionPlanId"] = subscriptionPlanId;
       params["successUrl"] = successUrl;
@@ -168,16 +179,17 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as SubscriptionPlan;
+    return answer;
   }
 
+  @override
   Future<dynamic> setUpdatePaymentMethodStatus(
       String subscriptionPlanId, String status,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
       var uri = Uri.parse(
-          "api/v1/subscription" + "/" + "setUpdatePaymentMethodStatus");
+          "api/v1/subscription" "/" "setUpdatePaymentMethodStatus");
       var params = {};
       params["subscriptionPlanId"] = subscriptionPlanId;
       params["status"] = status;
@@ -199,11 +211,12 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
     return answer as dynamic;
   }
 
+  @override
   Future<dynamic> cancelSubscription(String subscriptionPlanId,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/subscription" + "/" + "cancelSubscription");
+      var uri = Uri.parse("api/v1/subscription" "/" "cancelSubscription");
       var params = {};
       params["subscriptionPlanId"] = subscriptionPlanId;
       var response = await client.post(getServiceUri(uri),
@@ -224,11 +237,12 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
     return answer as dynamic;
   }
 
+  @override
   Future<dynamic> upgradeSubscription(String subscriptionPlanId, String plan,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/subscription" + "/" + "upgradeSubscription");
+      var uri = Uri.parse("api/v1/subscription" "/" "upgradeSubscription");
       var params = {};
       params["subscriptionPlanId"] = subscriptionPlanId;
       params["plan"] = plan;
