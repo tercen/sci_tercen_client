@@ -5,7 +5,7 @@ class State extends StateBase {
   static const int CANCELED_STATUS = -142;
 
   State() : super();
-  State.json(Map m) : super.json(m);
+  State.json(super.m) : super.json();
 
   bool get isFinal => false;
 

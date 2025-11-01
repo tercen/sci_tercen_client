@@ -4,5 +4,5 @@ class UserSecret extends UserSecretBase {
   static String GOOGLE_CREDENTIALS = 'google.credentials';
 
   UserSecret() : super();
-  UserSecret.json(Map m) : super.json(m);
+  UserSecret.json(super.m) : super.json();
 }

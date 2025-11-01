@@ -8,7 +8,7 @@ class Document extends DocumentBase {
       isPublic = false;
     });
   }
-  Document.json(Map m) : super.json(m);
+  Document.json(super.m) : super.json();
 
   bool get isHidden {
     // side effect !!

@@ -2,5 +2,5 @@ part of sci_model;
 
 class OutputPort extends OutputPortBase {
   OutputPort() : super();
-  OutputPort.json(Map m) : super.json(m);
+  OutputPort.json(super.m) : super.json();
 }

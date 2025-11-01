@@ -18,7 +18,7 @@ class ColumnBase extends ColumnSchema {
 
   ColumnBase.json(Map m)
       : _values = base.defaultValue(
-            m[Vocabulary.values_DP] as dynamic?, base.dynamic_DefaultFactory),
+            m[Vocabulary.values_DP] as dynamic, base.dynamic_DefaultFactory),
         _cValues =
             CValuesBase._createFromJson(m[Vocabulary.cValues_OP] as Map?),
         super.json(m) {

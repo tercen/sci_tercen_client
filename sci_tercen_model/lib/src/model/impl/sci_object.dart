@@ -11,5 +11,5 @@ class SciObject extends SciObjectBase {
   }
 
   SciObject() : super();
-  SciObject.json(Map m) : super.json(m);
+  SciObject.json(super.m) : super.json();
 }

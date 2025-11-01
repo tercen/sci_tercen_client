@@ -2,5 +2,5 @@ part of sci_model;
 
 class TableSchema extends TableSchemaBase {
   TableSchema() : super();
-  TableSchema.json(Map m) : super.json(m);
+  TableSchema.json(super.m) : super.json();
 }

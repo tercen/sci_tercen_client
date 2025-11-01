@@ -2,5 +2,5 @@ part of sci_model;
 
 class Property extends PropertyBase {
   Property() : super();
-  Property.json(Map m) : super.json(m);
+  Property.json(super.m) : super.json();
 }

@@ -2,5 +2,5 @@ part of sci_model;
 
 class OperatorRef extends OperatorRefBase {
   OperatorRef() : super();
-  OperatorRef.json(Map m) : super.json(m);
+  OperatorRef.json(super.m) : super.json();
 }

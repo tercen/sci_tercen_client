@@ -2,5 +2,5 @@ part of sci_model;
 
 class GarbageObject extends GarbageObjectBase {
   GarbageObject() : super();
-  GarbageObject.json(Map m) : super.json(m);
+  GarbageObject.json(super.m) : super.json();
 }

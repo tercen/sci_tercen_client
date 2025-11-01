@@ -6,7 +6,7 @@ import "package:sci_base/sci_base.dart" as base;
 
 import "sci_model_base.dart";
 import "package:sci_http_client/error.dart";
-import "package:collection/collection.dart" as collection;
+import "package:collection/collection.dart";
 
 part 'src/model/impl/team.dart';
 part 'src/model/impl/double_property.dart';

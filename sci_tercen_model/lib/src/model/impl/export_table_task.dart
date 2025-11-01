@@ -2,5 +2,5 @@ part of sci_model;
 
 class ExportTableTask extends ExportTableTaskBase {
   ExportTableTask() : super();
-  ExportTableTask.json(Map m) : super.json(m);
+  ExportTableTask.json(super.m) : super.json();
 }

@@ -2,5 +2,5 @@ part of sci_model;
 
 class OperatorUnitTest extends OperatorUnitTestBase {
   OperatorUnitTest() : super();
-  OperatorUnitTest.json(Map m) : super.json(m);
+  OperatorUnitTest.json(super.m) : super.json();
 }

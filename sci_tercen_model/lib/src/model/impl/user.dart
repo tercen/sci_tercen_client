@@ -2,5 +2,5 @@ part of sci_model;
 
 class User extends UserBase {
   User() : super();
-  User.json(Map m) : super.json(m);
+  User.json(super.m) : super.json();
 }

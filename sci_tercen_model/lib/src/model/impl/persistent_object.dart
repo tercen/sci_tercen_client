@@ -6,5 +6,5 @@ class PersistentObject extends PersistentObjectBase {
       isDeleted = false;
     });
   }
-  PersistentObject.json(Map m) : super.json(m);
+  PersistentObject.json(super.m) : super.json();
 }

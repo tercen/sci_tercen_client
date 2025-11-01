@@ -2,5 +2,5 @@ part of sci_model;
 
 class FileSummary extends FileSummaryBase {
   FileSummary() : super();
-  FileSummary.json(Map m) : super.json(m);
+  FileSummary.json(super.m) : super.json();
 }

@@ -2,5 +2,5 @@ part of sci_model;
 
 class SaveComputationResultTask extends SaveComputationResultTaskBase {
   SaveComputationResultTask() : super();
-  SaveComputationResultTask.json(Map m) : super.json(m);
+  SaveComputationResultTask.json(super.m) : super.json();
 }

@@ -154,8 +154,10 @@ class PersistentObjectBase extends IdObject implements base.PersistentBase {
 
   @override
   String get kind => Vocabulary.PersistentObject_CLASS;
+  @override
   bool get isDeleted => _isDeleted;
 
+  @override
   set isDeleted(bool $o) {
     if ($o == _isDeleted) return;
     var $old = _isDeleted;
@@ -166,8 +168,10 @@ class PersistentObjectBase extends IdObject implements base.PersistentBase {
     }
   }
 
+  @override
   String get rev => _rev;
 
+  @override
   set rev(String $o) {
     if ($o == _rev) return;
     var $old = _rev;

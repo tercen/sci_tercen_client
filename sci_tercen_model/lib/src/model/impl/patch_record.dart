@@ -2,7 +2,7 @@ part of sci_model;
 
 class PatchRecord extends PatchRecordBase {
   PatchRecord() : super();
-  PatchRecord.json(Map m) : super.json(m);
+  PatchRecord.json(super.m) : super.json();
 
   String get path => p;
   String get type => t;

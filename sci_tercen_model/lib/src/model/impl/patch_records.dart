@@ -2,7 +2,7 @@ part of sci_model;
 
 class PatchRecords extends PatchRecordsBase {
   PatchRecords() : super();
-  PatchRecords.json(Map m) : super.json(m);
+  PatchRecords.json(super.m) : super.json();
 
   T apply<T extends SciObject>(T object) {
     // print(

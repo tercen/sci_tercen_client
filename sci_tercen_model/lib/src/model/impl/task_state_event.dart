@@ -2,5 +2,5 @@ part of sci_model;
 
 class TaskStateEvent extends TaskStateEventBase {
   TaskStateEvent() : super();
-  TaskStateEvent.json(Map m) : super.json(m);
+  TaskStateEvent.json(super.m) : super.json();
 }
