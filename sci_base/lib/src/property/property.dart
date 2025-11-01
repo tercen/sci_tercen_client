@@ -8,8 +8,10 @@ class Property extends Value<dynamic> {
   static const String TEXT_DISPLAY_TYPE = 'text';
   static const String PASSWORD_DISPLAY_TYPE = 'password';
   static const String CHECK_BOX_DISPLAY_TYPE = 'checkbox';
+  static const String BUTTON_DISPLAY_TYPE = 'button';
 
   static const String STRING_VALUE_TYPE = 'string';
+  static const String COLOR_VALUE_TYPE = 'color';
   static const String DOUBLE_VALUE_TYPE = 'double';
   static const String BOOL_VALUE_TYPE = 'bool';
 
@@ -57,6 +59,8 @@ class Property extends Value<dynamic> {
     return super.onChange;
   }
 
+  dynamic get innerValue => _value;
+
   @override
   dynamic get value {
     if (_value is Value) {
@@ -64,6 +68,13 @@ class Property extends Value<dynamic> {
     }
 
     return _value;
+  }
+
+  void setBuffer() {
+    if (_value is Value && _value is! ValueBuffer) {
+      print("$this -- set buffer");
+      _value = (_value as Value).asBuffer();
+    }
   }
 
   @override
@@ -90,24 +101,23 @@ class Property extends Value<dynamic> {
 class EnumerationProperty extends Property {
   List<dynamic> enumeration;
   late List<String> displayEnumeration;
+  bool isSingleSelection;
 
-  EnumerationProperty(String name, value, this.enumeration,
-      {String? displayName,
-      String displayType = Property.TEXT_DISPLAY_TYPE,
-      List<String>? displayEnumeration,
-      String info = '',
-      bool required = false,
-      bool enable = true,
-      String description = ''})
-      : super(name, value,
-            displayName: displayName,
-            displayType: displayType,
-            info: info,
-            required: required,
-            enable: enable,
-            description: description) {
+  EnumerationProperty(
+    super.name,
+    super.value,
+    this.enumeration, {
+    super.displayName,
+    super.displayType,
+    super.info,
+    super.required,
+    super.enable,
+    super.description,
+    this.isSingleSelection = true,
+    List<String>? displayEnumeration,
+  }) {
     if (displayEnumeration == null) {
-      this.displayEnumeration = enumeration as List<String>;
+      this.displayEnumeration = enumeration.map((e) => e.toString()).toList();
     } else {
       this.displayEnumeration = displayEnumeration;
     }

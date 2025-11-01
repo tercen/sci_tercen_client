@@ -29,22 +29,6 @@ abstract class HttpClientService<T extends base.PersistentBase>
   @override
   DomainConfig get config => DomainConfig();
 
-  Map<String, String>? getHeaderForAclContext(
-      Map<String, String>? headers, AclContext? aclContext) {
-    Map<String, String>? result;
-
-    if (headers != null) {
-      result = Map.from(headers);
-    }
-
-    if (aclContext is AclTokenContextImpl) {
-      result ??= <String, String>{};
-
-      result['authorization'] = aclContext.authorization;
-    }
-    return result;
-  }
-
   @override
   Uri getServiceUri(Uri uri) =>
       http.HttpClient.ResolveUri(baseRestUri, uri.toString());
@@ -55,12 +39,15 @@ abstract class HttpClientService<T extends base.PersistentBase>
   }
 
   Stream<ServiceEvent> get onEvent => _controller.stream;
+
   Stream<DeleteServiceEvent> get onDeleteEvent => _controller.stream
       .where((evt) => evt is DeleteServiceEvent)
       .cast<DeleteServiceEvent>();
+
   Stream<CreatedServiceEvent<T>> get onCreatedEvent => _controller.stream
       .where((evt) => evt is CreatedServiceEvent<T>)
       .cast<CreatedServiceEvent<T>>();
+
   Stream<UpdateServiceEvent<T>> get onUpdateEvent => _controller.stream
       .where((evt) => evt is UpdateServiceEvent<T>)
       .cast<UpdateServiceEvent<T>>();
@@ -194,7 +181,8 @@ abstract class HttpClientService<T extends base.PersistentBase>
     T? answer;
     try {
       var response = await client.put(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           body: contentCodec.encode(toJson(object)),
           responseType: contentCodec.responseType);
       if (response.statusCode != 200) {
@@ -221,6 +209,7 @@ abstract class HttpClientService<T extends base.PersistentBase>
   void sendUpdateEvent(T object) {
     _controller.add(UpdateServiceEvent(object));
   }
+
 //
 //  void sendDeleteEvent(String id, [String rev]) {
 //    _controller.add(DeleteServiceEvent()
@@ -241,8 +230,10 @@ abstract class HttpClientService<T extends base.PersistentBase>
       var queryParameters = {'id': id};
       queryParameters['useFactory'] = useFactory.toString();
 
-      var response = await client
-          .head(getServiceUri(uri).replace(queryParameters: queryParameters));
+      var response = await client.head(
+        getServiceUri(uri).replace(queryParameters: queryParameters),
+        headers: getHeaderForAclContext(null, aclContext),
+      );
       if (response.statusCode != 200) {
         onResponseError(response);
       } else {
@@ -257,6 +248,16 @@ abstract class HttpClientService<T extends base.PersistentBase>
     return answer!;
   }
 
+  Map<String, String>? getHeaderForAclContext(
+      Map<String, String>? headers, AclContext? aclContext) {
+    Map<String, String>? headers;
+    if (aclContext is AclTokenContextImpl) {
+      headers ??= <String, String>{};
+      headers['authorization'] = aclContext.authorization;
+    }
+    return headers;
+  }
+
   @override
   Future<T> get(String id,
       {bool useFactory = true, AclContext? aclContext}) async {
@@ -267,6 +268,7 @@ abstract class HttpClientService<T extends base.PersistentBase>
 
       var response = await client.get(
           getServiceUri(uri).replace(queryParameters: queryParameters),
+          headers: getHeaderForAclContext(null, aclContext),
           responseType: contentCodec.responseType);
       if (response.statusCode != 200) {
         onResponseError(response);
@@ -308,7 +310,9 @@ abstract class HttpClientService<T extends base.PersistentBase>
       {AclContext? aclContext, bool force = false}) async {
     try {
       var response = await client.delete(
-          getServiceUri(uri).replace(queryParameters: {'id': id, 'rev': rev}));
+        getServiceUri(uri).replace(queryParameters: {'id': id, 'rev': rev}),
+        headers: getHeaderForAclContext(null, aclContext),
+      );
       if (response.statusCode != 200) {
         onResponseError(response);
       }
@@ -341,7 +345,8 @@ abstract class HttpClientService<T extends base.PersistentBase>
   Future<String> update(T object, {AclContext? aclContext}) async {
     try {
       var response = await client.post(getServiceUri(uri),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           body: contentCodec.encode(toJson(object)),
           responseType: contentCodec.responseType);
       if (response.statusCode != 200) {
@@ -369,7 +374,8 @@ abstract class HttpClientService<T extends base.PersistentBase>
           getServiceUri(uri).replace(
               path: '${getServiceUri(uri).path}/listNotFound',
               queryParameters: queryParameters),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           body: contentCodec.encode(ids),
           responseType: contentCodec.responseType);
       if (response.statusCode != 200) {
@@ -397,7 +403,8 @@ abstract class HttpClientService<T extends base.PersistentBase>
           getServiceUri(uri).replace(
               path: '${getServiceUri(uri).path}/list',
               queryParameters: queryParameters),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           body: contentCodec.encode(ids),
           responseType: contentCodec.responseType);
       if (response.statusCode != 200) {
@@ -413,45 +420,6 @@ abstract class HttpClientService<T extends base.PersistentBase>
       onError(e, st);
     }
     return answer!;
-  }
-
-  Future<List<T>> findStartKeys(String viewName,
-      {startKey,
-      endKey,
-      int limit = 20,
-      int skip = 0,
-      bool descending = true,
-      bool useFactory = false,
-      AclContext? aclContext}) async {
-    late List<T> answer;
-    try {
-      var queryParameters = {'useFactory': useFactory.toString()};
-      var response = await client.post(
-          getServiceUri(uri).replace(
-              path: '${getServiceUri(uri).path}/$viewName',
-              queryParameters: queryParameters),
-          headers: contentCodec.contentTypeHeader,
-          body: contentCodec.encode({
-            'startKey': startKey,
-            'endKey': endKey,
-            'limit': limit,
-            'skip': skip,
-            'descending': descending
-          }),
-          responseType: contentCodec.responseType);
-      if (response.statusCode != 200) {
-        onResponseError(response);
-      } else {
-        answer = (contentCodec.decode(response.body) as List)
-            .map((each) => fromJson(each as Map))
-            .toList();
-      }
-    } on ServiceError {
-      rethrow;
-    } catch (e, st) {
-      onError(e, st);
-    }
-    return answer;
   }
 
   static bool _identicalKeys(key1, key2) {
@@ -480,11 +448,11 @@ abstract class HttpClientService<T extends base.PersistentBase>
   Stream<T> findStartKeysStream(
       String viewName, dynamic Function(T object) getKey,
       {startKey,
-        endKey,
-        int batch = 100,
-        bool descending = true,
-        bool useFactory = false,
-        AclContext? aclContext}) async* {
+      endKey,
+      int batch = 100,
+      bool descending = true,
+      bool useFactory = false,
+      AclContext? aclContext}) async* {
     var list = await findStartKeys(viewName,
         startKey: startKey,
         endKey: endKey,
@@ -522,6 +490,46 @@ abstract class HttpClientService<T extends base.PersistentBase>
     }
   }
 
+  Future<List<T>> findStartKeys(String viewName,
+      {startKey,
+      endKey,
+      int limit = 20,
+      int skip = 0,
+      bool descending = true,
+      bool useFactory = false,
+      AclContext? aclContext}) async {
+    late List<T> answer;
+    try {
+      var queryParameters = {'useFactory': useFactory.toString()};
+      var response = await client.post(
+          getServiceUri(uri).replace(
+              path: '${getServiceUri(uri).path}/$viewName',
+              queryParameters: queryParameters),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          body: contentCodec.encode({
+            'startKey': startKey,
+            'endKey': endKey,
+            'limit': limit,
+            'skip': skip,
+            'descending': descending
+          }),
+          responseType: contentCodec.responseType);
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = (contentCodec.decode(response.body) as List)
+            .map((each) => fromJson(each as Map))
+            .toList();
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer;
+  }
+
   Future<List<T>> findKeys(String viewName,
       {required List keys,
       bool useFactory = false,
@@ -533,7 +541,8 @@ abstract class HttpClientService<T extends base.PersistentBase>
           getServiceUri(uri).replace(
               path: '${getServiceUri(uri).path}/$viewName',
               queryParameters: queryParameters),
-          headers: contentCodec.contentTypeHeader,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
           body: contentCodec.encode(keys),
           responseType: contentCodec.responseType);
       if (response.statusCode != 200) {

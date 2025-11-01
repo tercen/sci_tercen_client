@@ -5,6 +5,7 @@ typedef SetValueHolderCallback<T> = void Function(T value);
 
 abstract class ObjectProperties<T> {
   T get(String name);
+
   set(String name, T value);
 
   Value<T> getPropertyAsValue(String name);
@@ -12,36 +13,52 @@ abstract class ObjectProperties<T> {
 
 abstract class Value<T> {
   late StreamController<T> _controller;
+
   Value() {
     _controller = StreamController<T>.broadcast(
         onListen: onListen, onCancel: onCancel, sync: true);
   }
 
   T get value;
+
   set value(T v);
+
   Stream<T> get onChange => _controller.stream;
+
   void onListen() {}
+
   void onCancel() {}
+
   void sendChangeEvent() => _controller.add(value);
 
   void releaseSync() {}
+
   Future release() async {
     releaseSync();
   }
 
   Value<S> convert<S>(
-          {ValueConverterGet<S, T>? get, ValueConverterSet<S, T>? set}) =>
+      {ValueConverterGet<S, T>? get, ValueConverterSet<S, T>? set}) =>
       ValueConverter(this, get: get, set: set);
 
-  Value<T> asReadOnly() => ValueConverter(this,
-      get: (value) => value, set: (value) => throw 'Value is read only.');
+  ValueBuffer<T> asBuffer() => ValueBuffer(this);
+
+  Value<T> asReadOnly() =>
+      ValueConverter(this,
+          get: (value) => value, set: (value) => throw 'Value is read only.');
 
   Value<T> periodic(Duration every) => ValueTimeUpdater(this, every);
 
   Value<S> cast<S>() => CastValueConverter<S, T>(this);
 
   Value<List<S>> asListModel<S>() => ListValue(this.cast<List<S>>());
+//
+// Value<String> asStringToDoubleToString() => ValueConverter<String, T>(this,
+//     get: (value) => double.parse(value.toString()).toStringAsFixed(2),
+//     set: (value) => double.parse(value).toString());
 }
+
+// class StringToDoubleToStringConverter extends
 
 class ListValue<T> extends Value<List<T>> {
   StreamSubscription? _sub;
@@ -53,6 +70,7 @@ class ListValue<T> extends Value<List<T>> {
 
   @override
   List<T> get value => _value.value;
+
   @override
   set value(List<T> v) {
     _value.value.clear();
@@ -83,6 +101,7 @@ class CastValueConverter<T, S> extends Value<T> {
 
   @override
   T get value => _value.value as T;
+
   @override
   set value(T v) {
     _value.value = v as S;
@@ -98,18 +117,22 @@ class CastValueConverter<T, S> extends Value<T> {
 class ValueConverter<T, S> extends Value<T> {
   StreamSubscription? _sub;
   final Value<S> _value;
-  ValueConverterGet<T, S>? get;
-  ValueConverterSet<T, S>? set;
+  late ValueConverterGet<T, S> get;
+  late ValueConverterSet<T, S> set;
 
-  ValueConverter(this._value, {this.get, this.set}) {
+  ValueConverter(this._value,
+      {ValueConverterGet<T, S>? get, ValueConverterSet<T, S>? set}) {
+    this.get = get ?? (value) => throw 'ValueConverter -- cannot convert';
+    this.set = set ?? (value) => throw 'ValueConverter -- cannot convert';
     _sub = _value.onChange.listen((_) => sendChangeEvent());
   }
 
   @override
-  T get value => get!(_value.value);
+  T get value => get(_value.value);
+
   @override
   set value(T v) {
-    _value.value = set!(v);
+    _value.value = set(v);
   }
 
   @override
@@ -138,6 +161,7 @@ class ValueTimeUpdater<T> extends Value<T> {
 
   @override
   T get value => _value.value;
+
   @override
   set value(T v) {
     _value.value = v;
@@ -151,12 +175,58 @@ class ValueTimeUpdater<T> extends Value<T> {
   }
 }
 
+class ValueBuffer<T> extends Value<T> {
+  StreamSubscription? _sub;
+  Value<T> _value;
+  T _buffer;
+
+  Value<T> get innerValue => _value;
+
+  @override
+  ValueBuffer(this._value) : _buffer = _value.value {
+    _sub = _value.onChange.listen((_) {
+      _buffer = _value.value;
+      sendChangeEvent();
+    });
+  }
+
+  @override
+  T get value => _buffer;
+
+  @override
+  set value(T v) {
+    if (v == _buffer) return;
+    _buffer = v;
+    sendChangeEvent();
+  }
+
+  bool get hasChanged => _buffer != _value.value;
+
+  void apply() {
+    try {
+      _value.value = _buffer;
+    } finally {
+      sendChangeEvent();
+    }
+  }
+
+  @override
+  Future release() async {
+    _sub?.cancel();
+    _sub = null;
+    await super.release();
+  }
+}
+
 class ValueHolder<T> extends Value<T> {
   T _value;
+
   @override
   ValueHolder(this._value);
+
   @override
   T get value => _value;
+
   @override
   set value(T v) {
     if (v == _value) return;
@@ -173,6 +243,7 @@ class ValueCallback<T> extends Value<T> {
 
   @override
   T get value => getCallback();
+
   @override
   set value(T v) {
     setCallback(v);

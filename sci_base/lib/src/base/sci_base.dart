@@ -206,8 +206,25 @@ abstract class Base<T> extends EventSource implements ObjectProperties<T> {
     var ids = <String>{};
     addRefIds(ids, compositeOnly: compositeOnly, sharedOnly: sharedOnly);
 
-    return ids.where((element) => element.isNotEmpty).toSet();
+    var resultLegacy = ids.where((element) => element.isNotEmpty).toSet();
+
+    // var refIdsList = <String>[];
+    //
+    // collectRefIds(refIdsList,
+    //     compositeOnly: compositeOnly, sharedOnly: sharedOnly);
+    //
+    // var refIds = HashSet<String>.from(refIdsList);
+    // for (var id in refIds) {
+    //   if (!resultLegacy.contains(id)) {
+    //     throw '$this -- $id no in legacy';
+    //   }
+    // }
+
+    return resultLegacy;
   }
+
+  // void collectRefIds(List<String> refIds,
+  //     {bool compositeOnly = false, bool sharedOnly = false}) {}
 
   void addRefIds(Set<String> refIds,
       {bool compositeOnly = false, bool sharedOnly = false}) {
