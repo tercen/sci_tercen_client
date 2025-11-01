@@ -1,6 +1,6 @@
 name: sci_http_client
 description: Tercen http client library
-version: 1.4.8
+version: 1.4.9
 
 environment:
   sdk: ^3.3.0
