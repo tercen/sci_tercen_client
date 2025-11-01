@@ -78,7 +78,7 @@ class LoadBalancerBaseClientImpl extends BaseClientImpl {
   }
 
   Future<http.StreamedResponse> _send(http.BaseRequest request, int retry) {
-    var currentUri;
+    Uri? currentUri;
     return Future.sync(() {
       var uri = getLoadBalancedRequest(request);
       var i = _uriIndex! - 1;
@@ -87,7 +87,7 @@ class LoadBalancerBaseClientImpl extends BaseClientImpl {
     }).catchError((e) {
       if (e is iolib.SocketException) {
         var failedUri = currentUri;
-        _failedUri.add(failedUri as Uri?);
+        _failedUri.add(failedUri);
         _uris!.remove(failedUri);
         if (retry < _maxRetry) {
           return _send(request, retry++);
