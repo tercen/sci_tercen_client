@@ -264,7 +264,20 @@ class Response implements api.Response {
     return headersMap;
   }
   @override
-  Object? get body => request.response;
+  Object? get body {
+    final response = request.response;
+    // Convert ArrayBuffer to Uint8List for wasm compatibility
+    if (response != null && request.responseType == 'arraybuffer') {
+      // In wasm, response is a JSArrayBuffer; convert to Dart Uint8List
+      try {
+        return (response as JSArrayBuffer).toDart;
+      } catch (e) {
+        // Fallback: if toDart doesn't work, return as-is
+        return response;
+      }
+    }
+    return response;
+  }
 }
 
 class StreamResponse extends api.StreamResponse {
