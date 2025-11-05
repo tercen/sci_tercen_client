@@ -8,7 +8,15 @@ import 'package:sci_http_client/http_browser_client.dart'
     if (dart.library.io) 'package:sci_http_client/http_io_client.dart';
 
 Future<ServiceFactory> createServiceFactoryForWebApp(
-    {String? tercenToken}) async {
+    {String? tercenToken, String? serviceUri}) async {
+  tercenToken ??= const String.fromEnvironment("TERCEN_TOKEN").isEmpty
+      ? null
+      : const String.fromEnvironment("TERCEN_TOKEN");
+
+  serviceUri ??= const String.fromEnvironment("SERVICE_URI").isEmpty
+      ? null
+      : const String.fromEnvironment("SERVICE_URI");
+
   // Set the HTTP client - conditional code based on platform
   _setHttpClient();
 
@@ -18,7 +26,7 @@ Future<ServiceFactory> createServiceFactoryForWebApp(
   }
 
   var factory = sci.ServiceFactory();
-  var uriBase = Uri.base;
+  var uriBase = serviceUri == null ? Uri.base : Uri.parse(serviceUri);
   await factory.initializeWith(
       Uri(scheme: uriBase.scheme, host: uriBase.host, port: uriBase.port),
       httpClient);
