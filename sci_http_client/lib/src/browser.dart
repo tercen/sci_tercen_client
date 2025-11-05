@@ -42,15 +42,19 @@ class HttpBrowserClient implements api.HttpClient {
     }
     var completer = Completer<Response>();
 
-    request.addEventListener('load', (Event event) {
-      completer.complete(Response(request));
-    }.toJS);
+    request.addEventListener(
+        'load',
+        (Event event) {
+          completer.complete(Response(request));
+        }.toJS);
 
-    request.addEventListener('error', (Event evt) {
-      var error = api.HttpClientError(
-          500, "connection.unvailable", "Host unreachable.");
-      completer.completeError(error);
-    }.toJS);
+    request.addEventListener(
+        'error',
+        (Event evt) {
+          var error = api.HttpClientError(
+              500, "connection.unvailable", "Host unreachable.");
+          completer.completeError(error);
+        }.toJS);
 
     return completer.future;
   }
@@ -103,19 +107,23 @@ class HttpBrowserClient implements api.HttpClient {
 
     var completer = Completer<api.StreamResponse>();
 
-    request.addEventListener('error', (Event evt) {
-      if (!completer.isCompleted) {
-        completer.completeError('$this : failed : $evt');
-      }
-    }.toJS);
+    request.addEventListener(
+        'error',
+        (Event evt) {
+          if (!completer.isCompleted) {
+            completer.completeError('$this : failed : $evt');
+          }
+        }.toJS);
 
-    request.addEventListener('readystatechange', (Event evt) {
-      if (request.readyState == XMLHttpRequest.HEADERS_RECEIVED) {
-        if (!completer.isCompleted) {
-          completer.complete(response);
-        }
-      }
-    }.toJS);
+    request.addEventListener(
+        'readystatechange',
+        (Event evt) {
+          if (request.readyState == XMLHttpRequest.HEADERS_RECEIVED) {
+            if (!completer.isCompleted) {
+              completer.complete(response);
+            }
+          }
+        }.toJS);
 
     return completer.future;
   }
@@ -178,9 +186,11 @@ class HttpBrowserClient implements api.HttpClient {
     _openRequest(request, verb, url.toString());
 
     if (progressCallback != null) {
-      request.upload.addEventListener('progress', (Event event) {
-        progressCallback(event);
-      }.toJS);
+      request.upload.addEventListener(
+          'progress',
+          (Event event) {
+            progressCallback(event);
+          }.toJS);
     }
 
     setHeaders(request, headers);
@@ -257,24 +267,23 @@ class Response implements api.Response {
         if (line.isEmpty) continue;
         var idx = line.indexOf(':');
         if (idx > 0) {
-          headersMap[line.substring(0, idx).trim()] = line.substring(idx + 1).trim();
+          headersMap[line.substring(0, idx).trim()] =
+              line.substring(idx + 1).trim();
         }
       }
     }
     return headersMap;
   }
+
   @override
   Object? get body {
     final response = request.response;
-    // Convert ArrayBuffer to Uint8List for wasm compatibility
-    if (response != null && request.responseType == 'arraybuffer') {
-      // In wasm, response is a JSArrayBuffer; convert to Dart Uint8List
-      try {
-        return (response as JSArrayBuffer).toDart;
-      } catch (e) {
-        // Fallback: if toDart doesn't work, return as-is
-        return response;
-      }
+    // Convert ArrayBuffer to ByteBuffer for wasm compatibility
+    if (response != null &&
+        response is JSArrayBuffer &&
+        request.responseType == 'arraybuffer') {
+      // In wasm, response is a JSArrayBuffer; convert to Dart ByteBuffer
+      return response.toDart;
     }
     return response;
   }
@@ -295,23 +304,27 @@ class StreamResponse extends api.StreamResponse {
 
     _controler = StreamController(sync: false);
 
-    request.addEventListener('error', (Event event) {
-      _controler.addError(event);
-    }.toJS);
+    request.addEventListener(
+        'error',
+        (Event event) {
+          _controler.addError(event);
+        }.toJS);
 
-    request.addEventListener('readystatechange', (Event evt) {
-      var bytes = _readNextBytes(evt);
-      if (bytes != null) {
-        _controler.add(bytes);
-      }
-      if (request.readyState == XMLHttpRequest.DONE) {
-        Future.delayed(Duration(milliseconds: 1), () {
-          if (!_controler.isClosed) {
-            _controler.close();
+    request.addEventListener(
+        'readystatechange',
+        (Event evt) {
+          var bytes = _readNextBytes(evt);
+          if (bytes != null) {
+            _controler.add(bytes);
           }
-        });
-      }
-    }.toJS);
+          if (request.readyState == XMLHttpRequest.DONE) {
+            Future.delayed(Duration(milliseconds: 1), () {
+              if (!_controler.isClosed) {
+                _controler.close();
+              }
+            });
+          }
+        }.toJS);
   }
   @override
   int? get statusCode => request.status;
@@ -324,12 +337,14 @@ class StreamResponse extends api.StreamResponse {
         if (line.isEmpty) continue;
         var idx = line.indexOf(':');
         if (idx > 0) {
-          headersMap[line.substring(0, idx).trim()] = line.substring(idx + 1).trim();
+          headersMap[line.substring(0, idx).trim()] =
+              line.substring(idx + 1).trim();
         }
       }
     }
     return headersMap;
   }
+
   @override
   Stream get stream => _controler.stream;
 
