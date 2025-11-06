@@ -6,7 +6,8 @@ class ColumnSchemaBase extends IdObject {
     Vocabulary.type_DP,
     Vocabulary.nRows_DP,
     Vocabulary.size_DP,
-    Vocabulary.metaData_OP
+    Vocabulary.metaData_OP,
+    Vocabulary.storageSize_DP
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
@@ -15,12 +16,14 @@ class ColumnSchemaBase extends IdObject {
   int _nRows;
   int _size;
   ColumnSchemaMetaData _metaData;
+  double _storageSize;
 
   ColumnSchemaBase()
       : _name = "",
         _type = "",
         _nRows = 0,
         _size = 0,
+        _storageSize = 0.0,
         _metaData = ColumnSchemaMetaData() {
     _metaData.parent = this;
   }
@@ -34,6 +37,7 @@ class ColumnSchemaBase extends IdObject {
             m[Vocabulary.nRows_DP] as int?, base.int_DefaultFactory),
         _size = base.defaultValue(
             m[Vocabulary.size_DP] as int?, base.int_DefaultFactory),
+        _storageSize = base.defaultDouble(m[Vocabulary.storageSize_DP] as num?),
         _metaData = ColumnSchemaMetaDataBase._createFromJson(
             m[Vocabulary.metaData_OP] as Map?),
         super.json(m) {
@@ -106,6 +110,18 @@ class ColumnSchemaBase extends IdObject {
     }
   }
 
+  double get storageSize => _storageSize;
+
+  set storageSize(double $o) {
+    if ($o == _storageSize) return;
+    var $old = _storageSize;
+    _storageSize = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.storageSize_DP, $old, _storageSize));
+    }
+  }
+
   ColumnSchemaMetaData get metaData => _metaData;
 
   set metaData(ColumnSchemaMetaData $o) {
@@ -133,6 +149,8 @@ class ColumnSchemaBase extends IdObject {
         return size;
       case Vocabulary.metaData_OP:
         return metaData;
+      case Vocabulary.storageSize_DP:
+        return storageSize;
       default:
         return super.get($name);
     }
@@ -152,6 +170,9 @@ class ColumnSchemaBase extends IdObject {
         return;
       case Vocabulary.size_DP:
         size = $value as int;
+        return;
+      case Vocabulary.storageSize_DP:
+        storageSize = $value as double;
         return;
       case Vocabulary.metaData_OP:
         metaData = $value as ColumnSchemaMetaData;
@@ -183,6 +204,7 @@ class ColumnSchemaBase extends IdObject {
     m[Vocabulary.nRows_DP] = nRows;
     m[Vocabulary.size_DP] = size;
     m[Vocabulary.metaData_OP] = metaData.toJson();
+    m[Vocabulary.storageSize_DP] = storageSize;
     return m;
   }
 }

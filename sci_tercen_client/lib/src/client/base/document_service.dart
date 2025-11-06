@@ -4,20 +4,15 @@ class DocumentServiceBase extends HttpClientService<Document>
     implements api.DocumentService {
   late ServiceFactoryBase factory;
 
-  @override
   Uri get uri => Uri.parse("api/v1/d");
-  @override
   String get serviceName => "Document";
 
-  @override
   Map toJson(Document object) => object.toJson();
-  @override
   Document fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return DocumentBase.fromJson(m);
-    return Document.json(m);
+    return new Document.json(m);
   }
 
-  @override
   Future<List<Document>> findWorkflowByTagOwnerCreatedDate(
       {startKey,
       endKey,
@@ -36,7 +31,6 @@ class DocumentServiceBase extends HttpClientService<Document>
         aclContext: aclContext);
   }
 
-  @override
   Future<List<Document>> findProjectByOwnersAndName(
       {startKey,
       endKey,
@@ -55,7 +49,6 @@ class DocumentServiceBase extends HttpClientService<Document>
         aclContext: aclContext);
   }
 
-  @override
   Future<List<Document>> findProjectByOwnersAndCreatedDate(
       {startKey,
       endKey,
@@ -74,7 +67,6 @@ class DocumentServiceBase extends HttpClientService<Document>
         aclContext: aclContext);
   }
 
-  @override
   Future<List<Document>> findOperatorByOwnerLastModifiedDate(
       {startKey,
       endKey,
@@ -93,7 +85,6 @@ class DocumentServiceBase extends HttpClientService<Document>
         aclContext: aclContext);
   }
 
-  @override
   Future<List<Document>> findOperatorByUrlAndVersion(
       {startKey,
       endKey,
@@ -112,13 +103,12 @@ class DocumentServiceBase extends HttpClientService<Document>
         aclContext: aclContext);
   }
 
-  @override
   Future<SearchResult> search(
       String query, int limit, bool useFactory, String bookmark,
       {service.AclContext? aclContext}) async {
-    SearchResult answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/d" "/" "search");
+      var uri = Uri.parse("api/v1/d" + "/" + "search");
       var params = {};
       params["query"] = query;
       params["limit"] = limit;
@@ -140,16 +130,15 @@ class DocumentServiceBase extends HttpClientService<Document>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as SearchResult;
   }
 
-  @override
   Future<List<Document>> getLibrary(String projectId, List<String> teamIds,
       List<String> docTypes, List<String> tags, int offset, int limit,
       {service.AclContext? aclContext}) async {
-    List<Document> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/d" "/" "getLibrary");
+      var uri = Uri.parse("api/v1/d" + "/" + "getLibrary");
       var params = {};
       params["projectId"] = projectId;
       params["teamIds"] = teamIds;
@@ -174,15 +163,14 @@ class DocumentServiceBase extends HttpClientService<Document>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<Document>;
   }
 
-  @override
   Future<List<Document>> getTercenLibrary(int offset, int limit,
       {service.AclContext? aclContext}) async {
-    List<Document> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/d" "/" "getTercenLibrary");
+      var uri = Uri.parse("api/v1/d" + "/" + "getTercenLibrary");
       var params = {};
       params["offset"] = offset;
       params["limit"] = limit;
@@ -203,15 +191,14 @@ class DocumentServiceBase extends HttpClientService<Document>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<Document>;
   }
 
-  @override
   Future<List<Operator>> getTercenOperatorLibrary(int offset, int limit,
       {service.AclContext? aclContext}) async {
-    List<Operator> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/d" "/" "getTercenOperatorLibrary");
+      var uri = Uri.parse("api/v1/d" + "/" + "getTercenOperatorLibrary");
       var params = {};
       params["offset"] = offset;
       params["limit"] = limit;
@@ -232,15 +219,14 @@ class DocumentServiceBase extends HttpClientService<Document>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<Operator>;
   }
 
-  @override
   Future<List<Document>> getTercenWorkflowLibrary(int offset, int limit,
       {service.AclContext? aclContext}) async {
-    List<Document> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/d" "/" "getTercenWorkflowLibrary");
+      var uri = Uri.parse("api/v1/d" + "/" + "getTercenWorkflowLibrary");
       var params = {};
       params["offset"] = offset;
       params["limit"] = limit;
@@ -261,15 +247,14 @@ class DocumentServiceBase extends HttpClientService<Document>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<Document>;
   }
 
-  @override
   Future<List<Document>> getTercenAppLibrary(int offset, int limit,
       {service.AclContext? aclContext}) async {
-    List<Document> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/d" "/" "getTercenAppLibrary");
+      var uri = Uri.parse("api/v1/d" + "/" + "getTercenAppLibrary");
       var params = {};
       params["offset"] = offset;
       params["limit"] = limit;
@@ -290,15 +275,14 @@ class DocumentServiceBase extends HttpClientService<Document>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<Document>;
   }
 
-  @override
   Future<List<Document>> getTercenDatasetLibrary(int offset, int limit,
       {service.AclContext? aclContext}) async {
-    List<Document> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/d" "/" "getTercenDatasetLibrary");
+      var uri = Uri.parse("api/v1/d" + "/" + "getTercenDatasetLibrary");
       var params = {};
       params["offset"] = offset;
       params["limit"] = limit;
@@ -319,6 +303,6 @@ class DocumentServiceBase extends HttpClientService<Document>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<Document>;
   }
 }

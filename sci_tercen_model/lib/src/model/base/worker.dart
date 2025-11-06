@@ -14,7 +14,8 @@ class WorkerBase extends SciObject {
     Vocabulary.availableTaskTypes_DP,
     Vocabulary.taskIds_DP,
     Vocabulary.lastDateActivity_DP,
-    Vocabulary.heartBeat_DP
+    Vocabulary.heartBeat_DP,
+    Vocabulary.lastHeartBeat_DP
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
@@ -31,6 +32,7 @@ class WorkerBase extends SciObject {
   final base.ListChangedBase<String> taskIds;
   String _lastDateActivity;
   int _heartBeat;
+  String _lastHeartBeat;
 
   WorkerBase()
       : _status = "",
@@ -45,7 +47,8 @@ class WorkerBase extends SciObject {
         availableTaskTypes = base.ListChangedBase<String>(),
         taskIds = base.ListChangedBase<String>(),
         _lastDateActivity = "",
-        _heartBeat = 0 {
+        _heartBeat = 0,
+        _lastHeartBeat = "" {
     availableTaskTypes.parent = this;
     taskIds.parent = this;
   }
@@ -76,6 +79,9 @@ class WorkerBase extends SciObject {
             base.String_DefaultFactory),
         _heartBeat = base.defaultValue(
             m[Vocabulary.heartBeat_DP] as int?, base.int_DefaultFactory),
+        _lastHeartBeat = base.defaultValue(
+            m[Vocabulary.lastHeartBeat_DP] as String?,
+            base.String_DefaultFactory),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Worker_CLASS, m);
     availableTaskTypes.parent = this;
@@ -229,6 +235,18 @@ class WorkerBase extends SciObject {
     }
   }
 
+  String get lastHeartBeat => _lastHeartBeat;
+
+  set lastHeartBeat(String $o) {
+    if ($o == _lastHeartBeat) return;
+    var $old = _lastHeartBeat;
+    _lastHeartBeat = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.lastHeartBeat_DP, $old, _lastHeartBeat));
+    }
+  }
+
   @override
   dynamic get(String $name) {
     switch ($name) {
@@ -258,6 +276,8 @@ class WorkerBase extends SciObject {
         return lastDateActivity;
       case Vocabulary.heartBeat_DP:
         return heartBeat;
+      case Vocabulary.lastHeartBeat_DP:
+        return lastHeartBeat;
       default:
         return super.get($name);
     }
@@ -305,6 +325,9 @@ class WorkerBase extends SciObject {
       case Vocabulary.heartBeat_DP:
         heartBeat = $value as int;
         return;
+      case Vocabulary.lastHeartBeat_DP:
+        lastHeartBeat = $value as String;
+        return;
       default:
         super.set($name, $value);
     }
@@ -340,6 +363,7 @@ class WorkerBase extends SciObject {
     m[Vocabulary.taskIds_DP] = taskIds;
     m[Vocabulary.lastDateActivity_DP] = lastDateActivity;
     m[Vocabulary.heartBeat_DP] = heartBeat;
+    m[Vocabulary.lastHeartBeat_DP] = lastHeartBeat;
     return m;
   }
 }

@@ -4,20 +4,15 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
     implements api.PersistentService {
   late ServiceFactoryBase factory;
 
-  @override
   Uri get uri => Uri.parse("api/v1/po");
-  @override
   String get serviceName => "PersistentObject";
 
-  @override
   Map toJson(PersistentObject object) => object.toJson();
-  @override
   PersistentObject fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return PersistentObjectBase.fromJson(m);
-    return PersistentObject.json(m);
+    return new PersistentObject.json(m);
   }
 
-  @override
   Future<List<PersistentObject>> findDeleted(
       {required List keys,
       bool useFactory = false,
@@ -26,7 +21,6 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
         keys: keys, useFactory: useFactory, aclContext: aclContext);
   }
 
-  @override
   Future<List<PersistentObject>> findByKind(
       {required List keys,
       bool useFactory = false,
@@ -35,12 +29,11 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
         keys: keys, useFactory: useFactory, aclContext: aclContext);
   }
 
-  @override
   Future<List<String>> createNewIds(int n,
       {service.AclContext? aclContext}) async {
-    List<String> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/po" "/" "createNewIds");
+      var uri = Uri.parse("api/v1/po" + "/" + "createNewIds");
       var params = {};
       params["n"] = n;
       var response = await client.post(getServiceUri(uri),
@@ -58,15 +51,14 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<String>;
   }
 
-  @override
   Future<Summary> summary(String teamOrProjectId,
       {service.AclContext? aclContext}) async {
-    Summary answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/po" "/" "summary");
+      var uri = Uri.parse("api/v1/po" + "/" + "summary");
       var params = {};
       params["teamOrProjectId"] = teamOrProjectId;
       var response = await client.post(getServiceUri(uri),
@@ -85,15 +77,14 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as Summary;
   }
 
-  @override
   Future<List<PersistentObject>> getDependentObjects(String id,
       {service.AclContext? aclContext}) async {
-    List<PersistentObject> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/po" "/" "getDependentObjects");
+      var uri = Uri.parse("api/v1/po" + "/" + "getDependentObjects");
       var params = {};
       params["id"] = id;
       var response = await client.post(getServiceUri(uri),
@@ -113,15 +104,14 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<PersistentObject>;
   }
 
-  @override
   Future<List<String>> getDependentObjectIds(String id,
       {service.AclContext? aclContext}) async {
-    List<String> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/po" "/" "getDependentObjectIds");
+      var uri = Uri.parse("api/v1/po" + "/" + "getDependentObjectIds");
       var params = {};
       params["id"] = id;
       var response = await client.post(getServiceUri(uri),
@@ -139,16 +129,15 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<String>;
   }
 
-  @override
   Future<List<PersistentObject>> getObjects(
       String startId, String endId, int limit, bool useFactory,
       {service.AclContext? aclContext}) async {
-    List<PersistentObject> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/po" "/" "getObjects");
+      var uri = Uri.parse("api/v1/po" + "/" + "getObjects");
       var params = {};
       params["startId"] = startId;
       params["endId"] = endId;
@@ -171,6 +160,6 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<PersistentObject>;
   }
 }

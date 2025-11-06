@@ -4,20 +4,15 @@ class EventServiceBase extends HttpClientService<Event>
     implements api.EventService {
   late ServiceFactoryBase factory;
 
-  @override
   Uri get uri => Uri.parse("api/v1/evt");
-  @override
   String get serviceName => "Event";
 
-  @override
   Map toJson(Event object) => object.toJson();
-  @override
   Event fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return EventBase.fromJson(m);
-    return Event.json(m);
+    return new Event.json(m);
   }
 
-  @override
   Future<List<Event>> findByChannelAndDate(
       {startKey,
       endKey,
@@ -36,12 +31,11 @@ class EventServiceBase extends HttpClientService<Event>
         aclContext: aclContext);
   }
 
-  @override
   Future<dynamic> sendPersistentChannel(String channel, Event evt,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/evt" "/" "sendPersistentChannel");
+      var uri = Uri.parse("api/v1/evt" + "/" + "sendPersistentChannel");
       var params = {};
       params["channel"] = channel;
       params["evt"] = evt.toJson();
@@ -63,12 +57,11 @@ class EventServiceBase extends HttpClientService<Event>
     return answer as dynamic;
   }
 
-  @override
   Future<dynamic> sendChannel(String channel, Event evt,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/evt" "/" "sendChannel");
+      var uri = Uri.parse("api/v1/evt" + "/" + "sendChannel");
       var params = {};
       params["channel"] = channel;
       params["evt"] = evt.toJson();
@@ -90,14 +83,13 @@ class EventServiceBase extends HttpClientService<Event>
     return answer as dynamic;
   }
 
-  @override
   Stream<Event> channel(String name, {service.AclContext? aclContext}) {
     try {
-      var uri = Uri.parse("api/v1/evt" "/" "channel");
+      var uri = Uri.parse("api/v1/evt" + "/" + "channel");
       var params = {};
       params["name"] = name;
-      Event decode(s) => EventBase.fromJson(s as Map);
-      return webSocketStream<Event>(uri, params, decode);
+      var decode = (s) => EventBase.fromJson(s as Map);
+      return this.webSocketStream<Event>(uri, params, decode);
     } on ServiceError {
       rethrow;
     } catch (e, st) {
@@ -106,16 +98,15 @@ class EventServiceBase extends HttpClientService<Event>
     throw "should not happen";
   }
 
-  @override
   Stream<TaskEvent> listenTaskChannel(String taskId, bool start,
       {service.AclContext? aclContext}) {
     try {
-      var uri = Uri.parse("api/v1/evt" "/" "listenTaskChannel");
+      var uri = Uri.parse("api/v1/evt" + "/" + "listenTaskChannel");
       var params = {};
       params["taskId"] = taskId;
       params["start"] = start;
-      TaskEvent decode(s) => TaskEventBase.fromJson(s as Map);
-      return webSocketStream<TaskEvent>(uri, params, decode);
+      var decode = (s) => TaskEventBase.fromJson(s as Map);
+      return this.webSocketStream<TaskEvent>(uri, params, decode);
     } on ServiceError {
       rethrow;
     } catch (e, st) {
@@ -124,15 +115,14 @@ class EventServiceBase extends HttpClientService<Event>
     throw "should not happen";
   }
 
-  @override
   Stream<TaskStateEvent> onTaskState(String taskId,
       {service.AclContext? aclContext}) {
     try {
-      var uri = Uri.parse("api/v1/evt" "/" "onTaskState");
+      var uri = Uri.parse("api/v1/evt" + "/" + "onTaskState");
       var params = {};
       params["taskId"] = taskId;
-      TaskStateEvent decode(s) => TaskStateEventBase.fromJson(s as Map);
-      return webSocketStream<TaskStateEvent>(uri, params, decode);
+      var decode = (s) => TaskStateEventBase.fromJson(s as Map);
+      return this.webSocketStream<TaskStateEvent>(uri, params, decode);
     } on ServiceError {
       rethrow;
     } catch (e, st) {
@@ -141,12 +131,11 @@ class EventServiceBase extends HttpClientService<Event>
     throw "should not happen";
   }
 
-  @override
   Future<int> taskListenerCount(String taskId,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/evt" "/" "taskListenerCount");
+      var uri = Uri.parse("api/v1/evt" + "/" + "taskListenerCount");
       var params = {};
       params["taskId"] = taskId;
       var response = await client.post(getServiceUri(uri),

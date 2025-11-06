@@ -5,7 +5,8 @@ class TableSummaryBase extends SciObject {
     Vocabulary.n_DP,
     Vocabulary.size_DP,
     Vocabulary.nr_DP,
-    Vocabulary.nc_DP
+    Vocabulary.nc_DP,
+    Vocabulary.storageSize_DP
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
@@ -13,12 +14,14 @@ class TableSummaryBase extends SciObject {
   int _size;
   int _nr;
   int _nc;
+  double _storageSize;
 
   TableSummaryBase()
       : _n = 0,
         _size = 0,
         _nr = 0,
-        _nc = 0;
+        _nc = 0,
+        _storageSize = 0.0;
   TableSummaryBase.json(Map m)
       : _n = base.defaultValue(
             m[Vocabulary.n_DP] as int?, base.int_DefaultFactory),
@@ -28,6 +31,7 @@ class TableSummaryBase extends SciObject {
             m[Vocabulary.nr_DP] as int?, base.int_DefaultFactory),
         _nc = base.defaultValue(
             m[Vocabulary.nc_DP] as int?, base.int_DefaultFactory),
+        _storageSize = base.defaultDouble(m[Vocabulary.storageSize_DP] as num?),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.TableSummary_CLASS, m);
   }
@@ -95,6 +99,18 @@ class TableSummaryBase extends SciObject {
     }
   }
 
+  double get storageSize => _storageSize;
+
+  set storageSize(double $o) {
+    if ($o == _storageSize) return;
+    var $old = _storageSize;
+    _storageSize = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.storageSize_DP, $old, _storageSize));
+    }
+  }
+
   @override
   dynamic get(String $name) {
     switch ($name) {
@@ -106,6 +122,8 @@ class TableSummaryBase extends SciObject {
         return nr;
       case Vocabulary.nc_DP:
         return nc;
+      case Vocabulary.storageSize_DP:
+        return storageSize;
       default:
         return super.get($name);
     }
@@ -125,6 +143,9 @@ class TableSummaryBase extends SciObject {
         return;
       case Vocabulary.nc_DP:
         nc = $value as int;
+        return;
+      case Vocabulary.storageSize_DP:
+        storageSize = $value as double;
         return;
       default:
         super.set($name, $value);
@@ -152,6 +173,7 @@ class TableSummaryBase extends SciObject {
     m[Vocabulary.size_DP] = size;
     m[Vocabulary.nr_DP] = nr;
     m[Vocabulary.nc_DP] = nc;
+    m[Vocabulary.storageSize_DP] = storageSize;
     return m;
   }
 }

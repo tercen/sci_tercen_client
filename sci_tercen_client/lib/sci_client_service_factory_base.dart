@@ -303,7 +303,7 @@ abstract class UserService implements api.Service<User> {
       {api.AclContext? aclContext});
   Future<BillingInfo> updateBillingInfo(String userId, BillingInfo billingInfo,
       {api.AclContext? aclContext});
-  Future<ViesInfo> viesInfo(String countryCode, String vatNumber,
+  Future<ViesInfo> viesInfo(String country_code, String vatNumber,
       {api.AclContext? aclContext});
   Future<Summary> summary(String userId, {api.AclContext? aclContext});
   Future<ResourceSummary> resourceSummary(String userId,

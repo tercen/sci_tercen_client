@@ -4,24 +4,28 @@ class TaskSummaryBase extends SciObject {
   static const List<String> PROPERTY_NAMES = [
     Vocabulary.n_DP,
     Vocabulary.duration_DP,
-    Vocabulary.size_DP
+    Vocabulary.size_DP,
+    Vocabulary.storageSize_DP
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
   int _n;
   double _duration;
   int _size;
+  double _storageSize;
 
   TaskSummaryBase()
       : _n = 0,
         _duration = 0.0,
-        _size = 0;
+        _size = 0,
+        _storageSize = 0.0;
   TaskSummaryBase.json(Map m)
       : _n = base.defaultValue(
             m[Vocabulary.n_DP] as int?, base.int_DefaultFactory),
         _duration = base.defaultDouble(m[Vocabulary.duration_DP] as num?),
         _size = base.defaultValue(
             m[Vocabulary.size_DP] as int?, base.int_DefaultFactory),
+        _storageSize = base.defaultDouble(m[Vocabulary.storageSize_DP] as num?),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.TaskSummary_CLASS, m);
   }
@@ -77,6 +81,18 @@ class TaskSummaryBase extends SciObject {
     }
   }
 
+  double get storageSize => _storageSize;
+
+  set storageSize(double $o) {
+    if ($o == _storageSize) return;
+    var $old = _storageSize;
+    _storageSize = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.storageSize_DP, $old, _storageSize));
+    }
+  }
+
   @override
   dynamic get(String $name) {
     switch ($name) {
@@ -86,6 +102,8 @@ class TaskSummaryBase extends SciObject {
         return duration;
       case Vocabulary.size_DP:
         return size;
+      case Vocabulary.storageSize_DP:
+        return storageSize;
       default:
         return super.get($name);
     }
@@ -102,6 +120,9 @@ class TaskSummaryBase extends SciObject {
         return;
       case Vocabulary.size_DP:
         size = $value as int;
+        return;
+      case Vocabulary.storageSize_DP:
+        storageSize = $value as double;
         return;
       default:
         super.set($name, $value);
@@ -128,6 +149,7 @@ class TaskSummaryBase extends SciObject {
     m[Vocabulary.n_DP] = n;
     m[Vocabulary.duration_DP] = duration;
     m[Vocabulary.size_DP] = size;
+    m[Vocabulary.storageSize_DP] = storageSize;
     return m;
   }
 }

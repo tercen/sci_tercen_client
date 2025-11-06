@@ -284,6 +284,7 @@ class Vocabulary {
   static const String nodeId_DP = "nodeId";
   static const String n_DP = "n";
   static const String duration_DP = "duration";
+  static const String storageSize_DP = "storageSize";
   static const String isUserDefined_DP = "isUserDefined";
   static const String group_DP = "group";
   static const String fileId_DP = "fileId";
@@ -406,7 +407,6 @@ class Vocabulary {
   static const String blkioWeight_DP = "blkioWeight";
   static const String pidsLimit_DP = "pidsLimit";
   static const String ulimits_nofile_DP = "ulimits_nofile";
-  static const String storageSize_DP = "storageSize";
   static const String cpusetCpus_DP = "cpusetCpus";
   static const String isRequired_DP = "isRequired";
   static const String status_DP = "status";
@@ -419,6 +419,7 @@ class Vocabulary {
   static const String taskIds_DP = "taskIds";
   static const String lastDateActivity_DP = "lastDateActivity";
   static const String heartBeat_DP = "heartBeat";
+  static const String lastHeartBeat_DP = "lastHeartBeat";
   static const String path_DP = "path";
   static const String namespace_DP = "namespace";
   static const String queryHash_DP = "queryHash";

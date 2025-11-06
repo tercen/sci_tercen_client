@@ -4,20 +4,15 @@ class TaskServiceBase extends HttpClientService<Task>
     implements api.TaskService {
   late ServiceFactoryBase factory;
 
-  @override
   Uri get uri => Uri.parse("api/v1/task");
-  @override
   String get serviceName => "Task";
 
-  @override
   Map toJson(Task object) => object.toJson();
-  @override
   Task fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return TaskBase.fromJson(m);
-    return Task.json(m);
+    return new Task.json(m);
   }
 
-  @override
   Future<List<Task>> findByHash(
       {startKey,
       endKey,
@@ -36,7 +31,6 @@ class TaskServiceBase extends HttpClientService<Task>
         aclContext: aclContext);
   }
 
-  @override
   Future<List<Task>> findGCTaskByLastModifiedDate(
       {startKey,
       endKey,
@@ -55,12 +49,11 @@ class TaskServiceBase extends HttpClientService<Task>
         aclContext: aclContext);
   }
 
-  @override
   Future<dynamic> runTask(String taskId,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/task" "/" "runTask");
+      var uri = Uri.parse("api/v1/task" + "/" + "runTask");
       var params = {};
       params["taskId"] = taskId;
       var response = await client.post(getServiceUri(uri),
@@ -81,12 +74,11 @@ class TaskServiceBase extends HttpClientService<Task>
     return answer as dynamic;
   }
 
-  @override
   Future<dynamic> cancelTask(String taskId,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/task" "/" "cancelTask");
+      var uri = Uri.parse("api/v1/task" + "/" + "cancelTask");
       var params = {};
       params["taskId"] = taskId;
       var response = await client.post(getServiceUri(uri),
@@ -107,11 +99,10 @@ class TaskServiceBase extends HttpClientService<Task>
     return answer as dynamic;
   }
 
-  @override
   Future<Task> waitDone(String taskId, {service.AclContext? aclContext}) async {
-    Task answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/task" "/" "waitDone");
+      var uri = Uri.parse("api/v1/task" + "/" + "waitDone");
       var params = {};
       params["taskId"] = taskId;
       var response = await client.post(getServiceUri(uri),
@@ -129,15 +120,14 @@ class TaskServiceBase extends HttpClientService<Task>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as Task;
   }
 
-  @override
   Future<dynamic> updateWorker(Worker worker,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/task" "/" "updateWorker");
+      var uri = Uri.parse("api/v1/task" + "/" + "updateWorker");
       var params = {};
       params["worker"] = worker.toJson();
       var response = await client.post(getServiceUri(uri),
@@ -158,12 +148,11 @@ class TaskServiceBase extends HttpClientService<Task>
     return answer as dynamic;
   }
 
-  @override
   Future<double> taskDurationByTeam(String teamId, int year, int month,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/task" "/" "taskDurationByTeam");
+      var uri = Uri.parse("api/v1/task" + "/" + "taskDurationByTeam");
       var params = {};
       params["teamId"] = teamId;
       params["year"] = year;
@@ -186,12 +175,11 @@ class TaskServiceBase extends HttpClientService<Task>
     return answer as double;
   }
 
-  @override
   Future<List<Worker>> getWorkers(List<String> names,
       {service.AclContext? aclContext}) async {
-    List<Worker> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/task" "/" "getWorkers");
+      var uri = Uri.parse("api/v1/task" + "/" + "getWorkers");
       var params = {};
       params["names"] = names;
       var response = await client.post(getServiceUri(uri),
@@ -211,15 +199,14 @@ class TaskServiceBase extends HttpClientService<Task>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<Worker>;
   }
 
-  @override
   Future<List<Task>> getTasks(List<String> names,
       {service.AclContext? aclContext}) async {
-    List<Task> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/task" "/" "getTasks");
+      var uri = Uri.parse("api/v1/task" + "/" + "getTasks");
       var params = {};
       params["names"] = names;
       var response = await client.post(getServiceUri(uri),
@@ -239,15 +226,14 @@ class TaskServiceBase extends HttpClientService<Task>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<Task>;
   }
 
-  @override
   Future<dynamic> setTaskEnvironment(String taskId, List<Pair> environment,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/task" "/" "setTaskEnvironment");
+      var uri = Uri.parse("api/v1/task" + "/" + "setTaskEnvironment");
       var params = {};
       params["taskId"] = taskId;
       params["environment"] = environment.map((each) => each.toJson()).toList();
@@ -269,12 +255,11 @@ class TaskServiceBase extends HttpClientService<Task>
     return answer as dynamic;
   }
 
-  @override
   Future<dynamic> collectTaskStats(String taskId,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/task" "/" "collectTaskStats");
+      var uri = Uri.parse("api/v1/task" + "/" + "collectTaskStats");
       var params = {};
       params["taskId"] = taskId;
       var response = await client.post(getServiceUri(uri),

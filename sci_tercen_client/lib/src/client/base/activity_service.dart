@@ -4,20 +4,15 @@ class ActivityServiceBase extends HttpClientService<Activity>
     implements api.ActivityService {
   late ServiceFactoryBase factory;
 
-  @override
   Uri get uri => Uri.parse("api/v1/activity");
-  @override
   String get serviceName => "Activity";
 
-  @override
   Map toJson(Activity object) => object.toJson();
-  @override
   Activity fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return ActivityBase.fromJson(m);
-    return Activity.json(m);
+    return new Activity.json(m);
   }
 
-  @override
   Future<List<Activity>> findByUserAndDate(
       {startKey,
       endKey,
@@ -36,7 +31,6 @@ class ActivityServiceBase extends HttpClientService<Activity>
         aclContext: aclContext);
   }
 
-  @override
   Future<List<Activity>> findByTeamAndDate(
       {startKey,
       endKey,
@@ -55,7 +49,6 @@ class ActivityServiceBase extends HttpClientService<Activity>
         aclContext: aclContext);
   }
 
-  @override
   Future<List<Activity>> findByProjectAndDate(
       {startKey,
       endKey,

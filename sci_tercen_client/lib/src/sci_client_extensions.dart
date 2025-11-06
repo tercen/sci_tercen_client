@@ -112,8 +112,7 @@ extension DocumentServiceExt on DocumentService {
       bool descending = false,
       bool useFactory = false,
       service.AclContext? aclContext}) async* {
-    var stream = findStartKeysStream(
-        'findProjectByOwnersAndName',
+    var stream = findStartKeysStream('findProjectByOwnersAndName',
         (Document doc) => [doc.acl.owner, doc.name],
         startKey: [startKeyOwner, startKeyName],
         endKey: [endKeyOwner, endKeyName],
@@ -142,8 +141,7 @@ extension DocumentServiceExt on DocumentService {
       bool descending = false,
       bool useFactory = false,
       service.AclContext? aclContext}) async* {
-    var stream = findStartKeysStream(
-        'findProjectByOwnersAndCreatedDate',
+    var stream = findStartKeysStream('findProjectByOwnersAndCreatedDate',
         (Document doc) => [doc.acl.owner, doc.createdDate.value],
         startKey: [startKeyOwner, startKeyCreatedDate],
         endKey: [endKeyOwner, endKeyCreatedDate],
@@ -172,8 +170,7 @@ extension DocumentServiceExt on DocumentService {
       bool descending = false,
       bool useFactory = false,
       service.AclContext? aclContext}) async* {
-    var stream = findStartKeysStream(
-        'findOperatorByOwnerLastModifiedDate',
+    var stream = findStartKeysStream('findOperatorByOwnerLastModifiedDate',
         (Document doc) => [doc.acl.owner, doc.lastModifiedDate.value],
         startKey: [startKeyOwner, startKeyLastModifiedDate],
         endKey: [endKeyOwner, endKeyLastModifiedDate],
@@ -202,8 +199,7 @@ extension DocumentServiceExt on DocumentService {
       bool descending = false,
       bool useFactory = false,
       service.AclContext? aclContext}) async* {
-    var stream = findStartKeysStream(
-        'findOperatorByUrlAndVersion',
+    var stream = findStartKeysStream('findOperatorByUrlAndVersion',
         (Document doc) => [(doc as Operator).url.uri, doc.version],
         startKey: [startKeyUrl, startKeyVersion],
         endKey: [endKeyUrl, endKeyVersion],
@@ -524,7 +520,8 @@ extension ProjectServiceExt on ProjectService {
         'findByTeamAndIsPublicAndLastModifiedDate',
         startKey: [startKeyOwner, startKeyIsPublic, startKeyLastModifiedDate],
         endKey: [endKeyOwner, endKeyIsPublic, endKeyLastModifiedDate],
-        (Project doc) => [doc.acl.owner, doc.isPublic, doc.lastModifiedDate.value],
+        (Project doc) =>
+            [doc.acl.owner, doc.isPublic, doc.lastModifiedDate.value],
         descending: descending,
         useFactory: useFactory,
         aclContext: aclContext);
@@ -791,7 +788,8 @@ extension TaskServiceExt on TaskService {
         'findGCTaskByLastModifiedDate',
         startKey: [startKeyRemoveOnGC, startKeyLastModifiedDate],
         endKey: [endKeyRemoveOnGC, endKeyLastModifiedDate],
-        (Task doc) => [(doc as CubeQueryTask).removeOnGC, doc.lastModifiedDate.value],
+        (Task doc) =>
+            [(doc as CubeQueryTask).removeOnGC, doc.lastModifiedDate.value],
         descending: descending,
         useFactory: useFactory,
         aclContext: aclContext);
@@ -854,7 +852,8 @@ extension EventServiceExt on EventService {
         'findByChannelAndDate',
         startKey: [startKeyChannel, startKeyDate],
         endKey: [endKeyChannel, endKeyDate],
-        (Event doc) => [(doc as PersistentChannelEvent).channel, doc.date.value],
+        (Event doc) =>
+            [(doc as PersistentChannelEvent).channel, doc.date.value],
         descending: descending,
         useFactory: useFactory,
         aclContext: aclContext);
@@ -983,7 +982,11 @@ extension CranLibraryServiceExt on CranLibraryService {
         'findByOwnerNameVersion',
         startKey: [startKeyOwner, startKeyPackage, startKeyVersion],
         endKey: [endKeyOwner, endKeyPackage, endKeyVersion],
-        (RLibrary doc) => [doc.acl.owner, (doc as RSourceLibrary).rDescription.Package, doc.rDescription.Version],
+        (RLibrary doc) => [
+              doc.acl.owner,
+              (doc as RSourceLibrary).rDescription.Package,
+              doc.rDescription.Version
+            ],
         descending: descending,
         useFactory: useFactory,
         aclContext: aclContext);

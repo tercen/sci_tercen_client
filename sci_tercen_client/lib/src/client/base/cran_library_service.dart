@@ -4,20 +4,15 @@ class CranLibraryServiceBase extends HttpClientService<RLibrary>
     implements api.CranLibraryService {
   late ServiceFactoryBase factory;
 
-  @override
   Uri get uri => Uri.parse("api/v1/rlib");
-  @override
   String get serviceName => "RLibrary";
 
-  @override
   Map toJson(RLibrary object) => object.toJson();
-  @override
   RLibrary fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return RLibraryBase.fromJson(m);
-    return RLibrary.json(m);
+    return new RLibrary.json(m);
   }
 
-  @override
   Future<List<RLibrary>> findByOwnerNameVersion(
       {startKey,
       endKey,
@@ -36,12 +31,11 @@ class CranLibraryServiceBase extends HttpClientService<RLibrary>
         aclContext: aclContext);
   }
 
-  @override
   Stream<List<int>> packagesGz(String repoName,
       {service.AclContext? aclContext}) {
-    Stream<List<int>> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/rlib" "/" "packagesGz");
+      var uri = Uri.parse("api/v1/rlib" + "/" + "packagesGz");
       var params = {};
       params["repoName"] = repoName;
       var geturi = getServiceUri(uri)
@@ -55,23 +49,22 @@ class CranLibraryServiceBase extends HttpClientService<RLibrary>
         return response;
       });
 
-      var resFut2 = resFut.then((response) => Stream.fromIterable(
-          [Uint8List.view(response.body as ByteBuffer)]));
-      answer = async.LazyStream(() => resFut2).cast<List<int>>();
+      var resFut2 = resFut.then((response) => new Stream.fromIterable(
+          [new Uint8List.view(response.body as ByteBuffer)]));
+      answer = new async.LazyStream(() => resFut2).cast<List<int>>();
     } on ServiceError {
       rethrow;
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as Stream<List<int>>;
   }
 
-  @override
   Stream<List<int>> packagesRds(String repoName,
       {service.AclContext? aclContext}) {
-    Stream<List<int>> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/rlib" "/" "packagesRds");
+      var uri = Uri.parse("api/v1/rlib" + "/" + "packagesRds");
       var params = {};
       params["repoName"] = repoName;
       var geturi = getServiceUri(uri)
@@ -85,23 +78,22 @@ class CranLibraryServiceBase extends HttpClientService<RLibrary>
         return response;
       });
 
-      var resFut2 = resFut.then((response) => Stream.fromIterable(
-          [Uint8List.view(response.body as ByteBuffer)]));
-      answer = async.LazyStream(() => resFut2).cast<List<int>>();
+      var resFut2 = resFut.then((response) => new Stream.fromIterable(
+          [new Uint8List.view(response.body as ByteBuffer)]));
+      answer = new async.LazyStream(() => resFut2).cast<List<int>>();
     } on ServiceError {
       rethrow;
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as Stream<List<int>>;
   }
 
-  @override
   Stream<List<int>> packages(String repoName,
       {service.AclContext? aclContext}) {
-    Stream<List<int>> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/rlib" "/" "packages");
+      var uri = Uri.parse("api/v1/rlib" + "/" + "packages");
       var params = {};
       params["repoName"] = repoName;
       var geturi = getServiceUri(uri)
@@ -115,23 +107,22 @@ class CranLibraryServiceBase extends HttpClientService<RLibrary>
         return response;
       });
 
-      var resFut2 = resFut.then((response) => Stream.fromIterable(
-          [Uint8List.view(response.body as ByteBuffer)]));
-      answer = async.LazyStream(() => resFut2).cast<List<int>>();
+      var resFut2 = resFut.then((response) => new Stream.fromIterable(
+          [new Uint8List.view(response.body as ByteBuffer)]));
+      answer = new async.LazyStream(() => resFut2).cast<List<int>>();
     } on ServiceError {
       rethrow;
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as Stream<List<int>>;
   }
 
-  @override
   Stream<List<int>> archive(String repoName, String package, String filename,
       {service.AclContext? aclContext}) {
-    Stream<List<int>> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/rlib" "/" "archive");
+      var uri = Uri.parse("api/v1/rlib" + "/" + "archive");
       var params = {};
       params["repoName"] = repoName;
       params["package"] = package;
@@ -147,23 +138,22 @@ class CranLibraryServiceBase extends HttpClientService<RLibrary>
         return response;
       });
 
-      var resFut2 = resFut.then((response) => Stream.fromIterable(
-          [Uint8List.view(response.body as ByteBuffer)]));
-      answer = async.LazyStream(() => resFut2).cast<List<int>>();
+      var resFut2 = resFut.then((response) => new Stream.fromIterable(
+          [new Uint8List.view(response.body as ByteBuffer)]));
+      answer = new async.LazyStream(() => resFut2).cast<List<int>>();
     } on ServiceError {
       rethrow;
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as Stream<List<int>>;
   }
 
-  @override
   Stream<List<int>> package(String repoName, String package,
       {service.AclContext? aclContext}) {
-    Stream<List<int>> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/rlib" "/" "package");
+      var uri = Uri.parse("api/v1/rlib" + "/" + "package");
       var params = {};
       params["repoName"] = repoName;
       params["package"] = package;
@@ -178,14 +168,14 @@ class CranLibraryServiceBase extends HttpClientService<RLibrary>
         return response;
       });
 
-      var resFut2 = resFut.then((response) => Stream.fromIterable(
-          [Uint8List.view(response.body as ByteBuffer)]));
-      answer = async.LazyStream(() => resFut2).cast<List<int>>();
+      var resFut2 = resFut.then((response) => new Stream.fromIterable(
+          [new Uint8List.view(response.body as ByteBuffer)]));
+      answer = new async.LazyStream(() => resFut2).cast<List<int>>();
     } on ServiceError {
       rethrow;
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as Stream<List<int>>;
   }
 }

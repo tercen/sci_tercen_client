@@ -2,7 +2,6 @@ library sci_client;
 
 export "package:sci_http_client/error.dart";
 export "package:sci_tercen_model/sci_model.dart";
-export "src/sci_client_extensions.dart";
 import "sci_client_base.dart";
 import "package:sci_tercen_model/sci_model.dart";
 import "package:sci_http_client/error.dart";

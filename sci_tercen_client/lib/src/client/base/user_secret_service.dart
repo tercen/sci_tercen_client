@@ -4,20 +4,15 @@ class UserSecretServiceBase extends HttpClientService<UserSecret>
     implements api.UserSecretService {
   late ServiceFactoryBase factory;
 
-  @override
   Uri get uri => Uri.parse("api/v1/userSecret");
-  @override
   String get serviceName => "UserSecret";
 
-  @override
   Map toJson(UserSecret object) => object.toJson();
-  @override
   UserSecret fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return UserSecretBase.fromJson(m);
-    return UserSecret.json(m);
+    return new UserSecret.json(m);
   }
 
-  @override
   Future<List<UserSecret>> findSecretByUserId(
       {required List keys,
       bool useFactory = false,
@@ -26,12 +21,11 @@ class UserSecretServiceBase extends HttpClientService<UserSecret>
         keys: keys, useFactory: useFactory, aclContext: aclContext);
   }
 
-  @override
   Future<String> getSecret(String id, String name,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/userSecret" "/" "getSecret");
+      var uri = Uri.parse("api/v1/userSecret" + "/" + "getSecret");
       var params = {};
       params["id"] = id;
       params["name"] = name;

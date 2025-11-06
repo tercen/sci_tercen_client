@@ -5,6 +5,7 @@ import "dart:typed_data";
 import "dart:convert";
 import "package:async/async.dart" as async;
 import "package:sci_http_client/http_client.dart";
+import "package:sci_http_client/error.dart";
 import "package:sci_base/sci_client_base.dart";
 import "package:sci_base/sci_service.dart" as service;
 import "sci_client.dart";

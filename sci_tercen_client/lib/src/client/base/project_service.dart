@@ -4,20 +4,15 @@ class ProjectServiceBase extends HttpClientService<Project>
     implements api.ProjectService {
   late ServiceFactoryBase factory;
 
-  @override
   Uri get uri => Uri.parse("api/v1/project");
-  @override
   String get serviceName => "Project";
 
-  @override
   Map toJson(Project object) => object.toJson();
-  @override
   Project fromJson(Map m, {bool useFactory = true}) {
     if (useFactory) return ProjectBase.fromJson(m);
-    return Project.json(m);
+    return new Project.json(m);
   }
 
-  @override
   Future<List<Project>> findByIsPublicAndLastModifiedDate(
       {startKey,
       endKey,
@@ -36,7 +31,6 @@ class ProjectServiceBase extends HttpClientService<Project>
         aclContext: aclContext);
   }
 
-  @override
   Future<List<Project>> findByTeamAndIsPublicAndLastModifiedDate(
       {startKey,
       endKey,
@@ -55,12 +49,11 @@ class ProjectServiceBase extends HttpClientService<Project>
         aclContext: aclContext);
   }
 
-  @override
   Future<Profiles> profiles(String projectId,
       {service.AclContext? aclContext}) async {
-    Profiles answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/project" "/" "profiles");
+      var uri = Uri.parse("api/v1/project" + "/" + "profiles");
       var params = {};
       params["projectId"] = projectId;
       var response = await client.post(getServiceUri(uri),
@@ -79,15 +72,14 @@ class ProjectServiceBase extends HttpClientService<Project>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as Profiles;
   }
 
-  @override
   Future<ResourceSummary> resourceSummary(String projectId,
       {service.AclContext? aclContext}) async {
-    ResourceSummary answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/project" "/" "resourceSummary");
+      var uri = Uri.parse("api/v1/project" + "/" + "resourceSummary");
       var params = {};
       params["projectId"] = projectId;
       var response = await client.post(getServiceUri(uri),
@@ -106,15 +98,14 @@ class ProjectServiceBase extends HttpClientService<Project>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as ResourceSummary;
   }
 
-  @override
   Future<List<Project>> explore(String category, int start, int limit,
       {service.AclContext? aclContext}) async {
-    List<Project> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/project" "/" "explore");
+      var uri = Uri.parse("api/v1/project" + "/" + "explore");
       var params = {};
       params["category"] = category;
       params["start"] = start;
@@ -136,15 +127,14 @@ class ProjectServiceBase extends HttpClientService<Project>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<Project>;
   }
 
-  @override
   Future<List<Project>> recentProjects(String userId,
       {service.AclContext? aclContext}) async {
-    List<Project> answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/project" "/" "recentProjects");
+      var uri = Uri.parse("api/v1/project" + "/" + "recentProjects");
       var params = {};
       params["userId"] = userId;
       var response = await client.post(getServiceUri(uri),
@@ -164,15 +154,14 @@ class ProjectServiceBase extends HttpClientService<Project>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as List<Project>;
   }
 
-  @override
   Future<Project> cloneProject(String projectId, Project project,
       {service.AclContext? aclContext}) async {
-    Project answer;
+    var answer;
     try {
-      var uri = Uri.parse("api/v1/project" "/" "cloneProject");
+      var uri = Uri.parse("api/v1/project" + "/" + "cloneProject");
       var params = {};
       params["projectId"] = projectId;
       params["project"] = project.toJson();
@@ -192,6 +181,6 @@ class ProjectServiceBase extends HttpClientService<Project>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer;
+    return answer as Project;
   }
 }

@@ -3,21 +3,25 @@ part of sci_model_base;
 class FileSummaryBase extends SciObject {
   static const List<String> PROPERTY_NAMES = [
     Vocabulary.n_DP,
-    Vocabulary.size_DP
+    Vocabulary.size_DP,
+    Vocabulary.storageSize_DP
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
   int _n;
   int _size;
+  double _storageSize;
 
   FileSummaryBase()
       : _n = 0,
-        _size = 0;
+        _size = 0,
+        _storageSize = 0.0;
   FileSummaryBase.json(Map m)
       : _n = base.defaultValue(
             m[Vocabulary.n_DP] as int?, base.int_DefaultFactory),
         _size = base.defaultValue(
             m[Vocabulary.size_DP] as int?, base.int_DefaultFactory),
+        _storageSize = base.defaultDouble(m[Vocabulary.storageSize_DP] as num?),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.FileSummary_CLASS, m);
   }
@@ -61,6 +65,18 @@ class FileSummaryBase extends SciObject {
     }
   }
 
+  double get storageSize => _storageSize;
+
+  set storageSize(double $o) {
+    if ($o == _storageSize) return;
+    var $old = _storageSize;
+    _storageSize = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.storageSize_DP, $old, _storageSize));
+    }
+  }
+
   @override
   dynamic get(String $name) {
     switch ($name) {
@@ -68,6 +84,8 @@ class FileSummaryBase extends SciObject {
         return n;
       case Vocabulary.size_DP:
         return size;
+      case Vocabulary.storageSize_DP:
+        return storageSize;
       default:
         return super.get($name);
     }
@@ -81,6 +99,9 @@ class FileSummaryBase extends SciObject {
         return;
       case Vocabulary.size_DP:
         size = $value as int;
+        return;
+      case Vocabulary.storageSize_DP:
+        storageSize = $value as double;
         return;
       default:
         super.set($name, $value);
@@ -106,6 +127,7 @@ class FileSummaryBase extends SciObject {
     }
     m[Vocabulary.n_DP] = n;
     m[Vocabulary.size_DP] = size;
+    m[Vocabulary.storageSize_DP] = storageSize;
     return m;
   }
 }

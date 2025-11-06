@@ -6,7 +6,8 @@ class SchemaBase extends ProjectDocument {
     Vocabulary.columns_OP,
     Vocabulary.dataDirectory_DP,
     Vocabulary.relation_OP,
-    Vocabulary.size_DP
+    Vocabulary.size_DP,
+    Vocabulary.storageSize_DP
   ];
   static const List<String> REF_PROPERTY_NAMES = [Vocabulary.relation_OP];
   static const List<base.RefId> REF_IDS = [
@@ -17,11 +18,13 @@ class SchemaBase extends ProjectDocument {
   String _dataDirectory;
   Relation _relation;
   int _size;
+  double _storageSize;
 
   SchemaBase()
       : _nRows = 0,
         _dataDirectory = "",
         _size = 0,
+        _storageSize = 0.0,
         columns = base.ListChanged<ColumnSchema>(),
         _relation = Relation() {
     columns.parent = this;
@@ -36,6 +39,7 @@ class SchemaBase extends ProjectDocument {
             base.String_DefaultFactory),
         _size = base.defaultValue(
             m[Vocabulary.size_DP] as int?, base.int_DefaultFactory),
+        _storageSize = base.defaultDouble(m[Vocabulary.storageSize_DP] as num?),
         columns = base.ListChanged<ColumnSchema>.from(
             m[Vocabulary.columns_OP] as List?, ColumnSchemaBase.createFromJson),
         _relation =
@@ -103,6 +107,18 @@ class SchemaBase extends ProjectDocument {
     }
   }
 
+  double get storageSize => _storageSize;
+
+  set storageSize(double $o) {
+    if ($o == _storageSize) return;
+    var $old = _storageSize;
+    _storageSize = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.storageSize_DP, $old, _storageSize));
+    }
+  }
+
   Relation get relation => _relation;
 
   set relation(Relation $o) {
@@ -130,6 +146,8 @@ class SchemaBase extends ProjectDocument {
         return relation;
       case Vocabulary.size_DP:
         return size;
+      case Vocabulary.storageSize_DP:
+        return storageSize;
       default:
         return super.get($name);
     }
@@ -146,6 +164,9 @@ class SchemaBase extends ProjectDocument {
         return;
       case Vocabulary.size_DP:
         size = $value as int;
+        return;
+      case Vocabulary.storageSize_DP:
+        storageSize = $value as double;
         return;
       case Vocabulary.columns_OP:
         columns.setValues($value as Iterable<ColumnSchema>);
@@ -180,6 +201,7 @@ class SchemaBase extends ProjectDocument {
     m[Vocabulary.dataDirectory_DP] = dataDirectory;
     m[Vocabulary.relation_OP] = relation.toJson();
     m[Vocabulary.size_DP] = size;
+    m[Vocabulary.storageSize_DP] = storageSize;
     return m;
   }
 }
