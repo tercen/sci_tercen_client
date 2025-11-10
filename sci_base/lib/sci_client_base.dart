@@ -249,7 +249,9 @@ abstract class HttpClientService<T extends base.PersistentBase>
 
   Map<String, String>? getHeaderForAclContext(
       Map<String, String>? headers, AclContext? aclContext) {
-    Map<String, String>? headers;
+    // Local variable overshadows parameter leading to
+    // content-type header is required error during upload
+    //Map<String, String>? headers;
     if (aclContext is AclTokenContextImpl) {
       headers ??= <String, String>{};
       headers['authorization'] = aclContext.authorization;
