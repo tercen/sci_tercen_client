@@ -1,9 +1,8 @@
 /// Advanced example demonstrating the difference between useFactory=true and useFactory=false
 /// and more complex query patterns.
-
 import 'package:sci_tercen_client/sci_service_factory_web.dart';
 import 'package:sci_tercen_client/sci_client.dart';
-import 'package:sci_tercen_client/sci_client_service_factory.dart' as tercen;
+import 'package:sci_tercen_client/src/sci_client_extensions.dart';
 
 void main() async {
   // Initialize service factory
@@ -28,7 +27,7 @@ void main() async {
 
 /// Demonstrate the difference between useFactory=true and useFactory=false
 Future<void> demonstrateUseFactory() async {
-  var projectDocService = tercen.ServiceFactory().projectDocumentService;
+  var projectDocService = ServiceFactory().projectDocumentService;
   var projectId = 'your-project-id';
 
   print('--- With useFactory=false (abstract types) ---');
@@ -73,7 +72,7 @@ Future<void> demonstrateUseFactory() async {
 
 /// Complex multi-field queries
 Future<void> complexQueries() async {
-  var projectService = tercen.ServiceFactory().projectService;
+  var projectService = ServiceFactory().projectService;
 
   // Find projects by team, public status, and date range
   print('Finding team projects (public only, recent)...');
@@ -99,7 +98,7 @@ Future<void> complexQueries() async {
 
 /// Stream processing with custom filters and transformations
 Future<void> streamProcessing() async {
-  var projectDocService = tercen.ServiceFactory().projectDocumentService;
+  var projectDocService = ServiceFactory().projectDocumentService;
   var projectId = 'your-project-id';
 
   print('Finding large files...');
@@ -122,7 +121,7 @@ Future<void> streamProcessing() async {
 
 /// Pagination example
 Future<void> paginationExample() async {
-  var userService = tercen.ServiceFactory().userService;
+  var userService = ServiceFactory().userService;
 
   print('Paginating through users...');
 

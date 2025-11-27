@@ -6,7 +6,7 @@
 
 import 'package:sci_tercen_client/sci_service_factory_web.dart';
 import 'package:sci_tercen_client/sci_client.dart';
-import 'package:sci_tercen_client/sci_client_service_factory.dart' as tercen;
+import 'package:sci_tercen_client/src/sci_client_extensions.dart';
 
 void main() async {
   // Initialize the service factory for web app
@@ -35,7 +35,7 @@ void main() async {
 
 /// Find recent projects using the stream extension
 Future<void> findRecentProjects() async {
-  var projectService = tercen.ServiceFactory().projectService;
+  var projectService = ServiceFactory().projectService;
 
   // Using stream extension to find public projects ordered by last modified date
   var count = 0;
@@ -56,7 +56,7 @@ Future<void> findRecentProjects() async {
 
 /// Find files in a specific project
 Future<void> findProjectFiles(String projectId) async {
-  var projectDocService = tercen.ServiceFactory().projectDocumentService;
+  var projectDocService = ServiceFactory().projectDocumentService;
 
   // Find files by project ID and last modified date
   var count = 0;
@@ -80,7 +80,7 @@ Future<void> findProjectFiles(String projectId) async {
 
 /// Find public projects by team
 Future<void> findPublicProjects() async {
-  var projectService = tercen.ServiceFactory().projectService;
+  var projectService = ServiceFactory().projectService;
 
   var count = 0;
   await for (var project in projectService.findByIsPublicAndLastModifiedDateStream(
@@ -98,7 +98,7 @@ Future<void> findPublicProjects() async {
 
 /// Find operators by owner
 Future<void> findOperatorsByOwner(String ownerId) async {
-  var documentService = tercen.ServiceFactory().documentService;
+  var documentService = ServiceFactory().documentService;
 
   var count = 0;
   await for (var doc in documentService.findOperatorByOwnerLastModifiedDateStream(

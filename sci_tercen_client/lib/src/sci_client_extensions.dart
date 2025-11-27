@@ -1,6 +1,7 @@
 import 'package:sci_tercen_client/sci_client.dart';
 import 'package:sci_base/sci_service.dart' as service;
 
+
 // PatchRecordService extensions
 extension PatchRecordServiceExt on PatchRecordService {
   /// Finds patch records by channel ID and sequence number.
