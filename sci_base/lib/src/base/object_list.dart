@@ -26,8 +26,31 @@ class ListChanged<T extends EventSource> extends ListBase<T> with EventSource {
   //     .map((event) => event.toListModelEvent())
   //     .cast<ListModelEvent<T>>();
 
+  // dynamic get(String index) {
+  //   if (index.startsWith('@')) {
+  //     var i = int.parse(index.substring(1));
+  //     return _list[i];
+  //   } else {
+  //     throw 'ListChanged : bad index string format';
+  //   }
+  // }
+
   dynamic get(String index) {
-    if (index.startsWith('@')) {
+    if (index.startsWith('@[')) {
+      // Parse @[property='value'] syntax
+      var match = RegExp(r"@\[(\w+)='([^']+)'\]").firstMatch(index);
+      if (match == null) {
+        throw 'ListChanged : bad filter format, expected @[property=\'value\']';
+      }
+      var property = match.group(1)!;
+      var value = match.group(2)!;
+
+      // Find first element where element[property] == value
+      return _list.firstWhere(
+          (element) => element is Base && element.get(property) == value,
+          orElse: () =>
+              throw 'ListChanged : no element found with $property=$value');
+    } else if (index.startsWith('@')) {
       var i = int.parse(index.substring(1));
       return _list[i];
     } else {

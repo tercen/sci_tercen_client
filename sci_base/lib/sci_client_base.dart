@@ -197,7 +197,7 @@ abstract class HttpClientService<T extends base.PersistentBase>
 
     _controller.add(CreatedServiceEvent(answer));
 
-    return answer!;
+    return answer;
   }
 
   void sendCreatedEvent(T object) {
@@ -244,7 +244,7 @@ abstract class HttpClientService<T extends base.PersistentBase>
       logger.severe('getNoneMatchRev', e, st);
       onError(e, st);
     }
-    return answer!;
+    return answer;
   }
 
   Map<String, String>? getHeaderForAclContext(
@@ -282,7 +282,7 @@ abstract class HttpClientService<T extends base.PersistentBase>
       logger.severe('get', e, st);
       onError(e, st);
     }
-    return answer!;
+    return answer;
   }
 
   @override
@@ -391,7 +391,7 @@ abstract class HttpClientService<T extends base.PersistentBase>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer!;
+    return answer;
   }
 
   @override
@@ -420,7 +420,7 @@ abstract class HttpClientService<T extends base.PersistentBase>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer!;
+    return answer;
   }
 
   static bool _identicalKeys(key1, key2) {
