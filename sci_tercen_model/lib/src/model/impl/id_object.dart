@@ -11,7 +11,7 @@ class IdObject extends IdObjectBase {
     if (baseParent is base.Base) {
       return super.propertyName;
     } else if (baseParent is List) {
-      return '@[id="$id"]';
+      return "@[id='$id']";
     }
     return null;
   }
