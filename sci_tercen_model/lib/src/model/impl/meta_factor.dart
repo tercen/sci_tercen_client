@@ -11,7 +11,7 @@ class MetaFactor extends MetaFactorBase {
     if (baseParent is base.Base) {
       return super.propertyName;
     } else if (baseParent is List) {
-      return "@[name='$name']";
+      return "@[name=$name]";
     }
     return null;
   }

@@ -37,10 +37,10 @@ class ListChanged<T extends EventSource> extends ListBase<T> with EventSource {
 
   dynamic get(String index) {
     if (index.startsWith('@[')) {
-      // Parse @[property='value'] syntax
-      var match = RegExp(r"@\[(\w+)='([^']+)'\]").firstMatch(index);
+      // Parse @[property=value] syntax
+      var match = RegExp(r"@\[(\w+)=([^\]]+)\]").firstMatch(index);
       if (match == null) {
-        throw 'ListChanged : bad filter format, expected @[property=\'value\']';
+        throw 'ListChanged : bad filter format, expected @[property=value]';
       }
       var property = match.group(1)!;
       var value = match.group(2)!;
