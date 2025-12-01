@@ -1,6 +1,6 @@
 name: sci_http_client
 description: Tercen http client library
-version: 1.4.19
+version: 1.4.20
 
 environment:
   sdk: ^3.3.0
@@ -14,7 +14,7 @@ dependencies:
   tson:
     git:
       url: https://github.com/tercen/dtson
-      ref: 1.4.1
+      ref: 1.5.1
   logging:
 
 dev_dependencies:
