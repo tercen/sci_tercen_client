@@ -64,13 +64,13 @@ abstract class Base<T> extends EventSource implements ObjectProperties<T> {
           .getPropertyNames()
           .firstWhere((element) => baseParent.get(element) == this);
     } else if (baseParent is List) {
-      return '@${baseParent.indexOf(this)}';
+      return '[${baseParent.indexOf(this)}]';
     }
     return null;
   }
 
   String propertyPathFromRoot(String propertyName) =>
-      collectPathToRoot([propertyName]).reversed.join('/');
+      buildJsonPath(collectPathToRoot([propertyName]));
 
   List<String> collectPathToRoot(List<String> path) {
     dynamic base = this;
@@ -94,8 +94,27 @@ abstract class Base<T> extends EventSource implements ObjectProperties<T> {
     return path;
   }
 
+  String buildJsonPath(List<String> segments) {
+    if (segments.isEmpty) return r'$';
+
+    var buffer = StringBuffer(r'$');
+    for (var segment in segments.reversed) {
+      if (segment.isEmpty) continue;
+
+      if (segment.startsWith('[')) {
+        // Array index: [0], [1], etc.
+        buffer.write(segment);
+      } else {
+        // Property name
+        buffer.write('.');
+        buffer.write(segment);
+      }
+    }
+    return buffer.toString();
+  }
+
   String get pathFromRoot {
-    return (collectPathToRoot([])).reversed.join('/');
+    return buildJsonPath(collectPathToRoot([]));
   }
 
   Iterable<String> getPropertyNames() => [];

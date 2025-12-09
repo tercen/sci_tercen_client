@@ -36,8 +36,22 @@ class ListChanged<T extends EventSource> extends ListBase<T> with EventSource {
   // }
 
   dynamic get(String index) {
-    if (index.startsWith('@[')) {
-      // Parse @[property=value] syntax
+    if (index.startsWith('[?@.')) {
+      // Parse JSONPath filter: [?@.property=='value']
+      var match = RegExp(r'''\[\?@\.(\w+)==['"]([^'"]+)['"]\]''').firstMatch(index);
+      if (match == null) {
+        throw 'ListChanged : bad JSONPath filter format, expected [?@.property==\'value\']';
+      }
+      var property = match.group(1)!;
+      var value = match.group(2)!;
+
+      // Find first element where element[property] == value
+      return _list.firstWhere(
+          (element) => element is Base && element.get(property) == value,
+          orElse: () =>
+              throw 'ListChanged : no element found with $property==$value');
+    } else if (index.startsWith('@[')) {
+      // Parse legacy XPath filter: @[property=value]
       var match = RegExp(r"@\[(\w+)=([^\]]+)\]").firstMatch(index);
       if (match == null) {
         throw 'ListChanged : bad filter format, expected @[property=value]';
@@ -50,11 +64,16 @@ class ListChanged<T extends EventSource> extends ListBase<T> with EventSource {
           (element) => element is Base && element.get(property) == value,
           orElse: () =>
               throw 'ListChanged : no element found with $property=$value');
+    } else if (index.startsWith('[') && index.endsWith(']')) {
+      // Parse JSONPath array index: [0], [1], etc.
+      var i = int.parse(index.substring(1, index.length - 1));
+      return _list[i];
     } else if (index.startsWith('@')) {
+      // Parse legacy XPath array index: @0, @1, etc.
       var i = int.parse(index.substring(1));
       return _list[i];
     } else {
-      throw 'ListChanged : bad index string format';
+      throw 'ListChanged : bad index string format: $index';
     }
   }
 
