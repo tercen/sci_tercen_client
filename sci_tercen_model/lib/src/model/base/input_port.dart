@@ -11,8 +11,6 @@ class InputPortBase extends Port {
   }
 
   static InputPort createFromJson(Map m) => InputPortBase.fromJson(m);
-  static InputPort _createFromJson(Map? m) =>
-      m == null ? InputPort() : InputPortBase.fromJson(m);
   static InputPort fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

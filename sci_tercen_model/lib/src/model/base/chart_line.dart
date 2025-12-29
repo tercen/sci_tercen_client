@@ -11,8 +11,6 @@ class ChartLineBase extends ChartSize {
   }
 
   static ChartLine createFromJson(Map m) => ChartLineBase.fromJson(m);
-  static ChartLine _createFromJson(Map? m) =>
-      m == null ? ChartLine() : ChartLineBase.fromJson(m);
   static ChartLine fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

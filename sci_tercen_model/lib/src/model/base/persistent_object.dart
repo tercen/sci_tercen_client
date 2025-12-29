@@ -24,8 +24,6 @@ class PersistentObjectBase extends IdObject implements base.PersistentBase {
 
   static PersistentObject createFromJson(Map m) =>
       PersistentObjectBase.fromJson(m);
-  static PersistentObject _createFromJson(Map? m) =>
-      m == null ? PersistentObject() : PersistentObjectBase.fromJson(m);
   static PersistentObject fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

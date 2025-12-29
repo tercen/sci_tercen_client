@@ -12,6 +12,7 @@ import "sci_client.dart";
 import "sci_client_service_factory.dart" as api;
 import "package:sci_tercen_model/sci_model_base.dart";
 
+part 'src/client/base/cran_library_service.dart';
 part 'src/client/base/worker_service.dart';
 part 'src/client/base/garbage_collector_service.dart';
 part 'src/client/base/file_service.dart';
@@ -27,8 +28,8 @@ part 'src/client/base/patch_record_service.dart';
 part 'src/client/base/event_service.dart';
 part 'src/client/base/workflow_service.dart';
 part 'src/client/base/user_service.dart';
+part 'src/client/base/query_service.dart';
 part 'src/client/base/project_document_service.dart';
-part 'src/client/base/cran_library_service.dart';
 part 'src/client/base/team_service.dart';
 part 'src/client/base/project_service.dart';
 part 'src/client/base/document_service.dart';

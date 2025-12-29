@@ -15,8 +15,6 @@ class DockerOperatorBase extends GitOperator {
   }
 
   static DockerOperator createFromJson(Map m) => DockerOperatorBase.fromJson(m);
-  static DockerOperator _createFromJson(Map? m) =>
-      m == null ? DockerOperator() : DockerOperatorBase.fromJson(m);
   static DockerOperator fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

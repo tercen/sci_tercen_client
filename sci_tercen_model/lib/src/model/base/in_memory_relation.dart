@@ -11,8 +11,9 @@ class InMemoryRelationBase extends Relation {
   }
 
   InMemoryRelationBase.json(Map m)
-      : _inMemoryTable =
-            TableBase._createFromJson(m[Vocabulary.inMemoryTable_OP] as Map?),
+      : _inMemoryTable = (m[Vocabulary.inMemoryTable_OP] as Map?) == null
+            ? Table()
+            : TableBase.fromJson(m[Vocabulary.inMemoryTable_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.InMemoryRelation_CLASS, m);
     _inMemoryTable.parent = this;
@@ -20,8 +21,6 @@ class InMemoryRelationBase extends Relation {
 
   static InMemoryRelation createFromJson(Map m) =>
       InMemoryRelationBase.fromJson(m);
-  static InMemoryRelation _createFromJson(Map? m) =>
-      m == null ? InMemoryRelation() : InMemoryRelationBase.fromJson(m);
   static InMemoryRelation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

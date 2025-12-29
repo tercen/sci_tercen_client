@@ -23,8 +23,6 @@ class PairBase extends SciObject {
   }
 
   static Pair createFromJson(Map m) => PairBase.fromJson(m);
-  static Pair _createFromJson(Map? m) =>
-      m == null ? Pair() : PairBase.fromJson(m);
   static Pair fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

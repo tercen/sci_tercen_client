@@ -45,12 +45,24 @@ class XYAxisBase extends SciObject {
   XYAxisBase.json(Map m)
       : _taskId = base.defaultValue(
             m[Vocabulary.taskId_DP] as String?, base.String_DefaultFactory),
-        _chart = ChartBase._createFromJson(m[Vocabulary.chart_OP] as Map?),
-        _colors = ColorsBase._createFromJson(m[Vocabulary.colors_OP] as Map?),
-        _errors = ErrorsBase._createFromJson(m[Vocabulary.errors_OP] as Map?),
-        _labels = LabelsBase._createFromJson(m[Vocabulary.labels_OP] as Map?),
-        _xAxis = AxisBase._createFromJson(m[Vocabulary.xAxis_OP] as Map?),
-        _yAxis = AxisBase._createFromJson(m[Vocabulary.yAxis_OP] as Map?),
+        _chart = (m[Vocabulary.chart_OP] as Map?) == null
+            ? Chart()
+            : ChartBase.fromJson(m[Vocabulary.chart_OP] as Map),
+        _colors = (m[Vocabulary.colors_OP] as Map?) == null
+            ? Colors()
+            : ColorsBase.fromJson(m[Vocabulary.colors_OP] as Map),
+        _errors = (m[Vocabulary.errors_OP] as Map?) == null
+            ? Errors()
+            : ErrorsBase.fromJson(m[Vocabulary.errors_OP] as Map),
+        _labels = (m[Vocabulary.labels_OP] as Map?) == null
+            ? Labels()
+            : LabelsBase.fromJson(m[Vocabulary.labels_OP] as Map),
+        _xAxis = (m[Vocabulary.xAxis_OP] as Map?) == null
+            ? Axis()
+            : AxisBase.fromJson(m[Vocabulary.xAxis_OP] as Map),
+        _yAxis = (m[Vocabulary.yAxis_OP] as Map?) == null
+            ? Axis()
+            : AxisBase.fromJson(m[Vocabulary.yAxis_OP] as Map),
         preprocessors = base.ListChanged<PreProcessor>.from(
             m[Vocabulary.preprocessors_OP] as List?,
             PreProcessorBase.createFromJson),
@@ -66,8 +78,6 @@ class XYAxisBase extends SciObject {
   }
 
   static XYAxis createFromJson(Map m) => XYAxisBase.fromJson(m);
-  static XYAxis _createFromJson(Map? m) =>
-      m == null ? XYAxis() : XYAxisBase.fromJson(m);
   static XYAxis fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

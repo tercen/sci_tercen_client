@@ -43,8 +43,6 @@ class CSVParserParamBase extends SciObject {
   }
 
   static CSVParserParam createFromJson(Map m) => CSVParserParamBase.fromJson(m);
-  static CSVParserParam _createFromJson(Map? m) =>
-      m == null ? CSVParserParam() : CSVParserParamBase.fromJson(m);
   static CSVParserParam fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

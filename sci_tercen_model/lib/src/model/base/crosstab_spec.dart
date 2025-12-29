@@ -30,8 +30,6 @@ class CrosstabSpecBase extends OperatorInputSpec {
   }
 
   static CrosstabSpec createFromJson(Map m) => CrosstabSpecBase.fromJson(m);
-  static CrosstabSpec _createFromJson(Map? m) =>
-      m == null ? CrosstabSpec() : CrosstabSpecBase.fromJson(m);
   static CrosstabSpec fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

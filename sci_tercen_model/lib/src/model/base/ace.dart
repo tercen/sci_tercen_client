@@ -29,7 +29,6 @@ class AceBase extends SciObject {
   }
 
   static Ace createFromJson(Map m) => AceBase.fromJson(m);
-  static Ace _createFromJson(Map? m) => m == null ? Ace() : AceBase.fromJson(m);
   static Ace fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

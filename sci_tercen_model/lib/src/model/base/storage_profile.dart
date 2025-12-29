@@ -15,8 +15,6 @@ class StorageProfileBase extends Profile {
   }
 
   static StorageProfile createFromJson(Map m) => StorageProfileBase.fromJson(m);
-  static StorageProfile _createFromJson(Map? m) =>
-      m == null ? StorageProfile() : StorageProfileBase.fromJson(m);
   static StorageProfile fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

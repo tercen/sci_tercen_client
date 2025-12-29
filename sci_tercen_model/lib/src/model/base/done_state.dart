@@ -11,8 +11,6 @@ class DoneStateBase extends State {
   }
 
   static DoneState createFromJson(Map m) => DoneStateBase.fromJson(m);
-  static DoneState _createFromJson(Map? m) =>
-      m == null ? DoneState() : DoneStateBase.fromJson(m);
   static DoneState fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

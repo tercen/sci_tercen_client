@@ -15,8 +15,6 @@ class SimpleRelationBase extends Relation {
   }
 
   static SimpleRelation createFromJson(Map m) => SimpleRelationBase.fromJson(m);
-  static SimpleRelation _createFromJson(Map? m) =>
-      m == null ? SimpleRelation() : SimpleRelationBase.fromJson(m);
   static SimpleRelation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

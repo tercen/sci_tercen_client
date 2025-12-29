@@ -57,8 +57,6 @@ class ExportTableTaskBase extends ProjectTask {
 
   static ExportTableTask createFromJson(Map m) =>
       ExportTableTaskBase.fromJson(m);
-  static ExportTableTask _createFromJson(Map? m) =>
-      m == null ? ExportTableTask() : ExportTableTaskBase.fromJson(m);
   static ExportTableTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

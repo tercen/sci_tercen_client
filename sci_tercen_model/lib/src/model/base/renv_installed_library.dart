@@ -16,8 +16,6 @@ class RenvInstalledLibraryBase extends RLibrary {
 
   static RenvInstalledLibrary createFromJson(Map m) =>
       RenvInstalledLibraryBase.fromJson(m);
-  static RenvInstalledLibrary _createFromJson(Map? m) =>
-      m == null ? RenvInstalledLibrary() : RenvInstalledLibraryBase.fromJson(m);
   static RenvInstalledLibrary fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -30,16 +30,15 @@ class MappingFilterBase extends base.Base {
             base.String_DefaultFactory),
         _isRequired = base.defaultValue(
             m[Vocabulary.isRequired_DP] as bool?, base.bool_DefaultFactory),
-        _namedFilter = NamedFilterBase._createFromJson(
-            m[Vocabulary.namedFilter_OP] as Map?),
+        _namedFilter = (m[Vocabulary.namedFilter_OP] as Map?) == null
+            ? NamedFilter()
+            : NamedFilterBase.fromJson(m[Vocabulary.namedFilter_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.MappingFilter_CLASS, m);
     _namedFilter.parent = this;
   }
 
   static MappingFilter createFromJson(Map m) => MappingFilterBase.fromJson(m);
-  static MappingFilter _createFromJson(Map? m) =>
-      m == null ? MappingFilter() : MappingFilterBase.fromJson(m);
   static MappingFilter fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

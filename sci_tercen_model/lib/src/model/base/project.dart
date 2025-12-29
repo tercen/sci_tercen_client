@@ -11,8 +11,6 @@ class ProjectBase extends Document {
   }
 
   static Project createFromJson(Map m) => ProjectBase.fromJson(m);
-  static Project _createFromJson(Map? m) =>
-      m == null ? Project() : ProjectBase.fromJson(m);
   static Project fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

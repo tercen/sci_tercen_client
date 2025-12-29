@@ -11,8 +11,6 @@ class OperatorModelBase extends SciObject {
   }
 
   static OperatorModel createFromJson(Map m) => OperatorModelBase.fromJson(m);
-  static OperatorModel _createFromJson(Map? m) =>
-      m == null ? OperatorModel() : OperatorModelBase.fromJson(m);
   static OperatorModel fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

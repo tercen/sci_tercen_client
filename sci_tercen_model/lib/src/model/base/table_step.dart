@@ -11,16 +11,15 @@ class TableStepBase extends RelationStep {
   }
 
   TableStepBase.json(Map m)
-      : _model =
-            TableStepModelBase._createFromJson(m[Vocabulary.model_OP] as Map?),
+      : _model = (m[Vocabulary.model_OP] as Map?) == null
+            ? TableStepModel()
+            : TableStepModelBase.fromJson(m[Vocabulary.model_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.TableStep_CLASS, m);
     _model.parent = this;
   }
 
   static TableStep createFromJson(Map m) => TableStepBase.fromJson(m);
-  static TableStep _createFromJson(Map? m) =>
-      m == null ? TableStep() : TableStepBase.fromJson(m);
   static TableStep fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

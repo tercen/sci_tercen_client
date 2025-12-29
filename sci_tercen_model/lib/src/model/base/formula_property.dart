@@ -12,8 +12,6 @@ class FormulaPropertyBase extends StringProperty {
 
   static FormulaProperty createFromJson(Map m) =>
       FormulaPropertyBase.fromJson(m);
-  static FormulaProperty _createFromJson(Map? m) =>
-      m == null ? FormulaProperty() : FormulaPropertyBase.fromJson(m);
   static FormulaProperty fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

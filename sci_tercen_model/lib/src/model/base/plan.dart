@@ -43,8 +43,6 @@ class PlanBase extends SciObject {
   }
 
   static Plan createFromJson(Map m) => PlanBase.fromJson(m);
-  static Plan _createFromJson(Map? m) =>
-      m == null ? Plan() : PlanBase.fromJson(m);
   static Plan fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -60,16 +60,22 @@ class DocumentBase extends PersistentObject {
             m[Vocabulary.version_DP] as String?, base.String_DefaultFactory),
         _isPublic = base.defaultValue(
             m[Vocabulary.isPublic_DP] as bool?, base.bool_DefaultFactory),
-        _acl = AclBase._createFromJson(m[Vocabulary.acl_OP] as Map?),
-        _createdDate =
-            DateBase._createFromJson(m[Vocabulary.createdDate_OP] as Map?),
-        _lastModifiedDate =
-            DateBase._createFromJson(m[Vocabulary.lastModifiedDate_OP] as Map?),
+        _acl = (m[Vocabulary.acl_OP] as Map?) == null
+            ? Acl()
+            : AclBase.fromJson(m[Vocabulary.acl_OP] as Map),
+        _createdDate = (m[Vocabulary.createdDate_OP] as Map?) == null
+            ? Date()
+            : DateBase.fromJson(m[Vocabulary.createdDate_OP] as Map),
+        _lastModifiedDate = (m[Vocabulary.lastModifiedDate_OP] as Map?) == null
+            ? Date()
+            : DateBase.fromJson(m[Vocabulary.lastModifiedDate_OP] as Map),
         urls = base.ListChanged<Url>.from(
             m[Vocabulary.urls_OP] as List?, UrlBase.createFromJson),
         meta = base.ListChanged<Pair>.from(
             m[Vocabulary.meta_OP] as List?, PairBase.createFromJson),
-        _url = UrlBase._createFromJson(m[Vocabulary.url_OP] as Map?),
+        _url = (m[Vocabulary.url_OP] as Map?) == null
+            ? Url()
+            : UrlBase.fromJson(m[Vocabulary.url_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Document_CLASS, m);
     tags.parent = this;
@@ -82,8 +88,6 @@ class DocumentBase extends PersistentObject {
   }
 
   static Document createFromJson(Map m) => DocumentBase.fromJson(m);
-  static Document _createFromJson(Map? m) =>
-      m == null ? Document() : DocumentBase.fromJson(m);
   static Document fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -12,8 +12,6 @@ class OperatorOutputSpecBase extends base.Base {
 
   static OperatorOutputSpec createFromJson(Map m) =>
       OperatorOutputSpecBase.fromJson(m);
-  static OperatorOutputSpec _createFromJson(Map? m) =>
-      m == null ? OperatorOutputSpec() : OperatorOutputSpecBase.fromJson(m);
   static OperatorOutputSpec fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

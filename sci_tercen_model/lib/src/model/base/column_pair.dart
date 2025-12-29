@@ -29,8 +29,6 @@ class ColumnPairBase extends SciObject {
   }
 
   static ColumnPair createFromJson(Map m) => ColumnPairBase.fromJson(m);
-  static ColumnPair _createFromJson(Map? m) =>
-      m == null ? ColumnPair() : ColumnPairBase.fromJson(m);
   static ColumnPair fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

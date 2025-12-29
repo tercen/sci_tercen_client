@@ -54,8 +54,6 @@ class PatchRecordsBase extends Event {
   }
 
   static PatchRecords createFromJson(Map m) => PatchRecordsBase.fromJson(m);
-  static PatchRecords _createFromJson(Map? m) =>
-      m == null ? PatchRecords() : PatchRecordsBase.fromJson(m);
   static PatchRecords fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

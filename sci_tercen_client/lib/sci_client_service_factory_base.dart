@@ -5,6 +5,7 @@ import 'package:sci_base/sci_service.dart' as api;
 abstract class ServiceFactoryBase {
   static ServiceFactoryBase? CURRENT;
   factory ServiceFactoryBase() => CURRENT!;
+  CranLibraryService get cranLibraryService;
   WorkerService get workerService;
   GarbageCollectorService get garbageCollectorService;
   FileService get fileService;
@@ -20,12 +21,30 @@ abstract class ServiceFactoryBase {
   EventService get eventService;
   WorkflowService get workflowService;
   UserService get userService;
+  QueryService get queryService;
   ProjectDocumentService get projectDocumentService;
-  CranLibraryService get cranLibraryService;
   TeamService get teamService;
   ProjectService get projectService;
   DocumentService get documentService;
   OperatorService get operatorService;
+}
+
+abstract class CranLibraryService implements api.Service<RLibrary> {
+  Stream<List<int>> packagesGz(String repoName, {api.AclContext? aclContext});
+  Stream<List<int>> packagesRds(String repoName, {api.AclContext? aclContext});
+  Stream<List<int>> packages(String repoName, {api.AclContext? aclContext});
+  Stream<List<int>> archive(String repoName, String package, String filename,
+      {api.AclContext? aclContext});
+  Stream<List<int>> package(String repoName, String package,
+      {api.AclContext? aclContext});
+  Future<List<RLibrary>> findByOwnerNameVersion(
+      {startKey,
+      endKey,
+      int limit = 200,
+      int skip = 0,
+      bool descending = true,
+      bool useFactory = false,
+      api.AclContext? aclContext});
 }
 
 abstract class WorkerService implements api.Service<Task> {
@@ -56,6 +75,14 @@ abstract class FileService implements api.Service<FileDocument> {
   Future<FileDocument> append(FileDocument file, Stream<List> bytes,
       {api.AclContext? aclContext});
   Stream<List<int>> download(String fileDocumentId,
+      {api.AclContext? aclContext});
+  Future<List<ZipEntry>> listZipContents(String fileDocumentId,
+      {api.AclContext? aclContext});
+  Stream<List<int>> downloadZipEntry(String fileDocumentId, String entryPath,
+      {api.AclContext? aclContext});
+  Future<bool> zipEntryExists(String fileDocumentId, String entryPath,
+      {api.AclContext? aclContext});
+  Future<ZipSummary> getZipSummary(String fileDocumentId,
       {api.AclContext? aclContext});
   Future<List<FileDocument>> findFileByWorkflowIdAndStepId(
       {startKey,
@@ -349,6 +376,31 @@ abstract class UserService implements api.Service<User> {
       api.AclContext? aclContext});
 }
 
+abstract class QueryService implements api.Service<PersistentObject> {
+  Stream<String> query(String jsonPath, int limit,
+      {api.AclContext? aclContext});
+  Future<List<PersistentObject>> findByOwnerAndKindAndDate(
+      {required List keys,
+      bool useFactory = false,
+      api.AclContext? aclContext});
+  Future<List<PersistentObject>> findByOwnerAndProjectAndKindAndDate(
+      {startKey,
+      endKey,
+      int limit = 200,
+      int skip = 0,
+      bool descending = true,
+      bool useFactory = false,
+      api.AclContext? aclContext});
+  Future<List<PersistentObject>> findByOwnerAndKind(
+      {required List keys,
+      bool useFactory = false,
+      api.AclContext? aclContext});
+  Future<List<PersistentObject>> findPublicByKind(
+      {required List keys,
+      bool useFactory = false,
+      api.AclContext? aclContext});
+}
+
 abstract class ProjectDocumentService implements api.Service<ProjectDocument> {
   Future<List<FolderDocument>> getParentFolders(String documentId,
       {api.AclContext? aclContext});
@@ -399,24 +451,6 @@ abstract class ProjectDocumentService implements api.Service<ProjectDocument> {
       bool useFactory = false,
       api.AclContext? aclContext});
   Future<List<ProjectDocument>> findFileByOwnerAndLastModifiedDate(
-      {startKey,
-      endKey,
-      int limit = 200,
-      int skip = 0,
-      bool descending = true,
-      bool useFactory = false,
-      api.AclContext? aclContext});
-}
-
-abstract class CranLibraryService implements api.Service<RLibrary> {
-  Stream<List<int>> packagesGz(String repoName, {api.AclContext? aclContext});
-  Stream<List<int>> packagesRds(String repoName, {api.AclContext? aclContext});
-  Stream<List<int>> packages(String repoName, {api.AclContext? aclContext});
-  Stream<List<int>> archive(String repoName, String package, String filename,
-      {api.AclContext? aclContext});
-  Stream<List<int>> package(String repoName, String package,
-      {api.AclContext? aclContext});
-  Future<List<RLibrary>> findByOwnerNameVersion(
       {startKey,
       endKey,
       int limit = 200,

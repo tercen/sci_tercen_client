@@ -11,8 +11,9 @@ class ReferenceRelationBase extends Relation {
   }
 
   ReferenceRelationBase.json(Map m)
-      : _relation =
-            RelationBase._createFromJson(m[Vocabulary.relation_OP] as Map?),
+      : _relation = (m[Vocabulary.relation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.relation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.ReferenceRelation_CLASS, m);
     _relation.parent = this;
@@ -20,8 +21,6 @@ class ReferenceRelationBase extends Relation {
 
   static ReferenceRelation createFromJson(Map m) =>
       ReferenceRelationBase.fromJson(m);
-  static ReferenceRelation _createFromJson(Map? m) =>
-      m == null ? ReferenceRelation() : ReferenceRelationBase.fromJson(m);
   static ReferenceRelation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

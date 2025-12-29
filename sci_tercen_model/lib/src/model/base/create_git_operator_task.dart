@@ -36,7 +36,9 @@ class CreateGitOperatorTaskBase extends Task {
             m[Vocabulary.gitToken_DP] as String?, base.String_DefaultFactory),
         _testRequired = base.defaultValue(
             m[Vocabulary.testRequired_DP] as bool?, base.bool_DefaultFactory),
-        _url = UrlBase._createFromJson(m[Vocabulary.url_OP] as Map?),
+        _url = (m[Vocabulary.url_OP] as Map?) == null
+            ? Url()
+            : UrlBase.fromJson(m[Vocabulary.url_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.CreateGitOperatorTask_CLASS, m);
     _url.parent = this;
@@ -44,9 +46,6 @@ class CreateGitOperatorTaskBase extends Task {
 
   static CreateGitOperatorTask createFromJson(Map m) =>
       CreateGitOperatorTaskBase.fromJson(m);
-  static CreateGitOperatorTask _createFromJson(Map? m) => m == null
-      ? CreateGitOperatorTask()
-      : CreateGitOperatorTaskBase.fromJson(m);
   static CreateGitOperatorTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -30,8 +30,6 @@ class OperatorResultBase extends SciObject {
   }
 
   static OperatorResult createFromJson(Map m) => OperatorResultBase.fromJson(m);
-  static OperatorResult _createFromJson(Map? m) =>
-      m == null ? OperatorResult() : OperatorResultBase.fromJson(m);
   static OperatorResult fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

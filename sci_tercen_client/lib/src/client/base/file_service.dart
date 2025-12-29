@@ -139,4 +139,113 @@ class FileServiceBase extends HttpClientService<FileDocument>
     }
     return answer as Stream<List<int>>;
   }
+
+  Future<List<ZipEntry>> listZipContents(String fileDocumentId,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/file" + "/" + "listZipContents");
+      var params = {};
+      params["fileDocumentId"] = fileDocumentId;
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = (contentCodec.decode(response.body) as List)
+            .map((m) => ZipEntryBase.fromJson(m as Map))
+            .toList();
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as List<ZipEntry>;
+  }
+
+  Stream<List<int>> downloadZipEntry(String fileDocumentId, String entryPath,
+      {service.AclContext? aclContext}) {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/file" + "/" + "downloadZipEntry");
+      var params = {};
+      params["fileDocumentId"] = fileDocumentId;
+      params["entryPath"] = entryPath;
+      var geturi = getServiceUri(uri)
+          .replace(queryParameters: {"params": json.encode(params)});
+      var resFut = client.get(geturi,
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType);
+      resFut = resFut.then((response) {
+        if (response.statusCode != 200) onResponseError(response);
+        return response;
+      });
+
+      var resFut2 = resFut.then((response) => new Stream.fromIterable(
+          [new Uint8List.view(response.body as ByteBuffer)]));
+      answer = new async.LazyStream(() => resFut2).cast<List<int>>();
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as Stream<List<int>>;
+  }
+
+  Future<bool> zipEntryExists(String fileDocumentId, String entryPath,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/file" + "/" + "zipEntryExists");
+      var params = {};
+      params["fileDocumentId"] = fileDocumentId;
+      params["entryPath"] = entryPath;
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = (contentCodec.decode(response.body) as List).first;
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as bool;
+  }
+
+  Future<ZipSummary> getZipSummary(String fileDocumentId,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/file" + "/" + "getZipSummary");
+      var params = {};
+      params["fileDocumentId"] = fileDocumentId;
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer =
+            ZipSummaryBase.fromJson(contentCodec.decode(response.body) as Map);
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as ZipSummary;
+  }
 }

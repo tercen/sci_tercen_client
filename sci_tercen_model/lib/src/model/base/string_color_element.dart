@@ -17,8 +17,6 @@ class StringColorElementBase extends ColorElement {
 
   static StringColorElement createFromJson(Map m) =>
       StringColorElementBase.fromJson(m);
-  static StringColorElement _createFromJson(Map? m) =>
-      m == null ? StringColorElement() : StringColorElementBase.fromJson(m);
   static StringColorElement fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

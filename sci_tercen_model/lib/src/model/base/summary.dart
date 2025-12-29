@@ -30,16 +30,25 @@ class SummaryBase extends SciObject {
   }
 
   SummaryBase.json(Map m)
-      : _tableSummary = TableSummaryBase._createFromJson(
-            m[Vocabulary.tableSummary_OP] as Map?),
-        _computedTableSummary = TableSummaryBase._createFromJson(
-            m[Vocabulary.computedTableSummary_OP] as Map?),
-        _queryTableSummary = TableSummaryBase._createFromJson(
-            m[Vocabulary.queryTableSummary_OP] as Map?),
-        _taskSummary = TaskSummaryBase._createFromJson(
-            m[Vocabulary.taskSummary_OP] as Map?),
-        _fileSummary = FileSummaryBase._createFromJson(
-            m[Vocabulary.fileSummary_OP] as Map?),
+      : _tableSummary = (m[Vocabulary.tableSummary_OP] as Map?) == null
+            ? TableSummary()
+            : TableSummaryBase.fromJson(m[Vocabulary.tableSummary_OP] as Map),
+        _computedTableSummary =
+            (m[Vocabulary.computedTableSummary_OP] as Map?) == null
+                ? TableSummary()
+                : TableSummaryBase.fromJson(
+                    m[Vocabulary.computedTableSummary_OP] as Map),
+        _queryTableSummary =
+            (m[Vocabulary.queryTableSummary_OP] as Map?) == null
+                ? TableSummary()
+                : TableSummaryBase.fromJson(
+                    m[Vocabulary.queryTableSummary_OP] as Map),
+        _taskSummary = (m[Vocabulary.taskSummary_OP] as Map?) == null
+            ? TaskSummary()
+            : TaskSummaryBase.fromJson(m[Vocabulary.taskSummary_OP] as Map),
+        _fileSummary = (m[Vocabulary.fileSummary_OP] as Map?) == null
+            ? FileSummary()
+            : FileSummaryBase.fromJson(m[Vocabulary.fileSummary_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Summary_CLASS, m);
     _tableSummary.parent = this;
@@ -50,8 +59,6 @@ class SummaryBase extends SciObject {
   }
 
   static Summary createFromJson(Map m) => SummaryBase.fromJson(m);
-  static Summary _createFromJson(Map? m) =>
-      m == null ? Summary() : SummaryBase.fromJson(m);
   static Summary fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

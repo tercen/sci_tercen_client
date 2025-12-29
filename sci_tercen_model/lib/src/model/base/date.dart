@@ -15,8 +15,6 @@ class DateBase extends SciObject {
   }
 
   static Date createFromJson(Map m) => DateBase.fromJson(m);
-  static Date _createFromJson(Map? m) =>
-      m == null ? Date() : DateBase.fromJson(m);
   static Date fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

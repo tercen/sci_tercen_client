@@ -37,8 +37,6 @@ class TableSummaryBase extends SciObject {
   }
 
   static TableSummary createFromJson(Map m) => TableSummaryBase.fromJson(m);
-  static TableSummary _createFromJson(Map? m) =>
-      m == null ? TableSummary() : TableSummaryBase.fromJson(m);
   static TableSummary fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

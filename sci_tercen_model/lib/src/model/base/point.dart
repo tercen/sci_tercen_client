@@ -18,8 +18,6 @@ class PointBase extends SciObject {
   }
 
   static Point createFromJson(Map m) => PointBase.fromJson(m);
-  static Point _createFromJson(Map? m) =>
-      m == null ? Point() : PointBase.fromJson(m);
   static Point fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

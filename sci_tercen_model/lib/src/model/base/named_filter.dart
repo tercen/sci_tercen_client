@@ -27,8 +27,6 @@ class NamedFilterBase extends Filter {
   }
 
   static NamedFilter createFromJson(Map m) => NamedFilterBase.fromJson(m);
-  static NamedFilter _createFromJson(Map? m) =>
-      m == null ? NamedFilter() : NamedFilterBase.fromJson(m);
   static NamedFilter fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

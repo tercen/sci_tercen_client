@@ -18,9 +18,12 @@ class GraphicalFactorBase extends SciObject {
   }
 
   GraphicalFactorBase.json(Map m)
-      : _factor = FactorBase._createFromJson(m[Vocabulary.factor_OP] as Map?),
-        _rectangle =
-            RectangleBase._createFromJson(m[Vocabulary.rectangle_OP] as Map?),
+      : _factor = (m[Vocabulary.factor_OP] as Map?) == null
+            ? Factor()
+            : FactorBase.fromJson(m[Vocabulary.factor_OP] as Map),
+        _rectangle = (m[Vocabulary.rectangle_OP] as Map?) == null
+            ? Rectangle()
+            : RectangleBase.fromJson(m[Vocabulary.rectangle_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.GraphicalFactor_CLASS, m);
     _factor.parent = this;
@@ -29,8 +32,6 @@ class GraphicalFactorBase extends SciObject {
 
   static GraphicalFactor createFromJson(Map m) =>
       GraphicalFactorBase.fromJson(m);
-  static GraphicalFactor _createFromJson(Map? m) =>
-      m == null ? GraphicalFactor() : GraphicalFactorBase.fromJson(m);
   static GraphicalFactor fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

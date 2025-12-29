@@ -20,8 +20,9 @@ class ColorsBase extends SciObject {
   ColorsBase.json(Map m)
       : factors = base.ListChanged<Factor>.from(
             m[Vocabulary.factors_OP] as List?, FactorBase.createFromJson),
-        _palette =
-            PaletteBase._createFromJson(m[Vocabulary.palette_OP] as Map?),
+        _palette = (m[Vocabulary.palette_OP] as Map?) == null
+            ? Palette()
+            : PaletteBase.fromJson(m[Vocabulary.palette_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Colors_CLASS, m);
     factors.parent = this;
@@ -29,8 +30,6 @@ class ColorsBase extends SciObject {
   }
 
   static Colors createFromJson(Map m) => ColorsBase.fromJson(m);
-  static Colors _createFromJson(Map? m) =>
-      m == null ? Colors() : ColorsBase.fromJson(m);
   static Colors fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

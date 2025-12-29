@@ -45,8 +45,6 @@ class ViesInfoBase extends SciObject {
   }
 
   static ViesInfo createFromJson(Map m) => ViesInfoBase.fromJson(m);
-  static ViesInfo _createFromJson(Map? m) =>
-      m == null ? ViesInfo() : ViesInfoBase.fromJson(m);
   static ViesInfo fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -43,8 +43,6 @@ class OperatorSpecBase extends base.Base {
   }
 
   static OperatorSpec createFromJson(Map m) => OperatorSpecBase.fromJson(m);
-  static OperatorSpec _createFromJson(Map? m) =>
-      m == null ? OperatorSpec() : OperatorSpecBase.fromJson(m);
   static OperatorSpec fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

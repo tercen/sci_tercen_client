@@ -24,8 +24,6 @@ class PropertyBase extends SciObject {
   }
 
   static Property createFromJson(Map m) => PropertyBase.fromJson(m);
-  static Property _createFromJson(Map? m) =>
-      m == null ? Property() : PropertyBase.fromJson(m);
   static Property fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

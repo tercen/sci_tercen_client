@@ -30,8 +30,6 @@ class XYAxisListBase extends SciObject {
   }
 
   static XYAxisList createFromJson(Map m) => XYAxisListBase.fromJson(m);
-  static XYAxisList _createFromJson(Map? m) =>
-      m == null ? XYAxisList() : XYAxisListBase.fromJson(m);
   static XYAxisList fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

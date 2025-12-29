@@ -28,8 +28,6 @@ class FiltersBase extends SciObject {
   }
 
   static Filters createFromJson(Map m) => FiltersBase.fromJson(m);
-  static Filters _createFromJson(Map? m) =>
-      m == null ? Filters() : FiltersBase.fromJson(m);
   static Filters fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

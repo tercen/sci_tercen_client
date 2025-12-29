@@ -12,8 +12,6 @@ class RunComputationTaskBase extends SaveComputationResultTask {
 
   static RunComputationTask createFromJson(Map m) =>
       RunComputationTaskBase.fromJson(m);
-  static RunComputationTask _createFromJson(Map? m) =>
-      m == null ? RunComputationTask() : RunComputationTaskBase.fromJson(m);
   static RunComputationTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

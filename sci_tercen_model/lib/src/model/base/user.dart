@@ -54,9 +54,12 @@ class UserBase extends Document {
             m[Vocabulary.invitationCounts_DP] as int?, base.int_DefaultFactory),
         _maxInvitation = base.defaultValue(
             m[Vocabulary.maxInvitation_DP] as int?, base.int_DefaultFactory),
-        _teamAcl = AclBase._createFromJson(m[Vocabulary.teamAcl_OP] as Map?),
-        _billingInfo = BillingInfoBase._createFromJson(
-            m[Vocabulary.billingInfo_OP] as Map?),
+        _teamAcl = (m[Vocabulary.teamAcl_OP] as Map?) == null
+            ? Acl()
+            : AclBase.fromJson(m[Vocabulary.teamAcl_OP] as Map),
+        _billingInfo = (m[Vocabulary.billingInfo_OP] as Map?) == null
+            ? BillingInfo()
+            : BillingInfoBase.fromJson(m[Vocabulary.billingInfo_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.User_CLASS, m);
     roles.parent = this;
@@ -65,8 +68,6 @@ class UserBase extends Document {
   }
 
   static User createFromJson(Map m) => UserBase.fromJson(m);
-  static User _createFromJson(Map? m) =>
-      m == null ? User() : UserBase.fromJson(m);
   static User fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

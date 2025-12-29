@@ -41,8 +41,6 @@ class RunWorkflowTaskBase extends ProjectTask {
 
   static RunWorkflowTask createFromJson(Map m) =>
       RunWorkflowTaskBase.fromJson(m);
-  static RunWorkflowTask _createFromJson(Map? m) =>
-      m == null ? RunWorkflowTask() : RunWorkflowTaskBase.fromJson(m);
   static RunWorkflowTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

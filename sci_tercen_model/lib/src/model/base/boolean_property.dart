@@ -16,8 +16,6 @@ class BooleanPropertyBase extends Property {
 
   static BooleanProperty createFromJson(Map m) =>
       BooleanPropertyBase.fromJson(m);
-  static BooleanProperty _createFromJson(Map? m) =>
-      m == null ? BooleanProperty() : BooleanPropertyBase.fromJson(m);
   static BooleanProperty fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

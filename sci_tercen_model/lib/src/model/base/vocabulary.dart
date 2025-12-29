@@ -7,6 +7,7 @@ class Vocabulary {
   static const String DoubleProperty_CLASS = "DoubleProperty";
   static const String Rectangle_CLASS = "Rectangle";
   static const String RunningState_CLASS = "RunningState";
+  static const String PatchRecordListRemove_CLASS = "PatchRecordListRemove";
   static const String WhereRelation_CLASS = "WhereRelation";
   static const String StorageProfile_CLASS = "StorageProfile";
   static const String OperatorOutputSpec_CLASS = "OperatorOutputSpec";
@@ -25,6 +26,7 @@ class Vocabulary {
   static const String RLibrary_CLASS = "RLibrary";
   static const String Filter_CLASS = "Filter";
   static const String GroupStep_CLASS = "GroupStep";
+  static const String Feature_CLASS = "Feature";
   static const String TaskLogEvent_CLASS = "TaskLogEvent";
   static const String UserSession_CLASS = "UserSession";
   static const String Table_CLASS = "Table";
@@ -39,6 +41,7 @@ class Vocabulary {
   static const String ExportWorkflowTask_CLASS = "ExportWorkflowTask";
   static const String StartProcess_CLASS = "StartProcess";
   static const String Token_CLASS = "Token";
+  static const String ZipEntry_CLASS = "ZipEntry";
   static const String ActivityCount_CLASS = "ActivityCount";
   static const String JoinOperator_CLASS = "JoinOperator";
   static const String OperatorModel_CLASS = "OperatorModel";
@@ -73,10 +76,12 @@ class Vocabulary {
   static const String MetaFactor_CLASS = "MetaFactor";
   static const String JetPalette_CLASS = "JetPalette";
   static const String TableRelation_CLASS = "TableRelation";
+  static const String TypedValue_CLASS = "TypedValue";
   static const String Profile_CLASS = "Profile";
   static const String Date_CLASS = "Date";
   static const String StepState_CLASS = "StepState";
   static const String ProjectDocument_CLASS = "ProjectDocument";
+  static const String TypedBool_CLASS = "TypedBool";
   static const String OperatorResult_CLASS = "OperatorResult";
   static const String RSourceLibrary_CLASS = "RSourceLibrary";
   static const String FileDocument_CLASS = "FileDocument";
@@ -87,6 +92,7 @@ class Vocabulary {
   static const String XYAxis_CLASS = "XYAxis";
   static const String IdObject_CLASS = "IdObject";
   static const String Principal_CLASS = "Principal";
+  static const String OperatorEstimateModel_CLASS = "OperatorEstimateModel";
   static const String Attribute_CLASS = "Attribute";
   static const String ImportWorkflowTask_CLASS = "ImportWorkflowTask";
   static const String Project_CLASS = "Project";
@@ -95,12 +101,14 @@ class Vocabulary {
   static const String EnumeratedProperty_CLASS = "EnumeratedProperty";
   static const String TestOperatorTask_CLASS = "TestOperatorTask";
   static const String ImportGitWorkflowTask_CLASS = "ImportGitWorkflowTask";
+  static const String PatchRecordListAdd_CLASS = "PatchRecordListAdd";
   static const String ReferenceRelation_CLASS = "ReferenceRelation";
   static const String RProxy_CLASS = "RProxy";
   static const String OperatorSpec_CLASS = "OperatorSpec";
   static const String Pair_CLASS = "Pair";
   static const String InMemoryRelation_CLASS = "InMemoryRelation";
   static const String Relation_CLASS = "Relation";
+  static const String PatchRecordListClear_CLASS = "PatchRecordListClear";
   static const String FileMetadata_CLASS = "FileMetadata";
   static const String PairwiseRelation_CLASS = "PairwiseRelation";
   static const String CValues_CLASS = "CValues";
@@ -122,6 +130,8 @@ class Vocabulary {
   static const String OperatorSettings_CLASS = "OperatorSettings";
   static const String CubeQueryTableSchema_CLASS = "CubeQueryTableSchema";
   static const String CategoryPalette_CLASS = "CategoryPalette";
+  static const String PatchRecordListInsert_CLASS = "PatchRecordListInsert";
+  static const String PatchRecordSet_CLASS = "PatchRecordSet";
   static const String ModelStep_CLASS = "ModelStep";
   static const String TableSummary_CLASS = "TableSummary";
   static const String TaskEvent_CLASS = "TaskEvent";
@@ -143,14 +153,15 @@ class Vocabulary {
   static const String ColorList_CLASS = "ColorList";
   static const String RelationStep_CLASS = "RelationStep";
   static const String DataStep_CLASS = "DataStep";
+  static const String PatchRecordType_CLASS = "PatchRecordType";
   static const String SearchResult_CLASS = "SearchResult";
-  static const String GateOperatorModel_CLASS = "GateOperatorModel";
   static const String ChartSize_CLASS = "ChartSize";
+  static const String GateOperatorModel_CLASS = "GateOperatorModel";
   static const String AnnotationModel_CLASS = "AnnotationModel";
-  static const String Schema_CLASS = "Schema";
   static const String ColorElement_CLASS = "ColorElement";
   static const String ROperator_CLASS = "ROperator";
   static const String OutStep_CLASS = "OutStep";
+  static const String Schema_CLASS = "Schema";
   static const String LibraryTask_CLASS = "LibraryTask";
   static const String PreProcessor_CLASS = "PreProcessor";
   static const String FileSummary_CLASS = "FileSummary";
@@ -158,6 +169,7 @@ class Vocabulary {
   static const String Properties_CLASS = "Properties";
   static const String PropertyValue_CLASS = "PropertyValue";
   static const String ComputationTask_CLASS = "ComputationTask";
+  static const String TypedDouble_CLASS = "TypedDouble";
   static const String DoneState_CLASS = "DoneState";
   static const String AclContext_CLASS = "AclContext";
   static const String DockerWebAppOperator_CLASS = "DockerWebAppOperator";
@@ -192,6 +204,7 @@ class Vocabulary {
   static const String Plan_CLASS = "Plan";
   static const String SciObject_CLASS = "SciObject";
   static const String CSVParserParam_CLASS = "CSVParserParam";
+  static const String TypedIntValue_CLASS = "TypedIntValue";
   static const String WebAppOperator_CLASS = "WebAppOperator";
   static const String ExportTableTask_CLASS = "ExportTableTask";
   static const String GenericEvent_CLASS = "GenericEvent";
@@ -199,6 +212,8 @@ class Vocabulary {
   static const String OutputPort_CLASS = "OutputPort";
   static const String PersistentObject_CLASS = "PersistentObject";
   static const String Link_CLASS = "Link";
+  static const String TypedObject_CLASS = "TypedObject";
+  static const String TypedList_CLASS = "TypedList";
   static const String AppDesign_CLASS = "AppDesign";
   static const String GarbageTasks2_CLASS = "GarbageTasks2";
   static const String Workflow_CLASS = "Workflow";
@@ -217,6 +232,7 @@ class Vocabulary {
   static const String Colors_CLASS = "Colors";
   static const String ApiCallProfile_CLASS = "ApiCallProfile";
   static const String CompositeRelation_CLASS = "CompositeRelation";
+  static const String TypedString_CLASS = "TypedString";
   static const String ColumnSchema_CLASS = "ColumnSchema";
   static const String GitProjectTask_CLASS = "GitProjectTask";
   static const String PersistentChannelEvent_CLASS = "PersistentChannelEvent";
@@ -224,6 +240,7 @@ class Vocabulary {
   static const String TableProperties_CLASS = "TableProperties";
   static const String MappingFactor_CLASS = "MappingFactor";
   static const String Chart_CLASS = "Chart";
+  static const String ZipSummary_CLASS = "ZipSummary";
   static const String GitOperator_CLASS = "GitOperator";
   static const String SubscriptionPlan_CLASS = "SubscriptionPlan";
   static const String FormulaProperty_CLASS = "FormulaProperty";
@@ -231,6 +248,7 @@ class Vocabulary {
   static const String UserSecret_CLASS = "UserSecret";
 
   static const String defaultValue_DP = "defaultValue";
+  static const String indexes_DP = "indexes";
   static const String size_DP = "size";
   static const String storage_DP = "storage";
   static const String usedStorage_DP = "usedStorage";
@@ -275,6 +293,8 @@ class Vocabulary {
   static const String appId_DP = "appId";
   static const String appName_DP = "appName";
   static const String version_DP = "version";
+  static const String coefficient_DP = "coefficient";
+  static const String exponent_DP = "exponent";
   static const String message_DP = "message";
   static const String nRows_DP = "nRows";
   static const String container_DP = "container";
@@ -295,6 +315,10 @@ class Vocabulary {
   static const String script_DP = "script";
   static const String userId_DP = "userId";
   static const String token_DP = "token";
+  static const String compressedSize_DP = "compressedSize";
+  static const String isDirectory_DP = "isDirectory";
+  static const String lastModified_DP = "lastModified";
+  static const String crc32_DP = "crc32";
   static const String objectId_DP = "objectId";
   static const String count_DP = "count";
   static const String joinType_DP = "joinType";
@@ -382,6 +406,7 @@ class Vocabulary {
   static const String bytes_DP = "bytes";
   static const String id_DP = "id";
   static const String principalId_DP = "principalId";
+  static const String intercept_DP = "intercept";
   static const String gitToken_DP = "gitToken";
   static const String isSingleSelection_DP = "isSingleSelection";
   static const String operatorId_DP = "operatorId";
@@ -424,6 +449,7 @@ class Vocabulary {
   static const String namespace_DP = "namespace";
   static const String queryHash_DP = "queryHash";
   static const String queryTableType_DP = "queryTableType";
+  static const String index_DP = "index";
   static const String nr_DP = "nr";
   static const String nc_DP = "nc";
   static const String x_DP = "x";
@@ -443,8 +469,8 @@ class Vocabulary {
   static const String parentDataStepId_DP = "parentDataStepId";
   static const String total_rows_DP = "total_rows";
   static const String bookmark_DP = "bookmark";
-  static const String dataDirectory_DP = "dataDirectory";
   static const String color_DP = "color";
+  static const String dataDirectory_DP = "dataDirectory";
   static const String parentTaskId_DP = "parentTaskId";
   static const String fileResultId_DP = "fileResultId";
   static const String username_DP = "username";
@@ -471,7 +497,6 @@ class Vocabulary {
   static const String start_DP = "start";
   static const String len_DP = "len";
   static const String appDesignType_DP = "appDesignType";
-  static const String index_DP = "index";
   static const String lColumns_DP = "lColumns";
   static const String rColumns_DP = "rColumns";
   static const String filterOp_DP = "filterOp";
@@ -509,6 +534,11 @@ class Vocabulary {
   static const String sortOrder_DP = "sortOrder";
   static const String factorName_DP = "factorName";
   static const String isSingle_DP = "isSingle";
+  static const String totalEntries_DP = "totalEntries";
+  static const String totalSize_DP = "totalSize";
+  static const String totalCompressedSize_DP = "totalCompressedSize";
+  static const String fileCount_DP = "fileCount";
+  static const String directoryCount_DP = "directoryCount";
   static const String providerKey_DP = "providerKey";
   static const String checkoutSessionId_DP = "checkoutSessionId";
   static const String subscriptionId_DP = "subscriptionId";
@@ -569,7 +599,10 @@ class Vocabulary {
   static const String axis_OP = "axis";
   static const String columnTable_OP = "columnTable";
   static const String rowTable_OP = "rowTable";
+  static const String recordType_OP = "recordType";
   static const String operatorSpec_OP = "operatorSpec";
+  static const String memoryModel_OP = "memoryModel";
+  static const String runtimeModel_OP = "runtimeModel";
   static const String schema_OP = "schema";
   static const String params_OP = "params";
   static const String date_OP = "date";
@@ -589,6 +622,8 @@ class Vocabulary {
   static const String urls_OP = "urls";
   static const String url_OP = "url";
   static const String chart_OP = "chart";
+  static const String features_OP = "features";
+  static const String value_OP = "value";
   static const String inputSpecs_OP = "inputSpecs";
   static const String outputSpecs_OP = "outputSpecs";
   static const String inMemoryTable_OP = "inMemoryTable";

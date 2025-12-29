@@ -15,8 +15,6 @@ class PrivilegeBase extends SciObject {
   }
 
   static Privilege createFromJson(Map m) => PrivilegeBase.fromJson(m);
-  static Privilege _createFromJson(Map? m) =>
-      m == null ? Privilege() : PrivilegeBase.fromJson(m);
   static Privilege fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -11,8 +11,6 @@ class GarbageObjectBase extends PersistentObject {
   }
 
   static GarbageObject createFromJson(Map m) => GarbageObjectBase.fromJson(m);
-  static GarbageObject _createFromJson(Map? m) =>
-      m == null ? GarbageObject() : GarbageObjectBase.fromJson(m);
   static GarbageObject fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

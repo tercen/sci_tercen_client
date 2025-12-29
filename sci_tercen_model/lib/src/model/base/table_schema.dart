@@ -11,8 +11,6 @@ class TableSchemaBase extends Schema {
   }
 
   static TableSchema createFromJson(Map m) => TableSchemaBase.fromJson(m);
-  static TableSchema _createFromJson(Map? m) =>
-      m == null ? TableSchema() : TableSchemaBase.fromJson(m);
   static TableSchema fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

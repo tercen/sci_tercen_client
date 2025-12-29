@@ -15,8 +15,6 @@ class WorkerEndpointBase extends Document {
   }
 
   static WorkerEndpoint createFromJson(Map m) => WorkerEndpointBase.fromJson(m);
-  static WorkerEndpoint _createFromJson(Map? m) =>
-      m == null ? WorkerEndpoint() : WorkerEndpointBase.fromJson(m);
   static WorkerEndpoint fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

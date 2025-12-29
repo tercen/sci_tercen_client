@@ -19,16 +19,15 @@ class PreProcessorBase extends SciObject {
   PreProcessorBase.json(Map m)
       : _type = base.defaultValue(
             m[Vocabulary.type_DP] as String?, base.String_DefaultFactory),
-        _operatorRef = OperatorRefBase._createFromJson(
-            m[Vocabulary.operatorRef_OP] as Map?),
+        _operatorRef = (m[Vocabulary.operatorRef_OP] as Map?) == null
+            ? OperatorRef()
+            : OperatorRefBase.fromJson(m[Vocabulary.operatorRef_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.PreProcessor_CLASS, m);
     _operatorRef.parent = this;
   }
 
   static PreProcessor createFromJson(Map m) => PreProcessorBase.fromJson(m);
-  static PreProcessor _createFromJson(Map? m) =>
-      m == null ? PreProcessor() : PreProcessorBase.fromJson(m);
   static PreProcessor fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

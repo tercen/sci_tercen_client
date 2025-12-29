@@ -22,12 +22,16 @@ class AxisBase extends SciObject {
   }
 
   AxisBase.json(Map m)
-      : _axisExtent =
-            PointBase._createFromJson(m[Vocabulary.axisExtent_OP] as Map?),
-        _axisSettings = AxisSettingsBase._createFromJson(
-            m[Vocabulary.axisSettings_OP] as Map?),
-        _graphicalFactor = GraphicalFactorBase._createFromJson(
-            m[Vocabulary.graphicalFactor_OP] as Map?),
+      : _axisExtent = (m[Vocabulary.axisExtent_OP] as Map?) == null
+            ? Point()
+            : PointBase.fromJson(m[Vocabulary.axisExtent_OP] as Map),
+        _axisSettings = (m[Vocabulary.axisSettings_OP] as Map?) == null
+            ? AxisSettings()
+            : AxisSettingsBase.fromJson(m[Vocabulary.axisSettings_OP] as Map),
+        _graphicalFactor = (m[Vocabulary.graphicalFactor_OP] as Map?) == null
+            ? GraphicalFactor()
+            : GraphicalFactorBase.fromJson(
+                m[Vocabulary.graphicalFactor_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Axis_CLASS, m);
     _axisExtent.parent = this;
@@ -36,8 +40,6 @@ class AxisBase extends SciObject {
   }
 
   static Axis createFromJson(Map m) => AxisBase.fromJson(m);
-  static Axis _createFromJson(Map? m) =>
-      m == null ? Axis() : AxisBase.fromJson(m);
   static Axis fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

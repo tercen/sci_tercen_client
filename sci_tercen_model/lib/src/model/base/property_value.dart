@@ -23,8 +23,6 @@ class PropertyValueBase extends SciObject {
   }
 
   static PropertyValue createFromJson(Map m) => PropertyValueBase.fromJson(m);
-  static PropertyValue _createFromJson(Map? m) =>
-      m == null ? PropertyValue() : PropertyValueBase.fromJson(m);
   static PropertyValue fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -11,8 +11,6 @@ class NamespaceStepBase extends RelationStep {
   }
 
   static NamespaceStep createFromJson(Map m) => NamespaceStepBase.fromJson(m);
-  static NamespaceStep _createFromJson(Map? m) =>
-      m == null ? NamespaceStep() : NamespaceStepBase.fromJson(m);
   static NamespaceStep fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

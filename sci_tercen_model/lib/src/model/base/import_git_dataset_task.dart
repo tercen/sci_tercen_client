@@ -31,7 +31,9 @@ class ImportGitDatasetTaskBase extends ProjectTask {
             m[Vocabulary.gitToken_DP] as String?, base.String_DefaultFactory),
         _schemaId = base.defaultValue(
             m[Vocabulary.schemaId_DP] as String?, base.String_DefaultFactory),
-        _url = UrlBase._createFromJson(m[Vocabulary.url_OP] as Map?),
+        _url = (m[Vocabulary.url_OP] as Map?) == null
+            ? Url()
+            : UrlBase.fromJson(m[Vocabulary.url_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.ImportGitDatasetTask_CLASS, m);
     _url.parent = this;
@@ -39,8 +41,6 @@ class ImportGitDatasetTaskBase extends ProjectTask {
 
   static ImportGitDatasetTask createFromJson(Map m) =>
       ImportGitDatasetTaskBase.fromJson(m);
-  static ImportGitDatasetTask _createFromJson(Map? m) =>
-      m == null ? ImportGitDatasetTask() : ImportGitDatasetTaskBase.fromJson(m);
   static ImportGitDatasetTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -72,8 +72,6 @@ class WizardStepModelBase extends StepModel {
 
   static WizardStepModel createFromJson(Map m) =>
       WizardStepModelBase.fromJson(m);
-  static WizardStepModel _createFromJson(Map? m) =>
-      m == null ? WizardStepModel() : WizardStepModelBase.fromJson(m);
   static WizardStepModel fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

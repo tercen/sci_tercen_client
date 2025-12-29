@@ -18,7 +18,9 @@ class EventBase extends PersistentObject {
   }
 
   EventBase.json(Map m)
-      : _date = DateBase._createFromJson(m[Vocabulary.date_OP] as Map?),
+      : _date = (m[Vocabulary.date_OP] as Map?) == null
+            ? Date()
+            : DateBase.fromJson(m[Vocabulary.date_OP] as Map),
         meta = base.ListChanged<Pair>.from(
             m[Vocabulary.meta_OP] as List?, PairBase.createFromJson),
         super.json(m) {
@@ -28,8 +30,6 @@ class EventBase extends PersistentObject {
   }
 
   static Event createFromJson(Map m) => EventBase.fromJson(m);
-  static Event _createFromJson(Map? m) =>
-      m == null ? Event() : EventBase.fromJson(m);
   static Event fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

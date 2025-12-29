@@ -18,8 +18,9 @@ class CategoryPaletteBase extends Palette {
   }
 
   CategoryPaletteBase.json(Map m)
-      : _colorList =
-            ColorListBase._createFromJson(m[Vocabulary.colorList_OP] as Map?),
+      : _colorList = (m[Vocabulary.colorList_OP] as Map?) == null
+            ? ColorList()
+            : ColorListBase.fromJson(m[Vocabulary.colorList_OP] as Map),
         stringColorElements = base.ListChanged<StringColorElement>.from(
             m[Vocabulary.stringColorElements_OP] as List?,
             StringColorElementBase.createFromJson),
@@ -31,8 +32,6 @@ class CategoryPaletteBase extends Palette {
 
   static CategoryPalette createFromJson(Map m) =>
       CategoryPaletteBase.fromJson(m);
-  static CategoryPalette _createFromJson(Map? m) =>
-      m == null ? CategoryPalette() : CategoryPaletteBase.fromJson(m);
   static CategoryPalette fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

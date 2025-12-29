@@ -19,8 +19,6 @@ class ErrorsBase extends SciObject {
   }
 
   static Errors createFromJson(Map m) => ErrorsBase.fromJson(m);
-  static Errors _createFromJson(Map? m) =>
-      m == null ? Errors() : ErrorsBase.fromJson(m);
   static Errors fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -29,8 +29,6 @@ class CSVFileMetadataBase extends FileMetadata {
 
   static CSVFileMetadata createFromJson(Map m) =>
       CSVFileMetadataBase.fromJson(m);
-  static CSVFileMetadata _createFromJson(Map? m) =>
-      m == null ? CSVFileMetadata() : CSVFileMetadataBase.fromJson(m);
   static CSVFileMetadata fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

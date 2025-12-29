@@ -11,8 +11,6 @@ class AttributeBase extends Factor {
   }
 
   static Attribute createFromJson(Map m) => AttributeBase.fromJson(m);
-  static Attribute _createFromJson(Map? m) =>
-      m == null ? Attribute() : AttributeBase.fromJson(m);
   static Attribute fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -27,8 +27,6 @@ class FileSummaryBase extends SciObject {
   }
 
   static FileSummary createFromJson(Map m) => FileSummaryBase.fromJson(m);
-  static FileSummary _createFromJson(Map? m) =>
-      m == null ? FileSummary() : FileSummaryBase.fromJson(m);
   static FileSummary fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -114,8 +114,6 @@ class OperatorUnitTestBase extends SciObject {
 
   static OperatorUnitTest createFromJson(Map m) =>
       OperatorUnitTestBase.fromJson(m);
-  static OperatorUnitTest _createFromJson(Map? m) =>
-      m == null ? OperatorUnitTest() : OperatorUnitTestBase.fromJson(m);
   static OperatorUnitTest fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

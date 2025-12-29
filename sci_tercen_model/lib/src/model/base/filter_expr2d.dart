@@ -18,7 +18,9 @@ class FilterExpr2dBase extends FilterExpr {
   }
 
   FilterExpr2dBase.json(Map m)
-      : _factor2 = FactorBase._createFromJson(m[Vocabulary.factor2_OP] as Map?),
+      : _factor2 = (m[Vocabulary.factor2_OP] as Map?) == null
+            ? Factor()
+            : FactorBase.fromJson(m[Vocabulary.factor2_OP] as Map),
         preProcessors2 = base.ListChanged<PreProcessor>.from(
             m[Vocabulary.preProcessors2_OP] as List?,
             PreProcessorBase.createFromJson),
@@ -29,8 +31,6 @@ class FilterExpr2dBase extends FilterExpr {
   }
 
   static FilterExpr2d createFromJson(Map m) => FilterExpr2dBase.fromJson(m);
-  static FilterExpr2d _createFromJson(Map? m) =>
-      m == null ? FilterExpr2d() : FilterExpr2dBase.fromJson(m);
   static FilterExpr2d fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

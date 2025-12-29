@@ -11,8 +11,6 @@ class FolderDocumentBase extends ProjectDocument {
   }
 
   static FolderDocument createFromJson(Map m) => FolderDocumentBase.fromJson(m);
-  static FolderDocument _createFromJson(Map? m) =>
-      m == null ? FolderDocument() : FolderDocumentBase.fromJson(m);
   static FolderDocument fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

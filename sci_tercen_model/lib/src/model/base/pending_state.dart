@@ -11,8 +11,6 @@ class PendingStateBase extends State {
   }
 
   static PendingState createFromJson(Map m) => PendingStateBase.fromJson(m);
-  static PendingState _createFromJson(Map? m) =>
-      m == null ? PendingState() : PendingStateBase.fromJson(m);
   static PendingState fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

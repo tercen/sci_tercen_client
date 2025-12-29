@@ -34,9 +34,12 @@ class BillingInfoBase extends SciObject {
         _companyName = base.defaultValue(
             m[Vocabulary.companyName_DP] as String?,
             base.String_DefaultFactory),
-        _taxId = TaxIdBase._createFromJson(m[Vocabulary.taxId_OP] as Map?),
-        _address =
-            AddressBase._createFromJson(m[Vocabulary.address_OP] as Map?),
+        _taxId = (m[Vocabulary.taxId_OP] as Map?) == null
+            ? TaxId()
+            : TaxIdBase.fromJson(m[Vocabulary.taxId_OP] as Map),
+        _address = (m[Vocabulary.address_OP] as Map?) == null
+            ? Address()
+            : AddressBase.fromJson(m[Vocabulary.address_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.BillingInfo_CLASS, m);
     _taxId.parent = this;
@@ -44,8 +47,6 @@ class BillingInfoBase extends SciObject {
   }
 
   static BillingInfo createFromJson(Map m) => BillingInfoBase.fromJson(m);
-  static BillingInfo _createFromJson(Map? m) =>
-      m == null ? BillingInfo() : BillingInfoBase.fromJson(m);
   static BillingInfo fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

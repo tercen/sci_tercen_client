@@ -11,8 +11,6 @@ class ViewStepBase extends Step {
   }
 
   static ViewStep createFromJson(Map m) => ViewStepBase.fromJson(m);
-  static ViewStep _createFromJson(Map? m) =>
-      m == null ? ViewStep() : ViewStepBase.fromJson(m);
   static ViewStep fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

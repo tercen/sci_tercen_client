@@ -11,8 +11,6 @@ class CanceledStateBase extends State {
   }
 
   static CanceledState createFromJson(Map m) => CanceledStateBase.fromJson(m);
-  static CanceledState _createFromJson(Map? m) =>
-      m == null ? CanceledState() : CanceledStateBase.fromJson(m);
   static CanceledState fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

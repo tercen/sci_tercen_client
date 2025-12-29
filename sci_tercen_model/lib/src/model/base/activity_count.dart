@@ -25,8 +25,6 @@ class ActivityCountBase extends base.Base {
   }
 
   static ActivityCount createFromJson(Map m) => ActivityCountBase.fromJson(m);
-  static ActivityCount _createFromJson(Map? m) =>
-      m == null ? ActivityCount() : ActivityCountBase.fromJson(m);
   static ActivityCount fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

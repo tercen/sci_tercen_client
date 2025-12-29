@@ -23,8 +23,6 @@ class AclContextBase extends SciObject {
   }
 
   static AclContext createFromJson(Map m) => AclContextBase.fromJson(m);
-  static AclContext _createFromJson(Map? m) =>
-      m == null ? AclContext() : AclContextBase.fromJson(m);
   static AclContext fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

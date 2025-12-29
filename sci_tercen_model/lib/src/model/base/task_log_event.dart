@@ -15,8 +15,6 @@ class TaskLogEventBase extends TaskEvent {
   }
 
   static TaskLogEvent createFromJson(Map m) => TaskLogEventBase.fromJson(m);
-  static TaskLogEvent _createFromJson(Map? m) =>
-      m == null ? TaskLogEvent() : TaskLogEventBase.fromJson(m);
   static TaskLogEvent fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

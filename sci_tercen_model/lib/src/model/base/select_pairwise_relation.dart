@@ -45,12 +45,15 @@ class SelectPairwiseRelationBase extends Relation {
             m[Vocabulary.pairAttributes_DP] as List?),
         _nAxis = base.defaultValue(
             m[Vocabulary.nAxis_DP] as int?, base.int_DefaultFactory),
-        _columnRelation = RelationBase._createFromJson(
-            m[Vocabulary.columnRelation_OP] as Map?),
-        _rowRelation =
-            RelationBase._createFromJson(m[Vocabulary.rowRelation_OP] as Map?),
-        _qtRelation =
-            RelationBase._createFromJson(m[Vocabulary.qtRelation_OP] as Map?),
+        _columnRelation = (m[Vocabulary.columnRelation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.columnRelation_OP] as Map),
+        _rowRelation = (m[Vocabulary.rowRelation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.rowRelation_OP] as Map),
+        _qtRelation = (m[Vocabulary.qtRelation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.qtRelation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.SelectPairwiseRelation_CLASS, m);
     pairwiseColGroup.parent = this;
@@ -63,9 +66,6 @@ class SelectPairwiseRelationBase extends Relation {
 
   static SelectPairwiseRelation createFromJson(Map m) =>
       SelectPairwiseRelationBase.fromJson(m);
-  static SelectPairwiseRelation _createFromJson(Map? m) => m == null
-      ? SelectPairwiseRelation()
-      : SelectPairwiseRelationBase.fromJson(m);
   static SelectPairwiseRelation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

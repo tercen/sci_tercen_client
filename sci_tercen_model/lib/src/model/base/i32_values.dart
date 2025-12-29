@@ -18,8 +18,6 @@ class I32ValuesBase extends CValues {
   }
 
   static I32Values createFromJson(Map m) => I32ValuesBase.fromJson(m);
-  static I32Values _createFromJson(Map? m) =>
-      m == null ? I32Values() : I32ValuesBase.fromJson(m);
   static I32Values fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

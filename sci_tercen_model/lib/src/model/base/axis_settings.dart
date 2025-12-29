@@ -19,8 +19,6 @@ class AxisSettingsBase extends base.Base {
   }
 
   static AxisSettings createFromJson(Map m) => AxisSettingsBase.fromJson(m);
-  static AxisSettings _createFromJson(Map? m) =>
-      m == null ? AxisSettings() : AxisSettingsBase.fromJson(m);
   static AxisSettings fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

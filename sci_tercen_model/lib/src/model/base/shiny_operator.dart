@@ -11,8 +11,6 @@ class ShinyOperatorBase extends WebAppOperator {
   }
 
   static ShinyOperator createFromJson(Map m) => ShinyOperatorBase.fromJson(m);
-  static ShinyOperator _createFromJson(Map? m) =>
-      m == null ? ShinyOperator() : ShinyOperatorBase.fromJson(m);
   static ShinyOperator fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

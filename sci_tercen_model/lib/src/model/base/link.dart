@@ -23,8 +23,6 @@ class LinkBase extends IdObject {
   }
 
   static Link createFromJson(Map m) => LinkBase.fromJson(m);
-  static Link _createFromJson(Map? m) =>
-      m == null ? Link() : LinkBase.fromJson(m);
   static Link fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

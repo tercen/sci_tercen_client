@@ -46,8 +46,6 @@ class MetaFactorBase extends Factor {
   }
 
   static MetaFactor createFromJson(Map m) => MetaFactorBase.fromJson(m);
-  static MetaFactor _createFromJson(Map? m) =>
-      m == null ? MetaFactor() : MetaFactorBase.fromJson(m);
   static MetaFactor fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

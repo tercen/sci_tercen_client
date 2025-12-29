@@ -11,8 +11,6 @@ class RelationBase extends IdObject {
   }
 
   static Relation createFromJson(Map m) => RelationBase.fromJson(m);
-  static Relation _createFromJson(Map? m) =>
-      m == null ? Relation() : RelationBase.fromJson(m);
   static Relation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

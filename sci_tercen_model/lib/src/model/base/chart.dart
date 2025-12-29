@@ -19,16 +19,15 @@ class ChartBase extends SciObject {
   ChartBase.json(Map m)
       : _name = base.defaultValue(
             m[Vocabulary.name_DP] as String?, base.String_DefaultFactory),
-        _properties =
-            PropertiesBase._createFromJson(m[Vocabulary.properties_OP] as Map?),
+        _properties = (m[Vocabulary.properties_OP] as Map?) == null
+            ? Properties()
+            : PropertiesBase.fromJson(m[Vocabulary.properties_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Chart_CLASS, m);
     _properties.parent = this;
   }
 
   static Chart createFromJson(Map m) => ChartBase.fromJson(m);
-  static Chart _createFromJson(Map? m) =>
-      m == null ? Chart() : ChartBase.fromJson(m);
   static Chart fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

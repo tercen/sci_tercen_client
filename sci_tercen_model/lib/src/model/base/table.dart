@@ -23,8 +23,9 @@ class TableBase extends SciObject {
   TableBase.json(Map m)
       : _nRows = base.defaultValue(
             m[Vocabulary.nRows_DP] as int?, base.int_DefaultFactory),
-        _properties = TablePropertiesBase._createFromJson(
-            m[Vocabulary.properties_OP] as Map?),
+        _properties = (m[Vocabulary.properties_OP] as Map?) == null
+            ? TableProperties()
+            : TablePropertiesBase.fromJson(m[Vocabulary.properties_OP] as Map),
         columns = base.ListChanged<Column>.from(
             m[Vocabulary.columns_OP] as List?, ColumnBase.createFromJson),
         super.json(m) {
@@ -34,8 +35,6 @@ class TableBase extends SciObject {
   }
 
   static Table createFromJson(Map m) => TableBase.fromJson(m);
-  static Table _createFromJson(Map? m) =>
-      m == null ? Table() : TableBase.fromJson(m);
   static Table fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -74,16 +74,24 @@ class TaskBase extends PersistentObject {
         _storageSize = base.defaultDouble(m[Vocabulary.storageSize_DP] as num?),
         environment = base.ListChanged<Pair>.from(
             m[Vocabulary.environment_OP] as List?, PairBase.createFromJson),
-        _state = StateBase._createFromJson(m[Vocabulary.state_OP] as Map?),
-        _createdDate =
-            DateBase._createFromJson(m[Vocabulary.createdDate_OP] as Map?),
-        _lastModifiedDate =
-            DateBase._createFromJson(m[Vocabulary.lastModifiedDate_OP] as Map?),
-        _runDate = DateBase._createFromJson(m[Vocabulary.runDate_OP] as Map?),
-        _completedDate =
-            DateBase._createFromJson(m[Vocabulary.completedDate_OP] as Map?),
-        _aclContext =
-            AclContextBase._createFromJson(m[Vocabulary.aclContext_OP] as Map?),
+        _state = (m[Vocabulary.state_OP] as Map?) == null
+            ? State()
+            : StateBase.fromJson(m[Vocabulary.state_OP] as Map),
+        _createdDate = (m[Vocabulary.createdDate_OP] as Map?) == null
+            ? Date()
+            : DateBase.fromJson(m[Vocabulary.createdDate_OP] as Map),
+        _lastModifiedDate = (m[Vocabulary.lastModifiedDate_OP] as Map?) == null
+            ? Date()
+            : DateBase.fromJson(m[Vocabulary.lastModifiedDate_OP] as Map),
+        _runDate = (m[Vocabulary.runDate_OP] as Map?) == null
+            ? Date()
+            : DateBase.fromJson(m[Vocabulary.runDate_OP] as Map),
+        _completedDate = (m[Vocabulary.completedDate_OP] as Map?) == null
+            ? Date()
+            : DateBase.fromJson(m[Vocabulary.completedDate_OP] as Map),
+        _aclContext = (m[Vocabulary.aclContext_OP] as Map?) == null
+            ? AclContext()
+            : AclContextBase.fromJson(m[Vocabulary.aclContext_OP] as Map),
         meta = base.ListChanged<Pair>.from(
             m[Vocabulary.meta_OP] as List?, PairBase.createFromJson),
         super.json(m) {
@@ -99,8 +107,6 @@ class TaskBase extends PersistentObject {
   }
 
   static Task createFromJson(Map m) => TaskBase.fromJson(m);
-  static Task _createFromJson(Map? m) =>
-      m == null ? Task() : TaskBase.fromJson(m);
   static Task fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

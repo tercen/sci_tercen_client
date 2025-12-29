@@ -11,8 +11,6 @@ class InitStateBase extends State {
   }
 
   static InitState createFromJson(Map m) => InitStateBase.fromJson(m);
-  static InitState _createFromJson(Map? m) =>
-      m == null ? InitState() : InitStateBase.fromJson(m);
   static InitState fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

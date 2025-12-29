@@ -11,8 +11,6 @@ class RelationStepBase extends ModelStep {
   }
 
   static RelationStep createFromJson(Map m) => RelationStepBase.fromJson(m);
-  static RelationStep _createFromJson(Map? m) =>
-      m == null ? RelationStep() : RelationStepBase.fromJson(m);
   static RelationStep fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

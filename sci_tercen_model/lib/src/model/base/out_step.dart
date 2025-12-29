@@ -11,16 +11,16 @@ class OutStepBase extends RelationStep {
   }
 
   OutStepBase.json(Map m)
-      : _groupPortPosition = PointBase._createFromJson(
-            m[Vocabulary.groupPortPosition_OP] as Map?),
+      : _groupPortPosition =
+            (m[Vocabulary.groupPortPosition_OP] as Map?) == null
+                ? Point()
+                : PointBase.fromJson(m[Vocabulary.groupPortPosition_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.OutStep_CLASS, m);
     _groupPortPosition.parent = this;
   }
 
   static OutStep createFromJson(Map m) => OutStepBase.fromJson(m);
-  static OutStep _createFromJson(Map? m) =>
-      m == null ? OutStep() : OutStepBase.fromJson(m);
   static OutStep fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

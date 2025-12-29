@@ -26,8 +26,9 @@ class RenameRelationBase extends Relation {
             base.ListChangedBase<String>(m[Vocabulary.inNames_DP] as List?),
         outNames =
             base.ListChangedBase<String>(m[Vocabulary.outNames_DP] as List?),
-        _relation =
-            RelationBase._createFromJson(m[Vocabulary.relation_OP] as Map?),
+        _relation = (m[Vocabulary.relation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.relation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.RenameRelation_CLASS, m);
     inNames.parent = this;
@@ -36,8 +37,6 @@ class RenameRelationBase extends Relation {
   }
 
   static RenameRelation createFromJson(Map m) => RenameRelationBase.fromJson(m);
-  static RenameRelation _createFromJson(Map? m) =>
-      m == null ? RenameRelation() : RenameRelationBase.fromJson(m);
   static RenameRelation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

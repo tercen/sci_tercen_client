@@ -17,8 +17,6 @@ class TaskEventBase extends Event {
   }
 
   static TaskEvent createFromJson(Map m) => TaskEventBase.fromJson(m);
-  static TaskEvent _createFromJson(Map? m) =>
-      m == null ? TaskEvent() : TaskEventBase.fromJson(m);
   static TaskEvent fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

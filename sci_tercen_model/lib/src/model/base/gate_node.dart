@@ -32,8 +32,9 @@ class GateNodeBase extends SciObject {
             m[Vocabulary.nodeId_DP] as String?, base.String_DefaultFactory),
         _name = base.defaultValue(
             m[Vocabulary.name_DP] as String?, base.String_DefaultFactory),
-        _crosstab =
-            CrosstabBase._createFromJson(m[Vocabulary.crosstab_OP] as Map?),
+        _crosstab = (m[Vocabulary.crosstab_OP] as Map?) == null
+            ? Crosstab()
+            : CrosstabBase.fromJson(m[Vocabulary.crosstab_OP] as Map),
         children = base.ListChanged<GateNode>.from(
             m[Vocabulary.children_OP] as List?, GateNodeBase.createFromJson),
         statistics = base.ListChanged<StatisticNode>.from(
@@ -47,8 +48,6 @@ class GateNodeBase extends SciObject {
   }
 
   static GateNode createFromJson(Map m) => GateNodeBase.fromJson(m);
-  static GateNode _createFromJson(Map? m) =>
-      m == null ? GateNode() : GateNodeBase.fromJson(m);
   static GateNode fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

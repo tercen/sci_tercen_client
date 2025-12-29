@@ -11,8 +11,6 @@ class ChartBarBase extends Chart {
   }
 
   static ChartBar createFromJson(Map m) => ChartBarBase.fromJson(m);
-  static ChartBar _createFromJson(Map? m) =>
-      m == null ? ChartBar() : ChartBarBase.fromJson(m);
   static ChartBar fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

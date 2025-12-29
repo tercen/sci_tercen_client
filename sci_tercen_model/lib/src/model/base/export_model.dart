@@ -11,8 +11,6 @@ class ExportModelBase extends StepModel {
   }
 
   static ExportModel createFromJson(Map m) => ExportModelBase.fromJson(m);
-  static ExportModel _createFromJson(Map? m) =>
-      m == null ? ExportModel() : ExportModelBase.fromJson(m);
   static ExportModel fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

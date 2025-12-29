@@ -27,8 +27,6 @@ class StatisticNodeBase extends base.Base {
   }
 
   static StatisticNode createFromJson(Map m) => StatisticNodeBase.fromJson(m);
-  static StatisticNode _createFromJson(Map? m) =>
-      m == null ? StatisticNode() : StatisticNodeBase.fromJson(m);
   static StatisticNode fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -28,8 +28,6 @@ class MappingFactorBase extends MetaFactor {
   }
 
   static MappingFactor createFromJson(Map m) => MappingFactorBase.fromJson(m);
-  static MappingFactor _createFromJson(Map? m) =>
-      m == null ? MappingFactor() : MappingFactorBase.fromJson(m);
   static MappingFactor fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

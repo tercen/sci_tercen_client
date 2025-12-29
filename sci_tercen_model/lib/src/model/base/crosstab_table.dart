@@ -45,8 +45,6 @@ class CrosstabTableBase extends SciObject {
   }
 
   static CrosstabTable createFromJson(Map m) => CrosstabTableBase.fromJson(m);
-  static CrosstabTable _createFromJson(Map? m) =>
-      m == null ? CrosstabTable() : CrosstabTableBase.fromJson(m);
   static CrosstabTable fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

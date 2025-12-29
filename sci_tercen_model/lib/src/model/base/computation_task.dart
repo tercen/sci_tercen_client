@@ -34,8 +34,9 @@ class ComputationTaskBase extends CubeQueryTask {
         _fileResultId = base.defaultValue(
             m[Vocabulary.fileResultId_DP] as String?,
             base.String_DefaultFactory),
-        _computedRelation = RelationBase._createFromJson(
-            m[Vocabulary.computedRelation_OP] as Map?),
+        _computedRelation = (m[Vocabulary.computedRelation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.computedRelation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.ComputationTask_CLASS, m);
     _computedRelation.parent = this;
@@ -43,8 +44,6 @@ class ComputationTaskBase extends CubeQueryTask {
 
   static ComputationTask createFromJson(Map m) =>
       ComputationTaskBase.fromJson(m);
-  static ComputationTask _createFromJson(Map? m) =>
-      m == null ? ComputationTask() : ComputationTaskBase.fromJson(m);
   static ComputationTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

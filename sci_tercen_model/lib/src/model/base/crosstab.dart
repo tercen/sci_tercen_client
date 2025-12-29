@@ -37,15 +37,22 @@ class CrosstabBase extends StepModel {
   CrosstabBase.json(Map m)
       : _taskId = base.defaultValue(
             m[Vocabulary.taskId_DP] as String?, base.String_DefaultFactory),
-        _axis = XYAxisListBase._createFromJson(m[Vocabulary.axis_OP] as Map?),
-        _columnTable = CrosstabTableBase._createFromJson(
-            m[Vocabulary.columnTable_OP] as Map?),
-        _filters =
-            FiltersBase._createFromJson(m[Vocabulary.filters_OP] as Map?),
-        _operatorSettings = OperatorSettingsBase._createFromJson(
-            m[Vocabulary.operatorSettings_OP] as Map?),
-        _rowTable = CrosstabTableBase._createFromJson(
-            m[Vocabulary.rowTable_OP] as Map?),
+        _axis = (m[Vocabulary.axis_OP] as Map?) == null
+            ? XYAxisList()
+            : XYAxisListBase.fromJson(m[Vocabulary.axis_OP] as Map),
+        _columnTable = (m[Vocabulary.columnTable_OP] as Map?) == null
+            ? CrosstabTable()
+            : CrosstabTableBase.fromJson(m[Vocabulary.columnTable_OP] as Map),
+        _filters = (m[Vocabulary.filters_OP] as Map?) == null
+            ? Filters()
+            : FiltersBase.fromJson(m[Vocabulary.filters_OP] as Map),
+        _operatorSettings = (m[Vocabulary.operatorSettings_OP] as Map?) == null
+            ? OperatorSettings()
+            : OperatorSettingsBase.fromJson(
+                m[Vocabulary.operatorSettings_OP] as Map),
+        _rowTable = (m[Vocabulary.rowTable_OP] as Map?) == null
+            ? CrosstabTable()
+            : CrosstabTableBase.fromJson(m[Vocabulary.rowTable_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Crosstab_CLASS, m);
     _axis.parent = this;
@@ -56,8 +63,6 @@ class CrosstabBase extends StepModel {
   }
 
   static Crosstab createFromJson(Map m) => CrosstabBase.fromJson(m);
-  static Crosstab _createFromJson(Map? m) =>
-      m == null ? Crosstab() : CrosstabBase.fromJson(m);
   static Crosstab fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

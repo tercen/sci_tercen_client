@@ -28,8 +28,6 @@ class EnumeratedPropertyBase extends StringProperty {
 
   static EnumeratedProperty createFromJson(Map m) =>
       EnumeratedPropertyBase.fromJson(m);
-  static EnumeratedProperty _createFromJson(Map? m) =>
-      m == null ? EnumeratedProperty() : EnumeratedPropertyBase.fromJson(m);
   static EnumeratedProperty fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

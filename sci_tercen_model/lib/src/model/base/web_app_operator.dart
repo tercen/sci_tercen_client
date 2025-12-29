@@ -23,8 +23,6 @@ class WebAppOperatorBase extends GitOperator {
   }
 
   static WebAppOperator createFromJson(Map m) => WebAppOperatorBase.fromJson(m);
-  static WebAppOperator _createFromJson(Map? m) =>
-      m == null ? WebAppOperator() : WebAppOperatorBase.fromJson(m);
   static WebAppOperator fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -23,8 +23,6 @@ class GenericEventBase extends Event {
   }
 
   static GenericEvent createFromJson(Map m) => GenericEventBase.fromJson(m);
-  static GenericEvent _createFromJson(Map? m) =>
-      m == null ? GenericEvent() : GenericEventBase.fromJson(m);
   static GenericEvent fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

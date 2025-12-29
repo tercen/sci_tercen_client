@@ -59,8 +59,6 @@ class RDescriptionBase extends SciObject {
   }
 
   static RDescription createFromJson(Map m) => RDescriptionBase.fromJson(m);
-  static RDescription _createFromJson(Map? m) =>
-      m == null ? RDescription() : RDescriptionBase.fromJson(m);
   static RDescription fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

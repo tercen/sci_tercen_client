@@ -18,8 +18,12 @@ class RectangleBase extends SciObject {
   }
 
   RectangleBase.json(Map m)
-      : _extent = PointBase._createFromJson(m[Vocabulary.extent_OP] as Map?),
-        _topLeft = PointBase._createFromJson(m[Vocabulary.topLeft_OP] as Map?),
+      : _extent = (m[Vocabulary.extent_OP] as Map?) == null
+            ? Point()
+            : PointBase.fromJson(m[Vocabulary.extent_OP] as Map),
+        _topLeft = (m[Vocabulary.topLeft_OP] as Map?) == null
+            ? Point()
+            : PointBase.fromJson(m[Vocabulary.topLeft_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Rectangle_CLASS, m);
     _extent.parent = this;
@@ -27,8 +31,6 @@ class RectangleBase extends SciObject {
   }
 
   static Rectangle createFromJson(Map m) => RectangleBase.fromJson(m);
-  static Rectangle _createFromJson(Map? m) =>
-      m == null ? Rectangle() : RectangleBase.fromJson(m);
   static Rectangle fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

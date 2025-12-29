@@ -1,6 +1,7 @@
 part of sci_client_base;
 
 class ServiceFactoryBase implements api.ServiceFactory {
+  late CranLibraryService cranLibraryService;
   late WorkerService workerService;
   late GarbageCollectorService garbageCollectorService;
   late FileService fileService;
@@ -16,13 +17,14 @@ class ServiceFactoryBase implements api.ServiceFactory {
   late EventService eventService;
   late WorkflowService workflowService;
   late UserService userService;
+  late QueryService queryService;
   late ProjectDocumentService projectDocumentService;
-  late CranLibraryService cranLibraryService;
   late TeamService teamService;
   late ProjectService projectService;
   late DocumentService documentService;
   late OperatorService operatorService;
   ServiceFactoryBase() {
+    cranLibraryService = new CranLibraryService()..factory = this;
     workerService = new WorkerService()..factory = this;
     garbageCollectorService = new GarbageCollectorService()..factory = this;
     fileService = new FileService()..factory = this;
@@ -38,8 +40,8 @@ class ServiceFactoryBase implements api.ServiceFactory {
     eventService = new EventService()..factory = this;
     workflowService = new WorkflowService()..factory = this;
     userService = new UserService()..factory = this;
+    queryService = new QueryService()..factory = this;
     projectDocumentService = new ProjectDocumentService()..factory = this;
-    cranLibraryService = new CranLibraryService()..factory = this;
     teamService = new TeamService()..factory = this;
     projectService = new ProjectService()..factory = this;
     documentService = new DocumentService()..factory = this;
@@ -48,6 +50,7 @@ class ServiceFactoryBase implements api.ServiceFactory {
   Future initialize() async {}
   Future initializeWith(Uri uri, [HttpClient? client]) async {
     if (client == null) client = new HttpClient();
+    await cranLibraryService.initialize(uri, client);
     await workerService.initialize(uri, client);
     await garbageCollectorService.initialize(uri, client);
     await fileService.initialize(uri, client);
@@ -63,8 +66,8 @@ class ServiceFactoryBase implements api.ServiceFactory {
     await eventService.initialize(uri, client);
     await workflowService.initialize(uri, client);
     await userService.initialize(uri, client);
+    await queryService.initialize(uri, client);
     await projectDocumentService.initialize(uri, client);
-    await cranLibraryService.initialize(uri, client);
     await teamService.initialize(uri, client);
     await projectService.initialize(uri, client);
     await documentService.initialize(uri, client);

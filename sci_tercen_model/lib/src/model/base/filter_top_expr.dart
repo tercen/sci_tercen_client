@@ -11,8 +11,6 @@ class FilterTopExprBase extends SciObject {
   }
 
   static FilterTopExpr createFromJson(Map m) => FilterTopExprBase.fromJson(m);
-  static FilterTopExpr _createFromJson(Map? m) =>
-      m == null ? FilterTopExpr() : FilterTopExprBase.fromJson(m);
   static FilterTopExpr fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

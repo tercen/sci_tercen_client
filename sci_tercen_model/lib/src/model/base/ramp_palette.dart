@@ -28,8 +28,6 @@ class RampPaletteBase extends Palette {
   }
 
   static RampPalette createFromJson(Map m) => RampPaletteBase.fromJson(m);
-  static RampPalette _createFromJson(Map? m) =>
-      m == null ? RampPalette() : RampPaletteBase.fromJson(m);
   static RampPalette fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -15,8 +15,6 @@ class IdObjectBase extends SciObject {
   }
 
   static IdObject createFromJson(Map m) => IdObjectBase.fromJson(m);
-  static IdObject _createFromJson(Map? m) =>
-      m == null ? IdObject() : IdObjectBase.fromJson(m);
   static IdObject fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

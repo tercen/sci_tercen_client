@@ -17,8 +17,6 @@ class DoubleColorElementBase extends ColorElement {
 
   static DoubleColorElement createFromJson(Map m) =>
       DoubleColorElementBase.fromJson(m);
-  static DoubleColorElement _createFromJson(Map? m) =>
-      m == null ? DoubleColorElement() : DoubleColorElementBase.fromJson(m);
   static DoubleColorElement fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

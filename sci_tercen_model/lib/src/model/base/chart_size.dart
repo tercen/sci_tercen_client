@@ -15,8 +15,6 @@ class ChartSizeBase extends Chart {
   }
 
   static ChartSize createFromJson(Map m) => ChartSizeBase.fromJson(m);
-  static ChartSize _createFromJson(Map? m) =>
-      m == null ? ChartSize() : ChartSizeBase.fromJson(m);
   static ChartSize fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

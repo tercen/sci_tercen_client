@@ -46,9 +46,12 @@ class StepBase extends IdObject {
             m[Vocabulary.inputs_OP] as List?, InputPortBase.createFromJson),
         outputs = base.ListChanged<OutputPort>.from(
             m[Vocabulary.outputs_OP] as List?, OutputPortBase.createFromJson),
-        _rectangle =
-            RectangleBase._createFromJson(m[Vocabulary.rectangle_OP] as Map?),
-        _state = StepStateBase._createFromJson(m[Vocabulary.state_OP] as Map?),
+        _rectangle = (m[Vocabulary.rectangle_OP] as Map?) == null
+            ? Rectangle()
+            : RectangleBase.fromJson(m[Vocabulary.rectangle_OP] as Map),
+        _state = (m[Vocabulary.state_OP] as Map?) == null
+            ? StepState()
+            : StepStateBase.fromJson(m[Vocabulary.state_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Step_CLASS, m);
     inputs.parent = this;
@@ -58,8 +61,6 @@ class StepBase extends IdObject {
   }
 
   static Step createFromJson(Map m) => StepBase.fromJson(m);
-  static Step _createFromJson(Map? m) =>
-      m == null ? Step() : StepBase.fromJson(m);
   static Step fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -11,16 +11,15 @@ class RLibraryBase extends Document {
   }
 
   RLibraryBase.json(Map m)
-      : _rDescription = RDescriptionBase._createFromJson(
-            m[Vocabulary.rDescription_OP] as Map?),
+      : _rDescription = (m[Vocabulary.rDescription_OP] as Map?) == null
+            ? RDescription()
+            : RDescriptionBase.fromJson(m[Vocabulary.rDescription_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.RLibrary_CLASS, m);
     _rDescription.parent = this;
   }
 
   static RLibrary createFromJson(Map m) => RLibraryBase.fromJson(m);
-  static RLibrary _createFromJson(Map? m) =>
-      m == null ? RLibrary() : RLibraryBase.fromJson(m);
   static RLibrary fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

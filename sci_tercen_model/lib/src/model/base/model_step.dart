@@ -11,8 +11,6 @@ class ModelStepBase extends Step {
   }
 
   static ModelStep createFromJson(Map m) => ModelStepBase.fromJson(m);
-  static ModelStep _createFromJson(Map? m) =>
-      m == null ? ModelStep() : ModelStepBase.fromJson(m);
   static ModelStep fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

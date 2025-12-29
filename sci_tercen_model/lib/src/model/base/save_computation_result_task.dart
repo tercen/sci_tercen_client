@@ -13,9 +13,6 @@ class SaveComputationResultTaskBase extends ComputationTask {
 
   static SaveComputationResultTask createFromJson(Map m) =>
       SaveComputationResultTaskBase.fromJson(m);
-  static SaveComputationResultTask _createFromJson(Map? m) => m == null
-      ? SaveComputationResultTask()
-      : SaveComputationResultTaskBase.fromJson(m);
   static SaveComputationResultTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

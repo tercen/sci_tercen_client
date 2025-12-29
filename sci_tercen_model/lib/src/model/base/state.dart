@@ -11,8 +11,6 @@ class StateBase extends SciObject {
   }
 
   static State createFromJson(Map m) => StateBase.fromJson(m);
-  static State _createFromJson(Map? m) =>
-      m == null ? State() : StateBase.fromJson(m);
   static State fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

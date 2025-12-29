@@ -33,8 +33,6 @@ class SearchResultBase extends SciObject {
   }
 
   static SearchResult createFromJson(Map m) => SearchResultBase.fromJson(m);
-  static SearchResult _createFromJson(Map? m) =>
-      m == null ? SearchResult() : SearchResultBase.fromJson(m);
   static SearchResult fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -11,8 +11,6 @@ class ChartPointBase extends ChartSize {
   }
 
   static ChartPoint createFromJson(Map m) => ChartPointBase.fromJson(m);
-  static ChartPoint _createFromJson(Map? m) =>
-      m == null ? ChartPoint() : ChartPointBase.fromJson(m);
   static ChartPoint fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

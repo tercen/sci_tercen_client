@@ -15,8 +15,6 @@ class LockBase extends PersistentObject {
   }
 
   static Lock createFromJson(Map m) => LockBase.fromJson(m);
-  static Lock _createFromJson(Map? m) =>
-      m == null ? Lock() : LockBase.fromJson(m);
   static Lock fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

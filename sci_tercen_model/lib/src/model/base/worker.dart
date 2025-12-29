@@ -89,8 +89,6 @@ class WorkerBase extends SciObject {
   }
 
   static Worker createFromJson(Map m) => WorkerBase.fromJson(m);
-  static Worker _createFromJson(Map? m) =>
-      m == null ? Worker() : WorkerBase.fromJson(m);
   static Worker fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

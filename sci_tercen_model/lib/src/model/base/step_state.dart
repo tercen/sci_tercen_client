@@ -21,16 +21,15 @@ class StepStateBase extends SciObject {
   StepStateBase.json(Map m)
       : _taskId = base.defaultValue(
             m[Vocabulary.taskId_DP] as String?, base.String_DefaultFactory),
-        _taskState =
-            StateBase._createFromJson(m[Vocabulary.taskState_OP] as Map?),
+        _taskState = (m[Vocabulary.taskState_OP] as Map?) == null
+            ? State()
+            : StateBase.fromJson(m[Vocabulary.taskState_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.StepState_CLASS, m);
     _taskState.parent = this;
   }
 
   static StepState createFromJson(Map m) => StepStateBase.fromJson(m);
-  static StepState _createFromJson(Map? m) =>
-      m == null ? StepState() : StepStateBase.fromJson(m);
   static StepState fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

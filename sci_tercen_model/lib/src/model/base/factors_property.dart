@@ -12,8 +12,6 @@ class FactorsPropertyBase extends StringProperty {
 
   static FactorsProperty createFromJson(Map m) =>
       FactorsPropertyBase.fromJson(m);
-  static FactorsProperty _createFromJson(Map? m) =>
-      m == null ? FactorsProperty() : FactorsPropertyBase.fromJson(m);
   static FactorsProperty fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

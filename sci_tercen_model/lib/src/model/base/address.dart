@@ -48,8 +48,6 @@ class AddressBase extends SciObject {
   }
 
   static Address createFromJson(Map m) => AddressBase.fromJson(m);
-  static Address _createFromJson(Map? m) =>
-      m == null ? Address() : AddressBase.fromJson(m);
   static Address fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -13,7 +13,9 @@ class ComputedTableSchemaBase extends Schema {
   }
 
   ComputedTableSchemaBase.json(Map m)
-      : _query = CubeQueryBase._createFromJson(m[Vocabulary.query_OP] as Map?),
+      : _query = (m[Vocabulary.query_OP] as Map?) == null
+            ? CubeQuery()
+            : CubeQueryBase.fromJson(m[Vocabulary.query_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.ComputedTableSchema_CLASS, m);
     _query.parent = this;
@@ -21,8 +23,6 @@ class ComputedTableSchemaBase extends Schema {
 
   static ComputedTableSchema createFromJson(Map m) =>
       ComputedTableSchemaBase.fromJson(m);
-  static ComputedTableSchema _createFromJson(Map? m) =>
-      m == null ? ComputedTableSchema() : ComputedTableSchemaBase.fromJson(m);
   static ComputedTableSchema fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

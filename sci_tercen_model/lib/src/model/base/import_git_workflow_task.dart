@@ -19,7 +19,9 @@ class ImportGitWorkflowTaskBase extends ImportWorkflowTask {
   ImportGitWorkflowTaskBase.json(Map m)
       : _version = base.defaultValue(
             m[Vocabulary.version_DP] as String?, base.String_DefaultFactory),
-        _url = UrlBase._createFromJson(m[Vocabulary.url_OP] as Map?),
+        _url = (m[Vocabulary.url_OP] as Map?) == null
+            ? Url()
+            : UrlBase.fromJson(m[Vocabulary.url_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.ImportGitWorkflowTask_CLASS, m);
     _url.parent = this;
@@ -27,9 +29,6 @@ class ImportGitWorkflowTaskBase extends ImportWorkflowTask {
 
   static ImportGitWorkflowTask createFromJson(Map m) =>
       ImportGitWorkflowTaskBase.fromJson(m);
-  static ImportGitWorkflowTask _createFromJson(Map? m) => m == null
-      ? ImportGitWorkflowTask()
-      : ImportGitWorkflowTaskBase.fromJson(m);
   static ImportGitWorkflowTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

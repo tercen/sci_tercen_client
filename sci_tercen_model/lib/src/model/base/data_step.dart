@@ -24,16 +24,15 @@ class DataStepBase extends CrossTabStep {
       : _parentDataStepId = base.defaultValue(
             m[Vocabulary.parentDataStepId_DP] as String?,
             base.String_DefaultFactory),
-        _computedRelation = RelationBase._createFromJson(
-            m[Vocabulary.computedRelation_OP] as Map?),
+        _computedRelation = (m[Vocabulary.computedRelation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.computedRelation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.DataStep_CLASS, m);
     _computedRelation.parent = this;
   }
 
   static DataStep createFromJson(Map m) => DataStepBase.fromJson(m);
-  static DataStep _createFromJson(Map? m) =>
-      m == null ? DataStep() : DataStepBase.fromJson(m);
   static DataStep fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -18,10 +18,12 @@ class WhereRelationBase extends Relation {
   }
 
   WhereRelationBase.json(Map m)
-      : _relation =
-            RelationBase._createFromJson(m[Vocabulary.relation_OP] as Map?),
-        _filters =
-            FiltersBase._createFromJson(m[Vocabulary.filters_OP] as Map?),
+      : _relation = (m[Vocabulary.relation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.relation_OP] as Map),
+        _filters = (m[Vocabulary.filters_OP] as Map?) == null
+            ? Filters()
+            : FiltersBase.fromJson(m[Vocabulary.filters_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.WhereRelation_CLASS, m);
     _relation.parent = this;
@@ -29,8 +31,6 @@ class WhereRelationBase extends Relation {
   }
 
   static WhereRelation createFromJson(Map m) => WhereRelationBase.fromJson(m);
-  static WhereRelation _createFromJson(Map? m) =>
-      m == null ? WhereRelation() : WhereRelationBase.fromJson(m);
   static WhereRelation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

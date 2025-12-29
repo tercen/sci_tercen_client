@@ -18,8 +18,9 @@ class AnnotationOperatorModelBase extends OperatorModel {
   }
 
   AnnotationOperatorModelBase.json(Map m)
-      : _filters =
-            FiltersBase._createFromJson(m[Vocabulary.filters_OP] as Map?),
+      : _filters = (m[Vocabulary.filters_OP] as Map?) == null
+            ? Filters()
+            : FiltersBase.fromJson(m[Vocabulary.filters_OP] as Map),
         annotationModels = base.ListChanged<AnnotationModel>.from(
             m[Vocabulary.annotationModels_OP] as List?,
             AnnotationModelBase.createFromJson),
@@ -31,9 +32,6 @@ class AnnotationOperatorModelBase extends OperatorModel {
 
   static AnnotationOperatorModel createFromJson(Map m) =>
       AnnotationOperatorModelBase.fromJson(m);
-  static AnnotationOperatorModel _createFromJson(Map? m) => m == null
-      ? AnnotationOperatorModel()
-      : AnnotationOperatorModelBase.fromJson(m);
   static AnnotationOperatorModel fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

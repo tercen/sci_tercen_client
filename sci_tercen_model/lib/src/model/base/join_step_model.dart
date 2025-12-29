@@ -40,8 +40,6 @@ class JoinStepModelBase extends StepModel {
   }
 
   static JoinStepModel createFromJson(Map m) => JoinStepModelBase.fromJson(m);
-  static JoinStepModel _createFromJson(Map? m) =>
-      m == null ? JoinStepModel() : JoinStepModelBase.fromJson(m);
   static JoinStepModel fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -32,7 +32,9 @@ class CubeQueryTaskBase extends ProjectTask {
             m[Vocabulary.removeOnGC_DP] as bool?, base.bool_DefaultFactory),
         schemaIds =
             base.ListChangedBase<String>(m[Vocabulary.schemaIds_DP] as List?),
-        _query = CubeQueryBase._createFromJson(m[Vocabulary.query_OP] as Map?),
+        _query = (m[Vocabulary.query_OP] as Map?) == null
+            ? CubeQuery()
+            : CubeQueryBase.fromJson(m[Vocabulary.query_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.CubeQueryTask_CLASS, m);
     schemaIds.parent = this;
@@ -40,8 +42,6 @@ class CubeQueryTaskBase extends ProjectTask {
   }
 
   static CubeQueryTask createFromJson(Map m) => CubeQueryTaskBase.fromJson(m);
-  static CubeQueryTask _createFromJson(Map? m) =>
-      m == null ? CubeQueryTask() : CubeQueryTaskBase.fromJson(m);
   static CubeQueryTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

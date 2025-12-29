@@ -23,8 +23,6 @@ class RProxyBase extends SciObject {
   }
 
   static RProxy createFromJson(Map m) => RProxyBase.fromJson(m);
-  static RProxy _createFromJson(Map? m) =>
-      m == null ? RProxy() : RProxyBase.fromJson(m);
   static RProxy fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

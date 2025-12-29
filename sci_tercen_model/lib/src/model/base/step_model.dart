@@ -11,8 +11,6 @@ class StepModelBase extends SciObject {
   }
 
   static StepModel createFromJson(Map m) => StepModelBase.fromJson(m);
-  static StepModel _createFromJson(Map? m) =>
-      m == null ? StepModel() : StepModelBase.fromJson(m);
   static StepModel fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

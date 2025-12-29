@@ -30,7 +30,9 @@ class WorkflowBase extends ProjectDocument {
             m[Vocabulary.links_OP] as List?, LinkBase.createFromJson),
         steps = base.ListChanged<Step>.from(
             m[Vocabulary.steps_OP] as List?, StepBase.createFromJson),
-        _offset = PointBase._createFromJson(m[Vocabulary.offset_OP] as Map?),
+        _offset = (m[Vocabulary.offset_OP] as Map?) == null
+            ? Point()
+            : PointBase.fromJson(m[Vocabulary.offset_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Workflow_CLASS, m);
     links.parent = this;
@@ -39,8 +41,6 @@ class WorkflowBase extends ProjectDocument {
   }
 
   static Workflow createFromJson(Map m) => WorkflowBase.fromJson(m);
-  static Workflow _createFromJson(Map? m) =>
-      m == null ? Workflow() : WorkflowBase.fromJson(m);
   static Workflow fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

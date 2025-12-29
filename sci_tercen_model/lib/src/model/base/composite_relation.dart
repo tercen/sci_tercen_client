@@ -21,8 +21,9 @@ class CompositeRelationBase extends Relation {
       : joinOperators = base.ListChanged<JoinOperator>.from(
             m[Vocabulary.joinOperators_OP] as List?,
             JoinOperatorBase.createFromJson),
-        _mainRelation =
-            RelationBase._createFromJson(m[Vocabulary.mainRelation_OP] as Map?),
+        _mainRelation = (m[Vocabulary.mainRelation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.mainRelation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.CompositeRelation_CLASS, m);
     joinOperators.parent = this;
@@ -31,8 +32,6 @@ class CompositeRelationBase extends Relation {
 
   static CompositeRelation createFromJson(Map m) =>
       CompositeRelationBase.fromJson(m);
-  static CompositeRelation _createFromJson(Map? m) =>
-      m == null ? CompositeRelation() : CompositeRelationBase.fromJson(m);
   static CompositeRelation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -25,15 +25,15 @@ class RunWebAppTaskBase extends ProjectTask {
         _cubeQueryTaskId = base.defaultValue(
             m[Vocabulary.cubeQueryTaskId_DP] as String?,
             base.String_DefaultFactory),
-        _url = UrlBase._createFromJson(m[Vocabulary.url_OP] as Map?),
+        _url = (m[Vocabulary.url_OP] as Map?) == null
+            ? Url()
+            : UrlBase.fromJson(m[Vocabulary.url_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.RunWebAppTask_CLASS, m);
     _url.parent = this;
   }
 
   static RunWebAppTask createFromJson(Map m) => RunWebAppTaskBase.fromJson(m);
-  static RunWebAppTask _createFromJson(Map? m) =>
-      m == null ? RunWebAppTask() : RunWebAppTaskBase.fromJson(m);
   static RunWebAppTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

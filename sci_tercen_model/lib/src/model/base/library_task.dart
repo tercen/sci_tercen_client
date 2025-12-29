@@ -11,8 +11,6 @@ class LibraryTaskBase extends Task {
   }
 
   static LibraryTask createFromJson(Map m) => LibraryTaskBase.fromJson(m);
-  static LibraryTask _createFromJson(Map? m) =>
-      m == null ? LibraryTask() : LibraryTaskBase.fromJson(m);
   static LibraryTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

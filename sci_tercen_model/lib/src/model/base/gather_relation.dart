@@ -40,8 +40,9 @@ class GatherRelationBase extends Relation {
             m[Vocabulary.valueType_DP] as String?, base.String_DefaultFactory),
         _gatherType = base.defaultValue(
             m[Vocabulary.gatherType_DP] as String?, base.String_DefaultFactory),
-        _relation =
-            RelationBase._createFromJson(m[Vocabulary.relation_OP] as Map?),
+        _relation = (m[Vocabulary.relation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.relation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.GatherRelation_CLASS, m);
     names.parent = this;
@@ -49,8 +50,6 @@ class GatherRelationBase extends Relation {
   }
 
   static GatherRelation createFromJson(Map m) => GatherRelationBase.fromJson(m);
-  static GatherRelation _createFromJson(Map? m) =>
-      m == null ? GatherRelation() : GatherRelationBase.fromJson(m);
   static GatherRelation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -20,8 +20,6 @@ class GateOperatorModelBase extends OperatorModel {
 
   static GateOperatorModel createFromJson(Map m) =>
       GateOperatorModelBase.fromJson(m);
-  static GateOperatorModel _createFromJson(Map? m) =>
-      m == null ? GateOperatorModel() : GateOperatorModelBase.fromJson(m);
   static GateOperatorModel fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

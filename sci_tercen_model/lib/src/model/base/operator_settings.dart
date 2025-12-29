@@ -27,12 +27,14 @@ class OperatorSettingsBase extends SciObject {
   OperatorSettingsBase.json(Map m)
       : _namespace = base.defaultValue(
             m[Vocabulary.namespace_DP] as String?, base.String_DefaultFactory),
-        _operatorRef = OperatorRefBase._createFromJson(
-            m[Vocabulary.operatorRef_OP] as Map?),
+        _operatorRef = (m[Vocabulary.operatorRef_OP] as Map?) == null
+            ? OperatorRef()
+            : OperatorRefBase.fromJson(m[Vocabulary.operatorRef_OP] as Map),
         environment = base.ListChanged<Pair>.from(
             m[Vocabulary.environment_OP] as List?, PairBase.createFromJson),
-        _operatorModel = OperatorModelBase._createFromJson(
-            m[Vocabulary.operatorModel_OP] as Map?),
+        _operatorModel = (m[Vocabulary.operatorModel_OP] as Map?) == null
+            ? OperatorModel()
+            : OperatorModelBase.fromJson(m[Vocabulary.operatorModel_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.OperatorSettings_CLASS, m);
     _operatorRef.parent = this;
@@ -42,8 +44,6 @@ class OperatorSettingsBase extends SciObject {
 
   static OperatorSettings createFromJson(Map m) =>
       OperatorSettingsBase.fromJson(m);
-  static OperatorSettings _createFromJson(Map? m) =>
-      m == null ? OperatorSettings() : OperatorSettingsBase.fromJson(m);
   static OperatorSettings fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

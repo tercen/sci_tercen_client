@@ -11,8 +11,6 @@ class GitProjectTaskBase extends Task {
   }
 
   static GitProjectTask createFromJson(Map m) => GitProjectTaskBase.fromJson(m);
-  static GitProjectTask _createFromJson(Map? m) =>
-      m == null ? GitProjectTask() : GitProjectTaskBase.fromJson(m);
   static GitProjectTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

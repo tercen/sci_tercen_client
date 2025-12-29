@@ -15,8 +15,6 @@ class ApiCallProfileBase extends Profile {
   }
 
   static ApiCallProfile createFromJson(Map m) => ApiCallProfileBase.fromJson(m);
-  static ApiCallProfile _createFromJson(Map? m) =>
-      m == null ? ApiCallProfile() : ApiCallProfileBase.fromJson(m);
   static ApiCallProfile fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

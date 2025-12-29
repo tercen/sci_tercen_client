@@ -43,8 +43,6 @@ class MeltStepModelBase extends StepModel {
   }
 
   static MeltStepModel createFromJson(Map m) => MeltStepModelBase.fromJson(m);
-  static MeltStepModel _createFromJson(Map? m) =>
-      m == null ? MeltStepModel() : MeltStepModelBase.fromJson(m);
   static MeltStepModel fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

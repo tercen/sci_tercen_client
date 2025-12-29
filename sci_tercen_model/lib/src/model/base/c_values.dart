@@ -11,8 +11,6 @@ class CValuesBase extends base.Base {
   }
 
   static CValues createFromJson(Map m) => CValuesBase.fromJson(m);
-  static CValues _createFromJson(Map? m) =>
-      m == null ? CValues() : CValuesBase.fromJson(m);
   static CValues fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

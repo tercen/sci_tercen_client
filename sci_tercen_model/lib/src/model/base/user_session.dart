@@ -22,10 +22,15 @@ class UserSessionBase extends SciObject {
   }
 
   UserSessionBase.json(Map m)
-      : _serverVersion =
-            VersionBase._createFromJson(m[Vocabulary.serverVersion_OP] as Map?),
-        _user = UserBase._createFromJson(m[Vocabulary.user_OP] as Map?),
-        _token = TokenBase._createFromJson(m[Vocabulary.token_OP] as Map?),
+      : _serverVersion = (m[Vocabulary.serverVersion_OP] as Map?) == null
+            ? Version()
+            : VersionBase.fromJson(m[Vocabulary.serverVersion_OP] as Map),
+        _user = (m[Vocabulary.user_OP] as Map?) == null
+            ? User()
+            : UserBase.fromJson(m[Vocabulary.user_OP] as Map),
+        _token = (m[Vocabulary.token_OP] as Map?) == null
+            ? Token()
+            : TokenBase.fromJson(m[Vocabulary.token_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.UserSession_CLASS, m);
     _serverVersion.parent = this;
@@ -34,8 +39,6 @@ class UserSessionBase extends SciObject {
   }
 
   static UserSession createFromJson(Map m) => UserSessionBase.fromJson(m);
-  static UserSession _createFromJson(Map? m) =>
-      m == null ? UserSession() : UserSessionBase.fromJson(m);
   static UserSession fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

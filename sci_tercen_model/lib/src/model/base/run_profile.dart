@@ -54,8 +54,6 @@ class RunProfileBase extends Profile {
   }
 
   static RunProfile createFromJson(Map m) => RunProfileBase.fromJson(m);
-  static RunProfile _createFromJson(Map? m) =>
-      m == null ? RunProfile() : RunProfileBase.fromJson(m);
   static RunProfile fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

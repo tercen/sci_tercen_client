@@ -2,13 +2,12 @@ library sci_client;
 
 export "package:sci_http_client/error.dart";
 export "package:sci_tercen_model/sci_model.dart";
-
 import "sci_client_base.dart";
 import "package:sci_tercen_model/sci_model.dart";
 import "package:sci_http_client/error.dart";
 import "package:sci_http_client/http_auth_client.dart" as httpauth;
 
-
+part 'src/client/impl/cran_library_service.dart';
 part 'src/client/impl/worker_service.dart';
 part 'src/client/impl/garbage_collector_service.dart';
 part 'src/client/impl/file_service.dart';
@@ -24,8 +23,8 @@ part 'src/client/impl/patch_record_service.dart';
 part 'src/client/impl/event_service.dart';
 part 'src/client/impl/workflow_service.dart';
 part 'src/client/impl/user_service.dart';
+part 'src/client/impl/query_service.dart';
 part 'src/client/impl/project_document_service.dart';
-part 'src/client/impl/cran_library_service.dart';
 part 'src/client/impl/team_service.dart';
 part 'src/client/impl/project_service.dart';
 part 'src/client/impl/document_service.dart';

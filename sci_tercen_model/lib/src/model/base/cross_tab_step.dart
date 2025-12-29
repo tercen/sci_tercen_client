@@ -11,15 +11,15 @@ class CrossTabStepBase extends NamespaceStep {
   }
 
   CrossTabStepBase.json(Map m)
-      : _model = CrosstabBase._createFromJson(m[Vocabulary.model_OP] as Map?),
+      : _model = (m[Vocabulary.model_OP] as Map?) == null
+            ? Crosstab()
+            : CrosstabBase.fromJson(m[Vocabulary.model_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.CrossTabStep_CLASS, m);
     _model.parent = this;
   }
 
   static CrossTabStep createFromJson(Map m) => CrossTabStepBase.fromJson(m);
-  static CrossTabStep _createFromJson(Map? m) =>
-      m == null ? CrossTabStep() : CrossTabStepBase.fromJson(m);
   static CrossTabStep fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

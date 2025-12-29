@@ -11,15 +11,15 @@ class TaskStateEventBase extends TaskEvent {
   }
 
   TaskStateEventBase.json(Map m)
-      : _state = StateBase._createFromJson(m[Vocabulary.state_OP] as Map?),
+      : _state = (m[Vocabulary.state_OP] as Map?) == null
+            ? State()
+            : StateBase.fromJson(m[Vocabulary.state_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.TaskStateEvent_CLASS, m);
     _state.parent = this;
   }
 
   static TaskStateEvent createFromJson(Map m) => TaskStateEventBase.fromJson(m);
-  static TaskStateEvent _createFromJson(Map? m) =>
-      m == null ? TaskStateEvent() : TaskStateEventBase.fromJson(m);
   static TaskStateEvent fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

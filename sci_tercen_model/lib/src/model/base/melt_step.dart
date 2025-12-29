@@ -18,8 +18,9 @@ class MeltStepBase extends NamespaceStep {
   }
 
   MeltStepBase.json(Map m)
-      : _model =
-            MeltStepModelBase._createFromJson(m[Vocabulary.model_OP] as Map?),
+      : _model = (m[Vocabulary.model_OP] as Map?) == null
+            ? MeltStepModel()
+            : MeltStepModelBase.fromJson(m[Vocabulary.model_OP] as Map),
         meltedAttributes = base.ListChanged<Attribute>.from(
             m[Vocabulary.meltedAttributes_OP] as List?,
             AttributeBase.createFromJson),
@@ -30,8 +31,6 @@ class MeltStepBase extends NamespaceStep {
   }
 
   static MeltStep createFromJson(Map m) => MeltStepBase.fromJson(m);
-  static MeltStep _createFromJson(Map? m) =>
-      m == null ? MeltStep() : MeltStepBase.fromJson(m);
   static MeltStep fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

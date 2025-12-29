@@ -39,8 +39,6 @@ class TableRelationBase extends SimpleRelation {
   }
 
   static TableRelation createFromJson(Map m) => TableRelationBase.fromJson(m);
-  static TableRelation _createFromJson(Map? m) =>
-      m == null ? TableRelation() : TableRelationBase.fromJson(m);
   static TableRelation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

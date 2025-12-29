@@ -42,11 +42,14 @@ class GlTaskBase extends Task {
             base.defaultDouble(m[Vocabulary.yCellResolution_DP] as num?),
         _layer = base.defaultValue(
             m[Vocabulary.layer_DP] as int?, base.int_DefaultFactory),
-        _cubeQueryTask = CubeQueryTaskBase._createFromJson(
-            m[Vocabulary.cubeQueryTask_OP] as Map?),
+        _cubeQueryTask = (m[Vocabulary.cubeQueryTask_OP] as Map?) == null
+            ? CubeQueryTask()
+            : CubeQueryTaskBase.fromJson(m[Vocabulary.cubeQueryTask_OP] as Map),
         palettes = base.ListChanged<Palette>.from(
             m[Vocabulary.palettes_OP] as List?, PaletteBase.createFromJson),
-        _range = RectangleBase._createFromJson(m[Vocabulary.range_OP] as Map?),
+        _range = (m[Vocabulary.range_OP] as Map?) == null
+            ? Rectangle()
+            : RectangleBase.fromJson(m[Vocabulary.range_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.GlTask_CLASS, m);
     _cubeQueryTask.parent = this;
@@ -55,8 +58,6 @@ class GlTaskBase extends Task {
   }
 
   static GlTask createFromJson(Map m) => GlTaskBase.fromJson(m);
-  static GlTask _createFromJson(Map? m) =>
-      m == null ? GlTask() : GlTaskBase.fromJson(m);
   static GlTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

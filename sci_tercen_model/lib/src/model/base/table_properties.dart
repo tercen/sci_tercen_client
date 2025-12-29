@@ -33,8 +33,6 @@ class TablePropertiesBase extends SciObject {
 
   static TableProperties createFromJson(Map m) =>
       TablePropertiesBase.fromJson(m);
-  static TableProperties _createFromJson(Map? m) =>
-      m == null ? TableProperties() : TablePropertiesBase.fromJson(m);
   static TableProperties fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

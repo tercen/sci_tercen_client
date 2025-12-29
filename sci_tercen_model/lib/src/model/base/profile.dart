@@ -15,8 +15,6 @@ class ProfileBase extends SciObject {
   }
 
   static Profile createFromJson(Map m) => ProfileBase.fromJson(m);
-  static Profile _createFromJson(Map? m) =>
-      m == null ? Profile() : ProfileBase.fromJson(m);
   static Profile fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

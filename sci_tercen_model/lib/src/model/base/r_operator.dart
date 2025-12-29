@@ -11,8 +11,6 @@ class ROperatorBase extends GitOperator {
   }
 
   static ROperator createFromJson(Map m) => ROperatorBase.fromJson(m);
-  static ROperator _createFromJson(Map? m) =>
-      m == null ? ROperator() : ROperatorBase.fromJson(m);
   static ROperator fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

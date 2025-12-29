@@ -23,8 +23,6 @@ class FactorBase extends SciObject {
   }
 
   static Factor createFromJson(Map m) => FactorBase.fromJson(m);
-  static Factor _createFromJson(Map? m) =>
-      m == null ? Factor() : FactorBase.fromJson(m);
   static Factor fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

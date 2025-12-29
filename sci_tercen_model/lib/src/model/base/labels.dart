@@ -19,8 +19,6 @@ class LabelsBase extends SciObject {
   }
 
   static Labels createFromJson(Map m) => LabelsBase.fromJson(m);
-  static Labels _createFromJson(Map? m) =>
-      m == null ? Labels() : LabelsBase.fromJson(m);
   static Labels fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

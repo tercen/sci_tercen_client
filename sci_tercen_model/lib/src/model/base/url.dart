@@ -15,7 +15,6 @@ class UrlBase extends SciObject {
   }
 
   static Url createFromJson(Map m) => UrlBase.fromJson(m);
-  static Url _createFromJson(Map? m) => m == null ? Url() : UrlBase.fromJson(m);
   static Url fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

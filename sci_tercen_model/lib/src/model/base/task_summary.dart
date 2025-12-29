@@ -31,8 +31,6 @@ class TaskSummaryBase extends SciObject {
   }
 
   static TaskSummary createFromJson(Map m) => TaskSummaryBase.fromJson(m);
-  static TaskSummary _createFromJson(Map? m) =>
-      m == null ? TaskSummary() : TaskSummaryBase.fromJson(m);
   static TaskSummary fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

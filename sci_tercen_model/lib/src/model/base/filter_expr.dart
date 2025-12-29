@@ -29,7 +29,9 @@ class FilterExprBase extends FilterTopExpr {
         _stringValue = base.defaultValue(
             m[Vocabulary.stringValue_DP] as String?,
             base.String_DefaultFactory),
-        _factor = FactorBase._createFromJson(m[Vocabulary.factor_OP] as Map?),
+        _factor = (m[Vocabulary.factor_OP] as Map?) == null
+            ? Factor()
+            : FactorBase.fromJson(m[Vocabulary.factor_OP] as Map),
         preProcessors = base.ListChanged<PreProcessor>.from(
             m[Vocabulary.preProcessors_OP] as List?,
             PreProcessorBase.createFromJson),
@@ -40,8 +42,6 @@ class FilterExprBase extends FilterTopExpr {
   }
 
   static FilterExpr createFromJson(Map m) => FilterExprBase.fromJson(m);
-  static FilterExpr _createFromJson(Map? m) =>
-      m == null ? FilterExpr() : FilterExprBase.fromJson(m);
   static FilterExpr fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

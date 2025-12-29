@@ -40,8 +40,6 @@ class UserSecretBase extends PersistentObject {
   }
 
   static UserSecret createFromJson(Map m) => UserSecretBase.fromJson(m);
-  static UserSecret _createFromJson(Map? m) =>
-      m == null ? UserSecret() : UserSecretBase.fromJson(m);
   static UserSecret fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

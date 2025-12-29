@@ -42,8 +42,6 @@ class FileMetadataBase extends SciObject {
   }
 
   static FileMetadata createFromJson(Map m) => FileMetadataBase.fromJson(m);
-  static FileMetadata _createFromJson(Map? m) =>
-      m == null ? FileMetadata() : FileMetadataBase.fromJson(m);
   static FileMetadata fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

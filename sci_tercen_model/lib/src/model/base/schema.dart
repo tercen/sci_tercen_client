@@ -42,8 +42,9 @@ class SchemaBase extends ProjectDocument {
         _storageSize = base.defaultDouble(m[Vocabulary.storageSize_DP] as num?),
         columns = base.ListChanged<ColumnSchema>.from(
             m[Vocabulary.columns_OP] as List?, ColumnSchemaBase.createFromJson),
-        _relation =
-            RelationBase._createFromJson(m[Vocabulary.relation_OP] as Map?),
+        _relation = (m[Vocabulary.relation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.relation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Schema_CLASS, m);
     columns.parent = this;
@@ -51,8 +52,6 @@ class SchemaBase extends ProjectDocument {
   }
 
   static Schema createFromJson(Map m) => SchemaBase.fromJson(m);
-  static Schema _createFromJson(Map? m) =>
-      m == null ? Schema() : SchemaBase.fromJson(m);
   static Schema fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

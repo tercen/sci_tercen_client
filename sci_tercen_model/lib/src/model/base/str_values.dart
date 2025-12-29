@@ -18,8 +18,6 @@ class StrValuesBase extends CValues {
   }
 
   static StrValues createFromJson(Map m) => StrValuesBase.fromJson(m);
-  static StrValues _createFromJson(Map? m) =>
-      m == null ? StrValues() : StrValuesBase.fromJson(m);
   static StrValues fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

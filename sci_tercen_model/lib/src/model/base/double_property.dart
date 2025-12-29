@@ -15,8 +15,6 @@ class DoublePropertyBase extends Property {
   }
 
   static DoubleProperty createFromJson(Map m) => DoublePropertyBase.fromJson(m);
-  static DoubleProperty _createFromJson(Map? m) =>
-      m == null ? DoubleProperty() : DoublePropertyBase.fromJson(m);
   static DoubleProperty fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

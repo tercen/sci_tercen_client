@@ -40,8 +40,9 @@ class StartProcessBase extends IdObject {
             m[Vocabulary.pid_DP] as int?, base.int_DefaultFactory),
         _script = base.defaultValue(
             m[Vocabulary.script_DP] as String?, base.String_DefaultFactory),
-        _ulimits =
-            UlimitsBase._createFromJson(m[Vocabulary.ulimits_OP] as Map?),
+        _ulimits = (m[Vocabulary.ulimits_OP] as Map?) == null
+            ? Ulimits()
+            : UlimitsBase.fromJson(m[Vocabulary.ulimits_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.StartProcess_CLASS, m);
     arguments.parent = this;
@@ -49,8 +50,6 @@ class StartProcessBase extends IdObject {
   }
 
   static StartProcess createFromJson(Map m) => StartProcessBase.fromJson(m);
-  static StartProcess _createFromJson(Map? m) =>
-      m == null ? StartProcess() : StartProcessBase.fromJson(m);
   static StartProcess fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

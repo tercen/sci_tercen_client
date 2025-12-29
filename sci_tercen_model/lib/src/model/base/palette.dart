@@ -28,8 +28,6 @@ class PaletteBase extends SciObject {
   }
 
   static Palette createFromJson(Map m) => PaletteBase.fromJson(m);
-  static Palette _createFromJson(Map? m) =>
-      m == null ? Palette() : PaletteBase.fromJson(m);
   static Palette fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -19,8 +19,6 @@ class UnionRelationBase extends Relation {
   }
 
   static UnionRelation createFromJson(Map m) => UnionRelationBase.fromJson(m);
-  static UnionRelation _createFromJson(Map? m) =>
-      m == null ? UnionRelation() : UnionRelationBase.fromJson(m);
   static UnionRelation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

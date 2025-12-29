@@ -52,12 +52,18 @@ class CubeAxisQueryBase extends base.Base {
             m[Vocabulary.pointSize_DP] as int?, base.int_DefaultFactory),
         _chartType = base.defaultValue(
             m[Vocabulary.chartType_DP] as String?, base.String_DefaultFactory),
-        _yAxis = FactorBase._createFromJson(m[Vocabulary.yAxis_OP] as Map?),
-        _yAxisSettings = AxisSettingsBase._createFromJson(
-            m[Vocabulary.yAxisSettings_OP] as Map?),
-        _xAxis = FactorBase._createFromJson(m[Vocabulary.xAxis_OP] as Map?),
-        _xAxisSettings = AxisSettingsBase._createFromJson(
-            m[Vocabulary.xAxisSettings_OP] as Map?),
+        _yAxis = (m[Vocabulary.yAxis_OP] as Map?) == null
+            ? Factor()
+            : FactorBase.fromJson(m[Vocabulary.yAxis_OP] as Map),
+        _yAxisSettings = (m[Vocabulary.yAxisSettings_OP] as Map?) == null
+            ? AxisSettings()
+            : AxisSettingsBase.fromJson(m[Vocabulary.yAxisSettings_OP] as Map),
+        _xAxis = (m[Vocabulary.xAxis_OP] as Map?) == null
+            ? Factor()
+            : FactorBase.fromJson(m[Vocabulary.xAxis_OP] as Map),
+        _xAxisSettings = (m[Vocabulary.xAxisSettings_OP] as Map?) == null
+            ? AxisSettings()
+            : AxisSettingsBase.fromJson(m[Vocabulary.xAxisSettings_OP] as Map),
         errors = base.ListChanged<Factor>.from(
             m[Vocabulary.errors_OP] as List?, FactorBase.createFromJson),
         labels = base.ListChanged<Factor>.from(
@@ -80,8 +86,6 @@ class CubeAxisQueryBase extends base.Base {
   }
 
   static CubeAxisQuery createFromJson(Map m) => CubeAxisQueryBase.fromJson(m);
-  static CubeAxisQuery _createFromJson(Map? m) =>
-      m == null ? CubeAxisQuery() : CubeAxisQueryBase.fromJson(m);
   static CubeAxisQuery fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

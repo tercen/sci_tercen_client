@@ -97,8 +97,6 @@ class UlimitsBase extends base.Base {
   }
 
   static Ulimits createFromJson(Map m) => UlimitsBase.fromJson(m);
-  static Ulimits _createFromJson(Map? m) =>
-      m == null ? Ulimits() : UlimitsBase.fromJson(m);
   static Ulimits fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

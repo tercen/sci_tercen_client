@@ -29,15 +29,15 @@ class GroupStepBase extends RelationStep {
             m[Vocabulary.appName_DP] as String?, base.String_DefaultFactory),
         _version = base.defaultValue(
             m[Vocabulary.version_DP] as String?, base.String_DefaultFactory),
-        _offset = PointBase._createFromJson(m[Vocabulary.offset_OP] as Map?),
+        _offset = (m[Vocabulary.offset_OP] as Map?) == null
+            ? Point()
+            : PointBase.fromJson(m[Vocabulary.offset_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.GroupStep_CLASS, m);
     _offset.parent = this;
   }
 
   static GroupStep createFromJson(Map m) => GroupStepBase.fromJson(m);
-  static GroupStep _createFromJson(Map? m) =>
-      m == null ? GroupStep() : GroupStepBase.fromJson(m);
   static GroupStep fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

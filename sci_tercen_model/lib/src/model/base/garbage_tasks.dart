@@ -41,8 +41,6 @@ class GarbageTasksBase extends GarbageObject {
   }
 
   static GarbageTasks createFromJson(Map m) => GarbageTasksBase.fromJson(m);
-  static GarbageTasks _createFromJson(Map? m) =>
-      m == null ? GarbageTasks() : GarbageTasksBase.fromJson(m);
   static GarbageTasks fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

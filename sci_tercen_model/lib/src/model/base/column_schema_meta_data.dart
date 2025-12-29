@@ -41,8 +41,6 @@ class ColumnSchemaMetaDataBase extends SciObject {
 
   static ColumnSchemaMetaData createFromJson(Map m) =>
       ColumnSchemaMetaDataBase.fromJson(m);
-  static ColumnSchemaMetaData _createFromJson(Map? m) =>
-      m == null ? ColumnSchemaMetaData() : ColumnSchemaMetaDataBase.fromJson(m);
   static ColumnSchemaMetaData fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -26,8 +26,6 @@ class ExportWorkflowTaskBase extends ProjectTask {
 
   static ExportWorkflowTask createFromJson(Map m) =>
       ExportWorkflowTaskBase.fromJson(m);
-  static ExportWorkflowTask _createFromJson(Map? m) =>
-      m == null ? ExportWorkflowTask() : ExportWorkflowTaskBase.fromJson(m);
   static ExportWorkflowTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

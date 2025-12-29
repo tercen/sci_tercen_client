@@ -23,8 +23,6 @@ class PortBase extends IdObject {
   }
 
   static Port createFromJson(Map m) => PortBase.fromJson(m);
-  static Port _createFromJson(Map? m) =>
-      m == null ? Port() : PortBase.fromJson(m);
   static Port fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

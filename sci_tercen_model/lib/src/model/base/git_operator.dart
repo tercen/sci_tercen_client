@@ -15,8 +15,6 @@ class GitOperatorBase extends Operator {
   }
 
   static GitOperator createFromJson(Map m) => GitOperatorBase.fromJson(m);
-  static GitOperator _createFromJson(Map? m) =>
-      m == null ? GitOperator() : GitOperatorBase.fromJson(m);
   static GitOperator fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

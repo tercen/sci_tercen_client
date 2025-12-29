@@ -52,8 +52,6 @@ class AppDesignBase extends SciObject {
   }
 
   static AppDesign createFromJson(Map m) => AppDesignBase.fromJson(m);
-  static AppDesign _createFromJson(Map? m) =>
-      m == null ? AppDesign() : AppDesignBase.fromJson(m);
   static AppDesign fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

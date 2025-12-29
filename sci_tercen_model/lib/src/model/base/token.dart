@@ -31,15 +31,15 @@ class TokenBase extends SciObject {
             m[Vocabulary.token_DP] as String?, base.String_DefaultFactory),
         _domain = base.defaultValue(
             m[Vocabulary.domain_DP] as String?, base.String_DefaultFactory),
-        _expiry = DateBase._createFromJson(m[Vocabulary.expiry_OP] as Map?),
+        _expiry = (m[Vocabulary.expiry_OP] as Map?) == null
+            ? Date()
+            : DateBase.fromJson(m[Vocabulary.expiry_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Token_CLASS, m);
     _expiry.parent = this;
   }
 
   static Token createFromJson(Map m) => TokenBase.fromJson(m);
-  static Token _createFromJson(Map? m) =>
-      m == null ? Token() : TokenBase.fromJson(m);
   static Token fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

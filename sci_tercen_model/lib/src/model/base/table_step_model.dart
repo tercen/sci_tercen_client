@@ -22,16 +22,15 @@ class TableStepModelBase extends StepModel {
       : _filterSelector = base.defaultValue(
             m[Vocabulary.filterSelector_DP] as String?,
             base.String_DefaultFactory),
-        _relation =
-            RelationBase._createFromJson(m[Vocabulary.relation_OP] as Map?),
+        _relation = (m[Vocabulary.relation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.relation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.TableStepModel_CLASS, m);
     _relation.parent = this;
   }
 
   static TableStepModel createFromJson(Map m) => TableStepModelBase.fromJson(m);
-  static TableStepModel _createFromJson(Map? m) =>
-      m == null ? TableStepModel() : TableStepModelBase.fromJson(m);
   static TableStepModel fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -23,8 +23,6 @@ class TableProfileBase extends Profile {
   }
 
   static TableProfile createFromJson(Map m) => TableProfileBase.fromJson(m);
-  static TableProfile _createFromJson(Map? m) =>
-      m == null ? TableProfile() : TableProfileBase.fromJson(m);
   static TableProfile fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

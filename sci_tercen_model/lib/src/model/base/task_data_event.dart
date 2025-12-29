@@ -15,8 +15,6 @@ class TaskDataEventBase extends TaskEvent {
   }
 
   static TaskDataEvent createFromJson(Map m) => TaskDataEventBase.fromJson(m);
-  static TaskDataEvent _createFromJson(Map? m) =>
-      m == null ? TaskDataEvent() : TaskDataEventBase.fromJson(m);
   static TaskDataEvent fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -18,8 +18,9 @@ class JoinStepBase extends NamespaceStep {
   }
 
   JoinStepBase.json(Map m)
-      : _model =
-            JoinStepModelBase._createFromJson(m[Vocabulary.model_OP] as Map?),
+      : _model = (m[Vocabulary.model_OP] as Map?) == null
+            ? JoinStepModel()
+            : JoinStepModelBase.fromJson(m[Vocabulary.model_OP] as Map),
         rightAttributes = base.ListChanged<Attribute>.from(
             m[Vocabulary.rightAttributes_OP] as List?,
             AttributeBase.createFromJson),
@@ -30,8 +31,6 @@ class JoinStepBase extends NamespaceStep {
   }
 
   static JoinStep createFromJson(Map m) => JoinStepBase.fromJson(m);
-  static JoinStep _createFromJson(Map? m) =>
-      m == null ? JoinStep() : JoinStepBase.fromJson(m);
   static JoinStep fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

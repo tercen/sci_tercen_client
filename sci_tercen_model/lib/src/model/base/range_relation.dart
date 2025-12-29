@@ -24,16 +24,15 @@ class RangeRelationBase extends Relation {
             m[Vocabulary.start_DP] as int?, base.int_DefaultFactory),
         _len = base.defaultValue(
             m[Vocabulary.len_DP] as int?, base.int_DefaultFactory),
-        _relation =
-            RelationBase._createFromJson(m[Vocabulary.relation_OP] as Map?),
+        _relation = (m[Vocabulary.relation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.relation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.RangeRelation_CLASS, m);
     _relation.parent = this;
   }
 
   static RangeRelation createFromJson(Map m) => RangeRelationBase.fromJson(m);
-  static RangeRelation _createFromJson(Map? m) =>
-      m == null ? RangeRelation() : RangeRelationBase.fromJson(m);
   static RangeRelation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

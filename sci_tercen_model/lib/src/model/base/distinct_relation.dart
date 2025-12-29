@@ -19,8 +19,9 @@ class DistinctRelationBase extends Relation {
 
   DistinctRelationBase.json(Map m)
       : group = base.ListChangedBase<String>(m[Vocabulary.group_DP] as List?),
-        _relation =
-            RelationBase._createFromJson(m[Vocabulary.relation_OP] as Map?),
+        _relation = (m[Vocabulary.relation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.relation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.DistinctRelation_CLASS, m);
     group.parent = this;
@@ -29,8 +30,6 @@ class DistinctRelationBase extends Relation {
 
   static DistinctRelation createFromJson(Map m) =>
       DistinctRelationBase.fromJson(m);
-  static DistinctRelation _createFromJson(Map? m) =>
-      m == null ? DistinctRelation() : DistinctRelationBase.fromJson(m);
   static DistinctRelation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

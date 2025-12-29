@@ -11,8 +11,6 @@ class TeamBase extends User {
   }
 
   static Team createFromJson(Map m) => TeamBase.fromJson(m);
-  static Team _createFromJson(Map? m) =>
-      m == null ? Team() : TeamBase.fromJson(m);
   static Team fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

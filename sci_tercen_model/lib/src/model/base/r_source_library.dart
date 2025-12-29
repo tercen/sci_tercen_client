@@ -17,8 +17,6 @@ class RSourceLibraryBase extends RLibrary {
   }
 
   static RSourceLibrary createFromJson(Map m) => RSourceLibraryBase.fromJson(m);
-  static RSourceLibrary _createFromJson(Map? m) =>
-      m == null ? RSourceLibrary() : RSourceLibraryBase.fromJson(m);
   static RSourceLibrary fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

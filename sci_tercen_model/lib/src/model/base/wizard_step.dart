@@ -11,16 +11,15 @@ class WizardStepBase extends NamespaceStep {
   }
 
   WizardStepBase.json(Map m)
-      : _model =
-            WizardStepModelBase._createFromJson(m[Vocabulary.model_OP] as Map?),
+      : _model = (m[Vocabulary.model_OP] as Map?) == null
+            ? WizardStepModel()
+            : WizardStepModelBase.fromJson(m[Vocabulary.model_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.WizardStep_CLASS, m);
     _model.parent = this;
   }
 
   static WizardStep createFromJson(Map m) => WizardStepBase.fromJson(m);
-  static WizardStep _createFromJson(Map? m) =>
-      m == null ? WizardStep() : WizardStepBase.fromJson(m);
   static WizardStep fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

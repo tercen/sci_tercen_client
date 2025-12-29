@@ -30,8 +30,6 @@ class ResourceSummaryBase extends SciObject {
 
   static ResourceSummary createFromJson(Map m) =>
       ResourceSummaryBase.fromJson(m);
-  static ResourceSummary _createFromJson(Map? m) =>
-      m == null ? ResourceSummary() : ResourceSummaryBase.fromJson(m);
   static ResourceSummary fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

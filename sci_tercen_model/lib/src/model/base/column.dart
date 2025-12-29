@@ -19,16 +19,15 @@ class ColumnBase extends ColumnSchema {
   ColumnBase.json(Map m)
       : _values = base.defaultValue(
             m[Vocabulary.values_DP] as dynamic?, base.dynamic_DefaultFactory),
-        _cValues =
-            CValuesBase._createFromJson(m[Vocabulary.cValues_OP] as Map?),
+        _cValues = (m[Vocabulary.cValues_OP] as Map?) == null
+            ? CValues()
+            : CValuesBase.fromJson(m[Vocabulary.cValues_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Column_CLASS, m);
     _cValues.parent = this;
   }
 
   static Column createFromJson(Map m) => ColumnBase.fromJson(m);
-  static Column _createFromJson(Map? m) =>
-      m == null ? Column() : ColumnBase.fromJson(m);
   static Column fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

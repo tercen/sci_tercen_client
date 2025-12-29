@@ -11,16 +11,15 @@ class ExportStepBase extends ModelStep {
   }
 
   ExportStepBase.json(Map m)
-      : _model =
-            ExportModelBase._createFromJson(m[Vocabulary.model_OP] as Map?),
+      : _model = (m[Vocabulary.model_OP] as Map?) == null
+            ? ExportModel()
+            : ExportModelBase.fromJson(m[Vocabulary.model_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.ExportStep_CLASS, m);
     _model.parent = this;
   }
 
   static ExportStep createFromJson(Map m) => ExportStepBase.fromJson(m);
-  static ExportStep _createFromJson(Map? m) =>
-      m == null ? ExportStep() : ExportStepBase.fromJson(m);
   static ExportStep fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

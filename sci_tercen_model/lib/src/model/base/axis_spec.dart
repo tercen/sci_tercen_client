@@ -20,8 +20,6 @@ class AxisSpecBase extends base.Base {
   }
 
   static AxisSpec createFromJson(Map m) => AxisSpecBase.fromJson(m);
-  static AxisSpec _createFromJson(Map? m) =>
-      m == null ? AxisSpec() : AxisSpecBase.fromJson(m);
   static AxisSpec fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

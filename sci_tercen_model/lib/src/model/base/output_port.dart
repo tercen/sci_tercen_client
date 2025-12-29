@@ -11,8 +11,6 @@ class OutputPortBase extends Port {
   }
 
   static OutputPort createFromJson(Map m) => OutputPortBase.fromJson(m);
-  static OutputPort _createFromJson(Map? m) =>
-      m == null ? OutputPort() : OutputPortBase.fromJson(m);
   static OutputPort fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

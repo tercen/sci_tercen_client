@@ -18,8 +18,6 @@ class F64ValuesBase extends CValues {
   }
 
   static F64Values createFromJson(Map m) => F64ValuesBase.fromJson(m);
-  static F64Values _createFromJson(Map? m) =>
-      m == null ? F64Values() : F64ValuesBase.fromJson(m);
   static F64Values fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

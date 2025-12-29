@@ -11,8 +11,6 @@ class RunningStateBase extends State {
   }
 
   static RunningState createFromJson(Map m) => RunningStateBase.fromJson(m);
-  static RunningState _createFromJson(Map? m) =>
-      m == null ? RunningState() : RunningStateBase.fromJson(m);
   static RunningState fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

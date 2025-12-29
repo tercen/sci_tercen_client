@@ -29,8 +29,6 @@ class TaskProgressEventBase extends TaskEvent {
 
   static TaskProgressEvent createFromJson(Map m) =>
       TaskProgressEventBase.fromJson(m);
-  static TaskProgressEvent _createFromJson(Map? m) =>
-      m == null ? TaskProgressEvent() : TaskProgressEventBase.fromJson(m);
   static TaskProgressEvent fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

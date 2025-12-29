@@ -48,9 +48,12 @@ class OperatorRefBase extends SciObject {
         propertyValues = base.ListChanged<PropertyValue>.from(
             m[Vocabulary.propertyValues_OP] as List?,
             PropertyValueBase.createFromJson),
-        _url = UrlBase._createFromJson(m[Vocabulary.url_OP] as Map?),
-        _operatorSpec = OperatorSpecBase._createFromJson(
-            m[Vocabulary.operatorSpec_OP] as Map?),
+        _url = (m[Vocabulary.url_OP] as Map?) == null
+            ? Url()
+            : UrlBase.fromJson(m[Vocabulary.url_OP] as Map),
+        _operatorSpec = (m[Vocabulary.operatorSpec_OP] as Map?) == null
+            ? OperatorSpec()
+            : OperatorSpecBase.fromJson(m[Vocabulary.operatorSpec_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.OperatorRef_CLASS, m);
     propertyValues.parent = this;
@@ -59,8 +62,6 @@ class OperatorRefBase extends SciObject {
   }
 
   static OperatorRef createFromJson(Map m) => OperatorRefBase.fromJson(m);
-  static OperatorRef _createFromJson(Map? m) =>
-      m == null ? OperatorRef() : OperatorRefBase.fromJson(m);
   static OperatorRef fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

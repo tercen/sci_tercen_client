@@ -26,8 +26,6 @@ class TestOperatorTaskBase extends ProjectTask {
 
   static TestOperatorTask createFromJson(Map m) =>
       TestOperatorTaskBase.fromJson(m);
-  static TestOperatorTask _createFromJson(Map? m) =>
-      m == null ? TestOperatorTask() : TestOperatorTaskBase.fromJson(m);
   static TestOperatorTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

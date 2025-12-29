@@ -30,16 +30,23 @@ class ProfilesBase extends SciObject {
   }
 
   ProfilesBase.json(Map m)
-      : _apiProfile = ApiCallProfileBase._createFromJson(
-            m[Vocabulary.apiProfile_OP] as Map?),
-        _tableProfile = TableProfileBase._createFromJson(
-            m[Vocabulary.tableProfile_OP] as Map?),
-        _cpuTimeProfile = CpuTimeProfileBase._createFromJson(
-            m[Vocabulary.cpuTimeProfile_OP] as Map?),
-        _storageProfile = StorageProfileBase._createFromJson(
-            m[Vocabulary.storageProfile_OP] as Map?),
-        _runProfile =
-            RunProfileBase._createFromJson(m[Vocabulary.runProfile_OP] as Map?),
+      : _apiProfile = (m[Vocabulary.apiProfile_OP] as Map?) == null
+            ? ApiCallProfile()
+            : ApiCallProfileBase.fromJson(m[Vocabulary.apiProfile_OP] as Map),
+        _tableProfile = (m[Vocabulary.tableProfile_OP] as Map?) == null
+            ? TableProfile()
+            : TableProfileBase.fromJson(m[Vocabulary.tableProfile_OP] as Map),
+        _cpuTimeProfile = (m[Vocabulary.cpuTimeProfile_OP] as Map?) == null
+            ? CpuTimeProfile()
+            : CpuTimeProfileBase.fromJson(
+                m[Vocabulary.cpuTimeProfile_OP] as Map),
+        _storageProfile = (m[Vocabulary.storageProfile_OP] as Map?) == null
+            ? StorageProfile()
+            : StorageProfileBase.fromJson(
+                m[Vocabulary.storageProfile_OP] as Map),
+        _runProfile = (m[Vocabulary.runProfile_OP] as Map?) == null
+            ? RunProfile()
+            : RunProfileBase.fromJson(m[Vocabulary.runProfile_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.Profiles_CLASS, m);
     _apiProfile.parent = this;
@@ -50,8 +57,6 @@ class ProfilesBase extends SciObject {
   }
 
   static Profiles createFromJson(Map m) => ProfilesBase.fromJson(m);
-  static Profiles _createFromJson(Map? m) =>
-      m == null ? Profiles() : ProfilesBase.fromJson(m);
   static Profiles fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

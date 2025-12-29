@@ -19,8 +19,9 @@ class GroupByRelationBase extends Relation {
 
   GroupByRelationBase.json(Map m)
       : group = base.ListChangedBase<String>(m[Vocabulary.group_DP] as List?),
-        _relation =
-            RelationBase._createFromJson(m[Vocabulary.relation_OP] as Map?),
+        _relation = (m[Vocabulary.relation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.relation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.GroupByRelation_CLASS, m);
     group.parent = this;
@@ -29,8 +30,6 @@ class GroupByRelationBase extends Relation {
 
   static GroupByRelation createFromJson(Map m) =>
       GroupByRelationBase.fromJson(m);
-  static GroupByRelation _createFromJson(Map? m) =>
-      m == null ? GroupByRelation() : GroupByRelationBase.fromJson(m);
   static GroupByRelation fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

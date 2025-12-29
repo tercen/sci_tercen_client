@@ -23,8 +23,6 @@ class FailedStateBase extends State {
   }
 
   static FailedState createFromJson(Map m) => FailedStateBase.fromJson(m);
-  static FailedState _createFromJson(Map? m) =>
-      m == null ? FailedState() : FailedStateBase.fromJson(m);
   static FailedState fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

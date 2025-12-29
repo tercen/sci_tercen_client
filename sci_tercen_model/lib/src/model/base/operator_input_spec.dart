@@ -12,8 +12,6 @@ class OperatorInputSpecBase extends base.Base {
 
   static OperatorInputSpec createFromJson(Map m) =>
       OperatorInputSpecBase.fromJson(m);
-  static OperatorInputSpec _createFromJson(Map? m) =>
-      m == null ? OperatorInputSpec() : OperatorInputSpecBase.fromJson(m);
   static OperatorInputSpec fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

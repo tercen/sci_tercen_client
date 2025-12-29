@@ -19,7 +19,9 @@ class PersistentChannelEventBase extends Event {
   PersistentChannelEventBase.json(Map m)
       : _channel = base.defaultValue(
             m[Vocabulary.channel_DP] as String?, base.String_DefaultFactory),
-        _event = EventBase._createFromJson(m[Vocabulary.event_OP] as Map?),
+        _event = (m[Vocabulary.event_OP] as Map?) == null
+            ? Event()
+            : EventBase.fromJson(m[Vocabulary.event_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.PersistentChannelEvent_CLASS, m);
     _event.parent = this;
@@ -27,9 +29,6 @@ class PersistentChannelEventBase extends Event {
 
   static PersistentChannelEvent createFromJson(Map m) =>
       PersistentChannelEventBase.fromJson(m);
-  static PersistentChannelEvent _createFromJson(Map? m) => m == null
-      ? PersistentChannelEvent()
-      : PersistentChannelEventBase.fromJson(m);
   static PersistentChannelEvent fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

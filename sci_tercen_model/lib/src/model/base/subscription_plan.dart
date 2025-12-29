@@ -54,8 +54,6 @@ class SubscriptionPlanBase extends Document {
 
   static SubscriptionPlan createFromJson(Map m) =>
       SubscriptionPlanBase.fromJson(m);
-  static SubscriptionPlan _createFromJson(Map? m) =>
-      m == null ? SubscriptionPlan() : SubscriptionPlanBase.fromJson(m);
   static SubscriptionPlan fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

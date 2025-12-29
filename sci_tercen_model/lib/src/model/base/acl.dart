@@ -29,7 +29,6 @@ class AclBase extends SciObject {
   }
 
   static Acl createFromJson(Map m) => AclBase.fromJson(m);
-  static Acl _createFromJson(Map? m) => m == null ? Acl() : AclBase.fromJson(m);
   static Acl fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

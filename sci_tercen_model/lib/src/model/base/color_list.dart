@@ -15,8 +15,6 @@ class ColorListBase extends SciObject {
   }
 
   static ColorList createFromJson(Map m) => ColorListBase.fromJson(m);
-  static ColorList _createFromJson(Map? m) =>
-      m == null ? ColorList() : ColorListBase.fromJson(m);
   static ColorList fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

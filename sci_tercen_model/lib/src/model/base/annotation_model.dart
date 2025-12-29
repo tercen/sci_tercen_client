@@ -35,8 +35,9 @@ class AnnotationModelBase extends SciObject {
         annotationFactors = base.ListChanged<GraphicalFactor>.from(
             m[Vocabulary.annotationFactors_OP] as List?,
             GraphicalFactorBase.createFromJson),
-        _relation =
-            RelationBase._createFromJson(m[Vocabulary.relation_OP] as Map?),
+        _relation = (m[Vocabulary.relation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.relation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.AnnotationModel_CLASS, m);
     factors.parent = this;
@@ -46,8 +47,6 @@ class AnnotationModelBase extends SciObject {
 
   static AnnotationModel createFromJson(Map m) =>
       AnnotationModelBase.fromJson(m);
-  static AnnotationModel _createFromJson(Map? m) =>
-      m == null ? AnnotationModel() : AnnotationModelBase.fromJson(m);
   static AnnotationModel fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

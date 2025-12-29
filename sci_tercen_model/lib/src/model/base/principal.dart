@@ -18,8 +18,6 @@ class PrincipalBase extends SciObject {
   }
 
   static Principal createFromJson(Map m) => PrincipalBase.fromJson(m);
-  static Principal _createFromJson(Map? m) =>
-      m == null ? Principal() : PrincipalBase.fromJson(m);
   static Principal fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -16,8 +16,6 @@ class DockerWebAppOperatorBase extends WebAppOperator {
 
   static DockerWebAppOperator createFromJson(Map m) =>
       DockerWebAppOperatorBase.fromJson(m);
-  static DockerWebAppOperator _createFromJson(Map? m) =>
-      m == null ? DockerWebAppOperator() : DockerWebAppOperatorBase.fromJson(m);
   static DockerWebAppOperator fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

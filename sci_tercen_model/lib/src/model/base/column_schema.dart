@@ -38,16 +38,16 @@ class ColumnSchemaBase extends IdObject {
         _size = base.defaultValue(
             m[Vocabulary.size_DP] as int?, base.int_DefaultFactory),
         _storageSize = base.defaultDouble(m[Vocabulary.storageSize_DP] as num?),
-        _metaData = ColumnSchemaMetaDataBase._createFromJson(
-            m[Vocabulary.metaData_OP] as Map?),
+        _metaData = (m[Vocabulary.metaData_OP] as Map?) == null
+            ? ColumnSchemaMetaData()
+            : ColumnSchemaMetaDataBase.fromJson(
+                m[Vocabulary.metaData_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.ColumnSchema_CLASS, m);
     _metaData.parent = this;
   }
 
   static ColumnSchema createFromJson(Map m) => ColumnSchemaBase.fromJson(m);
-  static ColumnSchema _createFromJson(Map? m) =>
-      m == null ? ColumnSchema() : ColumnSchemaBase.fromJson(m);
   static ColumnSchema fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

@@ -28,8 +28,6 @@ class TaxIdBase extends SciObject {
   }
 
   static TaxId createFromJson(Map m) => TaxIdBase.fromJson(m);
-  static TaxId _createFromJson(Map? m) =>
-      m == null ? TaxId() : TaxIdBase.fromJson(m);
   static TaxId fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

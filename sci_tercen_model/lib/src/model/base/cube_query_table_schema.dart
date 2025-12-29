@@ -27,7 +27,9 @@ class CubeQueryTableSchemaBase extends Schema {
         _queryTableType = base.defaultValue(
             m[Vocabulary.queryTableType_DP] as String?,
             base.String_DefaultFactory),
-        _query = CubeQueryBase._createFromJson(m[Vocabulary.query_OP] as Map?),
+        _query = (m[Vocabulary.query_OP] as Map?) == null
+            ? CubeQuery()
+            : CubeQueryBase.fromJson(m[Vocabulary.query_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.CubeQueryTableSchema_CLASS, m);
     _query.parent = this;
@@ -35,8 +37,6 @@ class CubeQueryTableSchemaBase extends Schema {
 
   static CubeQueryTableSchema createFromJson(Map m) =>
       CubeQueryTableSchemaBase.fromJson(m);
-  static CubeQueryTableSchema _createFromJson(Map? m) =>
-      m == null ? CubeQueryTableSchema() : CubeQueryTableSchemaBase.fromJson(m);
   static CubeQueryTableSchema fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

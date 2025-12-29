@@ -4,18 +4,24 @@ class PatchRecordBase extends SciObject {
   static const List<String> PROPERTY_NAMES = [
     Vocabulary.p_DP,
     Vocabulary.t_DP,
-    Vocabulary.d_DP
+    Vocabulary.d_DP,
+    Vocabulary.recordType_OP
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
   String _p;
   String _t;
   String _d;
+  PatchRecordType _recordType;
 
   PatchRecordBase()
       : _p = "",
         _t = "",
-        _d = "";
+        _d = "",
+        _recordType = PatchRecordType() {
+    _recordType.parent = this;
+  }
+
   PatchRecordBase.json(Map m)
       : _p = base.defaultValue(
             m[Vocabulary.p_DP] as String?, base.String_DefaultFactory),
@@ -23,13 +29,15 @@ class PatchRecordBase extends SciObject {
             m[Vocabulary.t_DP] as String?, base.String_DefaultFactory),
         _d = base.defaultValue(
             m[Vocabulary.d_DP] as String?, base.String_DefaultFactory),
+        _recordType = (m[Vocabulary.recordType_OP] as Map?) == null
+            ? PatchRecordType()
+            : PatchRecordTypeBase.fromJson(m[Vocabulary.recordType_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.PatchRecord_CLASS, m);
+    _recordType.parent = this;
   }
 
   static PatchRecord createFromJson(Map m) => PatchRecordBase.fromJson(m);
-  static PatchRecord _createFromJson(Map? m) =>
-      m == null ? PatchRecord() : PatchRecordBase.fromJson(m);
   static PatchRecord fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {
@@ -78,6 +86,20 @@ class PatchRecordBase extends SciObject {
     }
   }
 
+  PatchRecordType get recordType => _recordType;
+
+  set recordType(PatchRecordType $o) {
+    if ($o == _recordType) return;
+    _recordType.parent = null;
+    $o.parent = this;
+    var $old = _recordType;
+    _recordType = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.recordType_OP, $old, _recordType));
+    }
+  }
+
   @override
   dynamic get(String $name) {
     switch ($name) {
@@ -87,6 +109,8 @@ class PatchRecordBase extends SciObject {
         return t;
       case Vocabulary.d_DP:
         return d;
+      case Vocabulary.recordType_OP:
+        return recordType;
       default:
         return super.get($name);
     }
@@ -103,6 +127,9 @@ class PatchRecordBase extends SciObject {
         return;
       case Vocabulary.d_DP:
         d = $value as String;
+        return;
+      case Vocabulary.recordType_OP:
+        recordType = $value as PatchRecordType;
         return;
       default:
         super.set($name, $value);
@@ -129,6 +156,7 @@ class PatchRecordBase extends SciObject {
     m[Vocabulary.p_DP] = p;
     m[Vocabulary.t_DP] = t;
     m[Vocabulary.d_DP] = d;
+    m[Vocabulary.recordType_OP] = recordType.toJson();
     return m;
   }
 }

@@ -11,8 +11,6 @@ class JetPaletteBase extends RampPalette {
   }
 
   static JetPalette createFromJson(Map m) => JetPaletteBase.fromJson(m);
-  static JetPalette _createFromJson(Map? m) =>
-      m == null ? JetPalette() : JetPaletteBase.fromJson(m);
   static JetPalette fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

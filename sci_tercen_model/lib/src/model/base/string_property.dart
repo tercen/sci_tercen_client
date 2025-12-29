@@ -16,8 +16,6 @@ class StringPropertyBase extends Property {
   }
 
   static StringProperty createFromJson(Map m) => StringPropertyBase.fromJson(m);
-  static StringProperty _createFromJson(Map? m) =>
-      m == null ? StringProperty() : StringPropertyBase.fromJson(m);
   static StringProperty fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

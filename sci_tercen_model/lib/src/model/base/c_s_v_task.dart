@@ -48,9 +48,12 @@ class CSVTaskBase extends ProjectTask {
             base.String_DefaultFactory),
         gatherNames =
             base.ListChangedBase<String>(m[Vocabulary.gatherNames_DP] as List?),
-        _schema = SchemaBase._createFromJson(m[Vocabulary.schema_OP] as Map?),
-        _params =
-            CSVParserParamBase._createFromJson(m[Vocabulary.params_OP] as Map?),
+        _schema = (m[Vocabulary.schema_OP] as Map?) == null
+            ? Schema()
+            : SchemaBase.fromJson(m[Vocabulary.schema_OP] as Map),
+        _params = (m[Vocabulary.params_OP] as Map?) == null
+            ? CSVParserParam()
+            : CSVParserParamBase.fromJson(m[Vocabulary.params_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.CSVTask_CLASS, m);
     gatherNames.parent = this;
@@ -59,8 +62,6 @@ class CSVTaskBase extends ProjectTask {
   }
 
   static CSVTask createFromJson(Map m) => CSVTaskBase.fromJson(m);
-  static CSVTask _createFromJson(Map? m) =>
-      m == null ? CSVTask() : CSVTaskBase.fromJson(m);
   static CSVTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

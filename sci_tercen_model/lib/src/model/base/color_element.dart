@@ -15,8 +15,6 @@ class ColorElementBase extends SciObject {
   }
 
   static ColorElement createFromJson(Map m) => ColorElementBase.fromJson(m);
-  static ColorElement _createFromJson(Map? m) =>
-      m == null ? ColorElement() : ColorElementBase.fromJson(m);
   static ColorElement fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

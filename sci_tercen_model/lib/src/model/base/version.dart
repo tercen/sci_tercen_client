@@ -52,8 +52,6 @@ class VersionBase extends SciObject {
   }
 
   static Version createFromJson(Map m) => VersionBase.fromJson(m);
-  static Version _createFromJson(Map? m) =>
-      m == null ? Version() : VersionBase.fromJson(m);
   static Version fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

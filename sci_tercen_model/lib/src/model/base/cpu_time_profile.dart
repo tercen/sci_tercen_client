@@ -14,8 +14,6 @@ class CpuTimeProfileBase extends Profile {
   }
 
   static CpuTimeProfile createFromJson(Map m) => CpuTimeProfileBase.fromJson(m);
-  static CpuTimeProfile _createFromJson(Map? m) =>
-      m == null ? CpuTimeProfile() : CpuTimeProfileBase.fromJson(m);
   static CpuTimeProfile fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

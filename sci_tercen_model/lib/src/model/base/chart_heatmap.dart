@@ -11,8 +11,6 @@ class ChartHeatmapBase extends Chart {
   }
 
   static ChartHeatmap createFromJson(Map m) => ChartHeatmapBase.fromJson(m);
-  static ChartHeatmap _createFromJson(Map? m) =>
-      m == null ? ChartHeatmap() : ChartHeatmapBase.fromJson(m);
   static ChartHeatmap fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

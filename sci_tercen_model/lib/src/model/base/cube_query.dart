@@ -49,8 +49,9 @@ class CubeQueryBase extends SciObject {
             m[Vocabulary.columnHash_DP] as String?, base.String_DefaultFactory),
         _rowHash = base.defaultValue(
             m[Vocabulary.rowHash_DP] as String?, base.String_DefaultFactory),
-        _relation =
-            RelationBase._createFromJson(m[Vocabulary.relation_OP] as Map?),
+        _relation = (m[Vocabulary.relation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.relation_OP] as Map),
         colColumns = base.ListChanged<Factor>.from(
             m[Vocabulary.colColumns_OP] as List?, FactorBase.createFromJson),
         rowColumns = base.ListChanged<Factor>.from(
@@ -58,10 +59,13 @@ class CubeQueryBase extends SciObject {
         axisQueries = base.ListChanged<CubeAxisQuery>.from(
             m[Vocabulary.axisQueries_OP] as List?,
             CubeAxisQueryBase.createFromJson),
-        _filters =
-            FiltersBase._createFromJson(m[Vocabulary.filters_OP] as Map?),
-        _operatorSettings = OperatorSettingsBase._createFromJson(
-            m[Vocabulary.operatorSettings_OP] as Map?),
+        _filters = (m[Vocabulary.filters_OP] as Map?) == null
+            ? Filters()
+            : FiltersBase.fromJson(m[Vocabulary.filters_OP] as Map),
+        _operatorSettings = (m[Vocabulary.operatorSettings_OP] as Map?) == null
+            ? OperatorSettings()
+            : OperatorSettingsBase.fromJson(
+                m[Vocabulary.operatorSettings_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.CubeQuery_CLASS, m);
     _relation.parent = this;
@@ -73,8 +77,6 @@ class CubeQueryBase extends SciObject {
   }
 
   static CubeQuery createFromJson(Map m) => CubeQueryBase.fromJson(m);
-  static CubeQuery _createFromJson(Map? m) =>
-      m == null ? CubeQuery() : CubeQueryBase.fromJson(m);
   static CubeQuery fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

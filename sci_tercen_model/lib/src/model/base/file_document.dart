@@ -28,16 +28,15 @@ class FileDocumentBase extends ProjectDocument {
         _size = base.defaultValue(
             m[Vocabulary.size_DP] as int?, base.int_DefaultFactory),
         _storageSize = base.defaultDouble(m[Vocabulary.storageSize_DP] as num?),
-        _metadata =
-            FileMetadataBase._createFromJson(m[Vocabulary.metadata_OP] as Map?),
+        _metadata = (m[Vocabulary.metadata_OP] as Map?) == null
+            ? FileMetadata()
+            : FileMetadataBase.fromJson(m[Vocabulary.metadata_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.FileDocument_CLASS, m);
     _metadata.parent = this;
   }
 
   static FileDocument createFromJson(Map m) => FileDocumentBase.fromJson(m);
-  static FileDocument _createFromJson(Map? m) =>
-      m == null ? FileDocument() : FileDocumentBase.fromJson(m);
   static FileDocument fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

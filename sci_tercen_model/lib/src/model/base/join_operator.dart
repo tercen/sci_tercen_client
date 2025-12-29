@@ -23,10 +23,12 @@ class JoinOperatorBase extends SciObject {
   JoinOperatorBase.json(Map m)
       : _joinType = base.defaultValue(
             m[Vocabulary.joinType_DP] as String?, base.String_DefaultFactory),
-        _leftPair =
-            ColumnPairBase._createFromJson(m[Vocabulary.leftPair_OP] as Map?),
-        _rightRelation = RelationBase._createFromJson(
-            m[Vocabulary.rightRelation_OP] as Map?),
+        _leftPair = (m[Vocabulary.leftPair_OP] as Map?) == null
+            ? ColumnPair()
+            : ColumnPairBase.fromJson(m[Vocabulary.leftPair_OP] as Map),
+        _rightRelation = (m[Vocabulary.rightRelation_OP] as Map?) == null
+            ? Relation()
+            : RelationBase.fromJson(m[Vocabulary.rightRelation_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.JoinOperator_CLASS, m);
     _leftPair.parent = this;
@@ -34,8 +36,6 @@ class JoinOperatorBase extends SciObject {
   }
 
   static JoinOperator createFromJson(Map m) => JoinOperatorBase.fromJson(m);
-  static JoinOperator _createFromJson(Map? m) =>
-      m == null ? JoinOperator() : JoinOperatorBase.fromJson(m);
   static JoinOperator fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

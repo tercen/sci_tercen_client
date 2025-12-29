@@ -62,7 +62,9 @@ class ActivityBase extends PersistentObject {
             base.String_DefaultFactory),
         _isPublic = base.defaultValue(
             m[Vocabulary.isPublic_DP] as bool?, base.bool_DefaultFactory),
-        _date = DateBase._createFromJson(m[Vocabulary.date_OP] as Map?),
+        _date = (m[Vocabulary.date_OP] as Map?) == null
+            ? Date()
+            : DateBase.fromJson(m[Vocabulary.date_OP] as Map),
         properties = base.ListChanged<Pair>.from(
             m[Vocabulary.properties_OP] as List?, PairBase.createFromJson),
         super.json(m) {
@@ -72,8 +74,6 @@ class ActivityBase extends PersistentObject {
   }
 
   static Activity createFromJson(Map m) => ActivityBase.fromJson(m);
-  static Activity _createFromJson(Map? m) =>
-      m == null ? Activity() : ActivityBase.fromJson(m);
   static Activity fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

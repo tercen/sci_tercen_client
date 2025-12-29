@@ -31,8 +31,6 @@ class ImportWorkflowTaskBase extends ProjectTask {
 
   static ImportWorkflowTask createFromJson(Map m) =>
       ImportWorkflowTaskBase.fromJson(m);
-  static ImportWorkflowTask _createFromJson(Map? m) =>
-      m == null ? ImportWorkflowTask() : ImportWorkflowTaskBase.fromJson(m);
   static ImportWorkflowTask fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

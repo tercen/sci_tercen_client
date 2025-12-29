@@ -33,8 +33,6 @@ class FilterBase extends FilterTopExpr {
   }
 
   static Filter createFromJson(Map m) => FilterBase.fromJson(m);
-  static Filter _createFromJson(Map? m) =>
-      m == null ? Filter() : FilterBase.fromJson(m);
   static Filter fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {

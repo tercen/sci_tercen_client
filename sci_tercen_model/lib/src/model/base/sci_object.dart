@@ -11,8 +11,6 @@ class SciObjectBase extends base.Base {
   }
 
   static SciObject createFromJson(Map m) => SciObjectBase.fromJson(m);
-  static SciObject _createFromJson(Map? m) =>
-      m == null ? SciObject() : SciObjectBase.fromJson(m);
   static SciObject fromJson(Map m) {
     final kind = m[Vocabulary.KIND] as String;
     switch (kind) {
@@ -312,6 +310,8 @@ class SciObjectBase extends base.Base {
         return Filters.json(m);
       case Vocabulary.CubeQuery_CLASS:
         return CubeQuery.json(m);
+      case Vocabulary.Feature_CLASS:
+        return Feature.json(m);
       case Vocabulary.UserSession_CLASS:
         return UserSession.json(m);
       case Vocabulary.Table_CLASS:
@@ -324,6 +324,8 @@ class SciObjectBase extends base.Base {
         return TaskSummary.json(m);
       case Vocabulary.Token_CLASS:
         return Token.json(m);
+      case Vocabulary.ZipEntry_CLASS:
+        return ZipEntry.json(m);
       case Vocabulary.JoinOperator_CLASS:
         return JoinOperator.json(m);
       case Vocabulary.OperatorModel_CLASS:
@@ -362,6 +364,8 @@ class SciObjectBase extends base.Base {
         return IdObject.json(m);
       case Vocabulary.Principal_CLASS:
         return Principal.json(m);
+      case Vocabulary.OperatorEstimateModel_CLASS:
+        return OperatorEstimateModel.json(m);
       case Vocabulary.Url_CLASS:
         return Url.json(m);
       case Vocabulary.RProxy_CLASS:
@@ -436,6 +440,8 @@ class SciObjectBase extends base.Base {
         return TableProperties.json(m);
       case Vocabulary.Chart_CLASS:
         return Chart.json(m);
+      case Vocabulary.ZipSummary_CLASS:
+        return ZipSummary.json(m);
       default:
         throw base.createBadKindError(kind);
     }
