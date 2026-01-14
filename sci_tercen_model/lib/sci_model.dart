@@ -1,5 +1,7 @@
 library sci_model;
 
+import "dart:convert";
+import "package:sci_base/sci_base.dart" as base;
 import "sci_model_base.dart";
 import "package:sci_http_client/error.dart";
 import "package:collection/collection.dart";

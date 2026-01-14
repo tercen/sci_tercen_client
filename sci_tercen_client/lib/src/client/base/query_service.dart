@@ -55,6 +55,24 @@ class QueryServiceBase extends HttpClientService<PersistentObject>
         keys: keys, useFactory: useFactory, aclContext: aclContext);
   }
 
+  Future<List<PersistentObject>> findByProjectAndKindAndDate(
+      {startKey,
+      endKey,
+      int limit = 200,
+      int skip = 0,
+      bool descending = true,
+      bool useFactory = false,
+      service.AclContext? aclContext}) {
+    return findStartKeys("findByProjectAndKindAndDate",
+        startKey: startKey,
+        endKey: endKey,
+        limit: limit,
+        skip: skip,
+        descending: descending,
+        useFactory: useFactory,
+        aclContext: aclContext);
+  }
+
   Stream<String> query(String jsonPath, int limit,
       {service.AclContext? aclContext}) {
     try {

@@ -399,6 +399,14 @@ abstract class QueryService implements api.Service<PersistentObject> {
       {required List keys,
       bool useFactory = false,
       api.AclContext? aclContext});
+  Future<List<PersistentObject>> findByProjectAndKindAndDate(
+      {startKey,
+      endKey,
+      int limit = 200,
+      int skip = 0,
+      bool descending = true,
+      bool useFactory = false,
+      api.AclContext? aclContext});
 }
 
 abstract class ProjectDocumentService implements api.Service<ProjectDocument> {
