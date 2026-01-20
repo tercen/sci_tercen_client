@@ -1,18 +1,13 @@
 name: sci_tercen_client
 description: Tercen Dart client library.
-version: 1.7.0
+version: 1.7.1
 
 environment:
   sdk: ^3.3.0
 
 dependencies:
   sci_tercen_model:
-    git:
-      ref: 1.7.0
-      url: https://github.com/tercen/sci_tercen_client
-      path: sci_tercen_model
-#  sci_tercen_model:
-#    path: ../sci_tercen_model
+    path: ../sci_tercen_model
 
 dev_dependencies:
   lints: ^3.0.0

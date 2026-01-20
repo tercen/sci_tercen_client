@@ -68,38 +68,115 @@ class PatchRecord extends PatchRecordBase {
     return record;
   }
 
-  void apply(base.Base rebuilt) {
-    var path = this.path.split('/');
-    dynamic target = rebuilt;
+  void _initFromRecordType() {
+    if (this.type.isEmpty &&
+        this.data.isEmpty &&
+        recordType.kind != "PatchRecordType") {
+      t = recordType.legacyType;
+      d = recordType.toLegacyData();
+    } else if (recordType.kind == "PatchRecordType") {
+      // Empty recordType, already have t and d
+    }
+  }
 
-    for (var i = 1; i < path.length - 1; i++) {
-      target = target.get(path[i]);
+  void apply(base.Base rebuilt) {
+    _initFromRecordType();
+
+    // Parse path into segments using JsonPathParser
+    var segments = JsonPathParser.parse(this.path);
+
+    // Navigate to target, keeping parent for final operation
+    dynamic target = rebuilt;
+    PathSegment? lastSegment;
+
+    for (var i = 1; i < segments.length - 1; i++) {
+      target = segments[i].navigate(target);
     }
 
+    lastSegment = segments.last;
+
+    // Apply operation based on type
     if (type == SET_TYPE) {
       var value = json.decode(data);
-      target.set(path[path.length - 1], SciObject.decode(value));
+      if (lastSegment is PropertySegment) {
+        if (target is base.Base) {
+          target.set(lastSegment.property, SciObject.decode(value));
+        } else {
+          throw 'SET_TYPE target must be Base object, got ${target.runtimeType}';
+        }
+      } else {
+        throw 'SET_TYPE requires property segment as last segment';
+      }
     } else if (type == LIST_REMOVE_TYPE) {
-      target = target.get(path.last);
-      var indexes = json.decode(data) as List;
-      for (var index in indexes) {
-        (target as List).remove((target)[index]);
+      // For list operations, target should be the list itself
+      if (lastSegment is PropertySegment) {
+        if (target is base.Base) {
+          target = target.get(lastSegment.property);
+        } else {
+          throw 'LIST_REMOVE_TYPE target must be Base object to get property';
+        }
+      }
+      // Indices should be sorted descending by PatchRecords.apply() to avoid shifting issues
+      var indexes = json.decode(data) as List<dynamic>;
+      var sortedIndexes = indexes.cast<int>()..sort((a, b) => b.compareTo(a));
+
+      var targetList = target as List;
+      for (var index in sortedIndexes) {
+        if (index >= 0 && index < targetList.length) {
+          // Get the element at the index, then remove it by value
+          // This works for both regular List and ListChanged
+          var element = targetList[index];
+          targetList.remove(element);
+        } else {
+          throw 'Cannot remove index $index from list of length ${targetList.length} at path ${this.path}';
+        }
       }
     } else if (type == LIST_ADD_TYPE) {
-      target = target.get(path.last);
+      if (lastSegment is PropertySegment) {
+        if (target is base.Base) {
+          target = target.get(lastSegment.property);
+        } else {
+          throw 'LIST_ADD_TYPE target must be Base object to get property';
+        }
+      }
       var list = json.decode(data) as List;
       for (var element in list) {
         (target as List).add(SciObject.decode(element));
       }
     } else if (type == LIST_CLEAR_TYPE) {
-      target = target.get(path.last);
+      if (lastSegment is PropertySegment) {
+        if (target is base.Base) {
+          target = target.get(lastSegment.property);
+        } else {
+          throw 'LIST_CLEAR_TYPE target must be Base object to get property';
+        }
+      }
       (target as List).clear();
     } else if (type == LIST_INSERT_TYPE) {
-      target = target.get(path.last);
+      if (lastSegment is PropertySegment) {
+        if (target is base.Base) {
+          target = target.get(lastSegment.property);
+        } else {
+          throw 'LIST_INSERT_TYPE target must be Base object to get property';
+        }
+      }
       var list = json.decode(data) as List;
       (target as List).insert(list[0], SciObject.decode(list[1]));
     } else {
       throw 'unsupported type';
     }
+  }
+
+  @override
+  Map toJson() {
+    var m = super.toJson();
+    // Ensure t and d are populated from recordType if empty
+    if (m[Vocabulary.t_DP] == null || (m[Vocabulary.t_DP] as String).isEmpty) {
+      if (recordType.kind != "PatchRecordType") {
+        m[Vocabulary.t_DP] = recordType.legacyType;
+        m[Vocabulary.d_DP] = recordType.toLegacyData();
+      }
+    }
+    return m;
   }
 }
