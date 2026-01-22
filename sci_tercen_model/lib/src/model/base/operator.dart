@@ -6,7 +6,8 @@ class OperatorBase extends Document {
     Vocabulary.operatorSpec_OP,
     Vocabulary.capabilities_DP,
     Vocabulary.memoryModel_OP,
-    Vocabulary.runtimeModel_OP
+    Vocabulary.runtimeModel_OP,
+    Vocabulary.communicationProtocol_DP
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
@@ -15,9 +16,11 @@ class OperatorBase extends Document {
   final base.ListChangedBase<String> capabilities;
   OperatorEstimateModel _memoryModel;
   OperatorEstimateModel _runtimeModel;
+  String _communicationProtocol;
 
   OperatorBase()
       : capabilities = base.ListChangedBase<String>(),
+        _communicationProtocol = "",
         properties = base.ListChanged<Property>(),
         _operatorSpec = OperatorSpec(),
         _memoryModel = OperatorEstimateModel(),
@@ -32,6 +35,9 @@ class OperatorBase extends Document {
   OperatorBase.json(Map m)
       : capabilities = base.ListChangedBase<String>(
             m[Vocabulary.capabilities_DP] as List?),
+        _communicationProtocol = base.defaultValue(
+            m[Vocabulary.communicationProtocol_DP] as String?,
+            base.String_DefaultFactory),
         properties = base.ListChanged<Property>.from(
             m[Vocabulary.properties_OP] as List?, PropertyBase.createFromJson),
         _operatorSpec = (m[Vocabulary.operatorSpec_OP] as Map?) == null
@@ -79,6 +85,18 @@ class OperatorBase extends Document {
 
   @override
   String get kind => Vocabulary.Operator_CLASS;
+  String get communicationProtocol => _communicationProtocol;
+
+  set communicationProtocol(String $o) {
+    if ($o == _communicationProtocol) return;
+    var $old = _communicationProtocol;
+    _communicationProtocol = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(this,
+          Vocabulary.communicationProtocol_DP, $old, _communicationProtocol));
+    }
+  }
+
   OperatorSpec get operatorSpec => _operatorSpec;
 
   set operatorSpec(OperatorSpec $o) {
@@ -134,6 +152,8 @@ class OperatorBase extends Document {
         return memoryModel;
       case Vocabulary.runtimeModel_OP:
         return runtimeModel;
+      case Vocabulary.communicationProtocol_DP:
+        return communicationProtocol;
       default:
         return super.get($name);
     }
@@ -144,6 +164,9 @@ class OperatorBase extends Document {
     switch ($name) {
       case Vocabulary.capabilities_DP:
         capabilities.setValues($value as Iterable<String>);
+        return;
+      case Vocabulary.communicationProtocol_DP:
+        communicationProtocol = $value as String;
         return;
       case Vocabulary.properties_OP:
         properties.setValues($value as Iterable<Property>);
@@ -184,6 +207,7 @@ class OperatorBase extends Document {
     m[Vocabulary.capabilities_DP] = capabilities;
     m[Vocabulary.memoryModel_OP] = memoryModel.toJson();
     m[Vocabulary.runtimeModel_OP] = runtimeModel.toJson();
+    m[Vocabulary.communicationProtocol_DP] = communicationProtocol;
     return m;
   }
 }

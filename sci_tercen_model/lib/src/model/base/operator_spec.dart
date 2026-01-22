@@ -1,6 +1,6 @@
 part of sci_model_base;
 
-class OperatorSpecBase extends base.Base {
+class OperatorSpecBase extends SciObject {
   static const List<String> PROPERTY_NAMES = [
     Vocabulary.ontologyUri_DP,
     Vocabulary.ontologyVersion_DP,
@@ -121,6 +121,7 @@ class OperatorSpecBase extends base.Base {
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
 
+  @override
   OperatorSpec copy() => OperatorSpec.json(toJson());
   @override
   Map toJson() {
