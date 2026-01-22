@@ -17,6 +17,10 @@ class OperatorOutputSpecBase extends base.Base {
     switch (kind) {
       case Vocabulary.OperatorOutputSpec_CLASS:
         return OperatorOutputSpec.json(m);
+      case Vocabulary.ConditionalJoinSpec_CLASS:
+        return ConditionalJoinSpec.json(m);
+      case Vocabulary.OperatorJoinSpec_CLASS:
+        return OperatorJoinSpec.json(m);
       default:
         throw base.createBadKindError(kind);
     }

@@ -370,6 +370,8 @@ class SciObjectBase extends base.Base {
         return Url.json(m);
       case Vocabulary.RProxy_CLASS:
         return RProxy.json(m);
+      case Vocabulary.OperatorSpec_CLASS:
+        return OperatorSpec.json(m);
       case Vocabulary.Pair_CLASS:
         return Pair.json(m);
       case Vocabulary.FileMetadata_CLASS:
