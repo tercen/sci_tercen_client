@@ -1,12 +1,12 @@
 name: sci_tercen_model
 description: Tercen model.
-version: 1.8.0
+version: 1.9.0
 
 environment:
   sdk: ^3.3.0
 
 dependencies:
-  path: ^1.8.0
+  path: ^1.9.0
   uuid:
 #  sci_base:
 #    git:
@@ -14,7 +14,7 @@ dependencies:
 #      ref: 1.1.0
   sci_base:
     git:
-      ref: 1.8.0
+      ref: 1.9.0
       url: https://github.com/tercen/sci_tercen_client
       path: sci_base
 #  sci_base:

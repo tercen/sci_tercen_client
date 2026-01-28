@@ -13,3 +13,7 @@ dart fix --apply
 
 dart format .
 ```
+
+### Versioning
+
+All packages must be versioned with the same version and tagged.

@@ -5,7 +5,8 @@ class OperatorSpecBase extends SciObject {
     Vocabulary.ontologyUri_DP,
     Vocabulary.ontologyVersion_DP,
     Vocabulary.inputSpecs_OP,
-    Vocabulary.outputSpecs_OP
+    Vocabulary.outputSpecs_OP,
+    Vocabulary.outputSpecsV2_OP
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
@@ -13,14 +14,17 @@ class OperatorSpecBase extends SciObject {
   String _ontologyVersion;
   final base.ListChanged<OperatorInputSpec> inputSpecs;
   final base.ListChanged<OperatorOutputSpec> outputSpecs;
+  final base.ListChanged<OperatorOutputSpec> outputSpecsV2;
 
   OperatorSpecBase()
       : _ontologyUri = "",
         _ontologyVersion = "",
         inputSpecs = base.ListChanged<OperatorInputSpec>(),
-        outputSpecs = base.ListChanged<OperatorOutputSpec>() {
+        outputSpecs = base.ListChanged<OperatorOutputSpec>(),
+        outputSpecsV2 = base.ListChanged<OperatorOutputSpec>() {
     inputSpecs.parent = this;
     outputSpecs.parent = this;
+    outputSpecsV2.parent = this;
   }
 
   OperatorSpecBase.json(Map m)
@@ -36,10 +40,14 @@ class OperatorSpecBase extends SciObject {
         outputSpecs = base.ListChanged<OperatorOutputSpec>.from(
             m[Vocabulary.outputSpecs_OP] as List?,
             OperatorOutputSpecBase.createFromJson),
+        outputSpecsV2 = base.ListChanged<OperatorOutputSpec>.from(
+            m[Vocabulary.outputSpecsV2_OP] as List?,
+            OperatorOutputSpecBase.createFromJson),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.OperatorSpec_CLASS, m);
     inputSpecs.parent = this;
     outputSpecs.parent = this;
+    outputSpecsV2.parent = this;
   }
 
   static OperatorSpec createFromJson(Map m) => OperatorSpecBase.fromJson(m);
@@ -90,6 +98,8 @@ class OperatorSpecBase extends SciObject {
         return inputSpecs;
       case Vocabulary.outputSpecs_OP:
         return outputSpecs;
+      case Vocabulary.outputSpecsV2_OP:
+        return outputSpecsV2;
       default:
         return super.get($name);
     }
@@ -109,6 +119,9 @@ class OperatorSpecBase extends SciObject {
         return;
       case Vocabulary.outputSpecs_OP:
         outputSpecs.setValues($value as Iterable<OperatorOutputSpec>);
+        return;
+      case Vocabulary.outputSpecsV2_OP:
+        outputSpecsV2.setValues($value as Iterable<OperatorOutputSpec>);
         return;
       default:
         super.set($name, $value);
@@ -136,6 +149,7 @@ class OperatorSpecBase extends SciObject {
     m[Vocabulary.ontologyVersion_DP] = ontologyVersion;
     m[Vocabulary.inputSpecs_OP] = inputSpecs.toJson();
     m[Vocabulary.outputSpecs_OP] = outputSpecs.toJson();
+    m[Vocabulary.outputSpecsV2_OP] = outputSpecsV2.toJson();
     return m;
   }
 }

@@ -15,7 +15,9 @@ class PatchRecords extends PatchRecordsBase {
     for (var record in rs) {
       if (record.type == PatchRecord.LIST_REMOVE_TYPE) {
         var indexes = json.decode(record.data) as List;
-        removesByPath.putIfAbsent(record.path, () => []).addAll(indexes.cast<int>());
+        removesByPath
+            .putIfAbsent(record.path, () => [])
+            .addAll(indexes.cast<int>());
       } else {
         otherRecords.add(record);
       }
@@ -24,8 +26,8 @@ class PatchRecords extends PatchRecordsBase {
     // Apply LIST_REMOVE operations with sorted indices (descending)
     for (var entry in removesByPath.entries) {
       var path = entry.key;
-      var indexes = entry.value..sort((a, b) => b.compareTo(a)); // Sort descending
-
+      var indexes = entry.value
+        ..sort((a, b) => b.compareTo(a)); // Sort descending
 
       var consolidatedRecord = PatchRecord()
         ..path = path

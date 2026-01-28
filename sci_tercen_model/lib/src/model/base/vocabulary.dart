@@ -633,6 +633,7 @@ class Vocabulary {
   static const String value_OP = "value";
   static const String inputSpecs_OP = "inputSpecs";
   static const String outputSpecs_OP = "outputSpecs";
+  static const String outputSpecsV2_OP = "outputSpecsV2";
   static const String inMemoryTable_OP = "inMemoryTable";
   static const String namedFilter_OP = "namedFilter";
   static const String principals_OP = "principals";
