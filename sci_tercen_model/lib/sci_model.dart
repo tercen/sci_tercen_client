@@ -2,6 +2,8 @@ library sci_model;
 
 import "dart:convert";
 import "package:sci_base/sci_base.dart" as base;
+import "package:sci_tercen_model/src/utils/json_path/json_path_parser.dart";
+import "package:sci_tercen_model/src/utils/json_path/path_segment.dart";
 import "sci_model_base.dart";
 import "package:sci_http_client/error.dart";
 import "package:collection/collection.dart";
