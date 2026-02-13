@@ -257,7 +257,7 @@ packages:
       path: "../sci_tercen_client"
       relative: true
     source: path
-    version: "1.11.0"
+    version: "1.12.0"
   sci_tercen_model:
     dependency: transitive
     description:
