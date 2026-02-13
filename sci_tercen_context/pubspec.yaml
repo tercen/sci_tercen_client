@@ -1,0 +1,29 @@
+name: sci_tercen_context
+description: Tercen operator context library for Dart.
+version: 1.11.0
+publish_to: none
+
+environment:
+  sdk: ^3.3.0
+
+dependencies:
+#  sci_tercen_client:
+#    git:
+#      ref: 1.11.0
+#      url: https://github.com/tercen/sci_tercen_client
+#      path: sci_tercen_client
+  sci_tercen_client:
+    path: ../sci_tercen_client
+  tson:
+    git:
+      url: https://github.com/tercen/dtson
+      ref: 1.5.1
+
+dev_dependencies:
+  lints: ^3.0.0
+  test: ^1.24.0
+  sci_base:
+    git:
+      ref: 1.11.0
+      url: https://github.com/tercen/sci_tercen_client
+      path: sci_base

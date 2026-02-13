@@ -1,5 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:sci_tercen_client/sci_client.dart';
 import 'package:sci_tercen_client/sci_client_service_factory.dart';
+import 'package:tson/string_list.dart';
+import 'package:tson/tson.dart' as tson;
 
 import '../helpers/async_lazy.dart';
 import '../helpers/column_filter.dart';
@@ -284,4 +288,233 @@ abstract class AbstractOperatorContext {
 
   /// The task ID, or null if no task is set.
   String? get taskId => task?.id;
+
+  // ============================================================
+  // Task lifecycle: log and progress
+  // ============================================================
+
+  /// Log a message to the task's event channel.
+  ///
+  /// Mirrors R's `ctx$log(message)`. No-op if no task is set.
+  Future<void> log(String message) async {
+    final t = task;
+    if (t == null || t.channelId.isEmpty) return;
+    final evt = TaskLogEvent();
+    evt.taskId = t.id;
+    evt.message = message;
+    await serviceFactory.eventService.sendChannel(t.channelId, evt);
+  }
+
+  /// Report progress to the task's event channel.
+  ///
+  /// Mirrors R's `ctx$progress(message, actual, total)`. No-op if no task is set.
+  Future<void> progress(String message,
+      {required int actual, required int total}) async {
+    final t = task;
+    if (t == null || t.channelId.isEmpty) return;
+    final evt = TaskProgressEvent();
+    evt.taskId = t.id;
+    evt.message = message;
+    evt.actual = actual;
+    evt.total = total;
+    await serviceFactory.eventService.sendChannel(t.channelId, evt);
+  }
+
+  // ============================================================
+  // Task lifecycle: save
+  // ============================================================
+
+  /// Save an [OperatorResult] back to Tercen.
+  ///
+  /// Subclasses implement mode-specific upload and task lifecycle logic.
+  /// Use [saveTable] or [saveTables] for convenience.
+  Future<void> save(OperatorResult result);
+
+  /// Save a single [Table] as an operator result.
+  Future<void> saveTable(Table table) async {
+    final result = OperatorResult();
+    result.tables.add(table);
+    return save(result);
+  }
+
+  /// Save multiple [Table]s as an operator result.
+  Future<void> saveTables(List<Table> tables) async {
+    final result = OperatorResult();
+    for (final t in tables) {
+      result.tables.add(t);
+    }
+    return save(result);
+  }
+
+  /// Save [JoinOperator]s with associated tables as an operator result.
+  ///
+  /// Mirrors R's `ctx$save_relation()`.
+  Future<void> saveRelation(List<JoinOperator> joinOperators) async {
+    final result = OperatorResult();
+    for (final jop in joinOperators) {
+      result.joinOperators.add(jop);
+    }
+    return save(result);
+  }
+
+  /// Serialize an [OperatorResult] to TSON and upload via fileService.
+  ///
+  /// If [existingFile] is provided, re-uploads to that file.
+  /// Otherwise creates a new [FileDocument].
+  ///
+  /// Automatically normalizes column values to ensure correct TSON
+  /// binary type markers (Int32List, Float64List, CStringList).
+  Future<FileDocument> uploadResultFile(
+    OperatorResult result, {
+    FileDocument? existingFile,
+    required String projectId,
+    required String owner,
+  }) async {
+    _normalizeColumnValues(result);
+    final bytes = tson.encode(result.toJson()) as List<int>;
+    final stream = Stream.fromIterable([bytes]);
+
+    if (existingFile != null) {
+      return serviceFactory.fileService.upload(existingFile, stream);
+    }
+
+    final fileDoc = FileDocument();
+    fileDoc.name = 'result';
+    fileDoc.projectId = projectId;
+    fileDoc.acl.owner = owner;
+    fileDoc.metadata.contentType = 'application/octet-stream';
+    return serviceFactory.fileService.upload(fileDoc, stream);
+  }
+
+  // ============================================================
+  // Resource management
+  // ============================================================
+
+  /// Request compute resources (CPU, RAM) for the current task.
+  ///
+  /// Mirrors R's `ctx$requestResources(nCpus, ram, ram_per_cpu)`.
+  /// Returns the updated environment pairs, or empty list if no task is set.
+  Future<List<Pair>> requestResources(
+      {int? nCpus, String? ram, String? ramPerCpu}) async {
+    final t = task;
+    if (t == null) return [];
+
+    final env = <Pair>[];
+    if (nCpus != null) {
+      final p = Pair();
+      p.key = 'cpu';
+      p.value = nCpus.toString();
+      env.add(p);
+    }
+    if (ram != null) {
+      final p = Pair();
+      p.key = 'ram';
+      p.value = ram;
+      env.add(p);
+    }
+    if (ramPerCpu != null) {
+      final p = Pair();
+      p.key = 'ram_per_cpu';
+      p.value = ramPerCpu;
+      env.add(p);
+    }
+
+    return serviceFactory.workerService.updateTaskEnv(t.id, env);
+  }
+
+  // ============================================================
+  // TSON normalization
+  // ============================================================
+
+  /// Normalize every [Column] in the result for correct TSON serialization.
+  ///
+  /// Performs three normalizations:
+  /// 1. **TypedData**: Sets [Column.values] to the correct binary type
+  ///    ([Int32List], [Float64List], [CStringList]) from [Column.cValues].
+  /// 2. **Column type**: Infers [ColumnSchema.type] from [Column.cValues]
+  ///    when it is empty (e.g. `I32Values` → `"int32"`).
+  /// 3. **Row count**: Sets [ColumnSchema.nRows] from the data length, and
+  ///    sets [Table.nRows] from the first column if unset.
+  ///
+  /// Without these, the TSON encoder produces wrong binary markers and the
+  /// Tercen pipeline cannot register output columns as available factors.
+  void _normalizeColumnValues(OperatorResult result) {
+    for (final table in result.tables) {
+      for (final col in table.columns) {
+        final cv = col.cValues;
+        if (cv is I32Values) {
+          final data = cv.values.toList();
+          col.values = Int32List.fromList(data);
+          if (col.type.isEmpty) col.type = 'int32';
+          if (col.nRows == 0) col.nRows = data.length;
+        } else if (cv is F64Values) {
+          final data = cv.values.toList();
+          col.values = Float64List.fromList(data);
+          if (col.type.isEmpty) col.type = 'double';
+          if (col.nRows == 0) col.nRows = data.length;
+        } else if (cv is StrValues) {
+          final data = cv.values.toList();
+          col.values = CStringList.fromList(data);
+          if (col.type.isEmpty) col.type = 'string';
+          if (col.nRows == 0) col.nRows = data.length;
+        }
+      }
+      // Set table.nRows from first column if unset.
+      if (table.nRows == 0 && table.columns.isNotEmpty) {
+        table.nRows = table.columns.first.nRows;
+      }
+    }
+  }
+
+  // ============================================================
+  // Table-building helpers
+  // ============================================================
+
+  /// Create a [Column] with int32 values, correctly wired for TSON.
+  ///
+  /// Sets [Column.values] (Int32List), [Column.cValues] (I32Values),
+  /// [ColumnSchema.type] (`"int32"`), and [ColumnSchema.nRows].
+  static Column makeInt32Column(String name, List<int> data) {
+    final col = Column();
+    col.name = name;
+    col.type = 'int32';
+    col.nRows = data.length;
+    col.values = Int32List.fromList(data);
+    final vals = I32Values();
+    vals.values.addAll(data);
+    col.cValues = vals;
+    return col;
+  }
+
+  /// Create a [Column] with float64 values, correctly wired for TSON.
+  ///
+  /// Sets [Column.values] (Float64List), [Column.cValues] (F64Values),
+  /// [ColumnSchema.type] (`"double"`), and [ColumnSchema.nRows].
+  static Column makeFloat64Column(String name, List<double> data) {
+    final col = Column();
+    col.name = name;
+    col.type = 'double';
+    col.nRows = data.length;
+    col.values = Float64List.fromList(data);
+    final vals = F64Values();
+    vals.values.addAll(data);
+    col.cValues = vals;
+    return col;
+  }
+
+  /// Create a [Column] with string values, correctly wired for TSON.
+  ///
+  /// Sets [Column.values] (CStringList), [Column.cValues] (StrValues),
+  /// [ColumnSchema.type] (`"string"`), and [ColumnSchema.nRows].
+  static Column makeStringColumn(String name, List<String> data) {
+    final col = Column();
+    col.name = name;
+    col.type = 'string';
+    col.nRows = data.length;
+    col.values = CStringList.fromList(data);
+    final vals = StrValues();
+    vals.values.addAll(data);
+    col.cValues = vals;
+    return col;
+  }
 }
