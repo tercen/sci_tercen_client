@@ -1,5 +1,6 @@
 import 'dart:async';
 import "dart:convert";
+import 'dart:io';
 
 import 'package:logging/logging.dart';
 import 'package:stack_trace/stack_trace.dart';
@@ -121,78 +122,96 @@ abstract class HttpClientService<T extends base.PersistentBase>
     controller = StreamController<T>(
         sync: false,
         onListen: () {
-          channel = client.webSocketChannel(wsuri);
+          // Wrap the entire WebSocket lifecycle in a guarded zone.
+          // IOWebSocketChannel (dart:io WebSocket) produces stray
+          // SocketExceptions during close handshake that escape as
+          // unhandled async errors. The zone catches them silently.
+          runZonedGuarded(() {
+            channel = client.webSocketChannel(wsuri);
 
-          timer = Timer.periodic(Duration(seconds: 10), (t) {
-            try {
-              channel!.sink.add('__ping__');
-            } catch (_) {
-              // Socket may already be closed; stop pinging.
-              t.cancel();
-            }
-          });
+            timer = Timer.periodic(Duration(seconds: 10), (t) {
+              try {
+                channel!.sink.add('__ping__');
+              } catch (_) {
+                // Socket may already be closed; stop pinging.
+                t.cancel();
+              }
+            });
 
-          sub = channel!.stream.listen((message) {
-            var obj = TSON.decode(message);
-            // behind nginx connection closed by the server cause missing data on heatmap
-            if (obj is Map && obj['kind'] == 'websocketdone') {
-              receivedDone = true;
-              controller.close();
+            sub = channel!.stream.listen((message) {
+              var obj = TSON.decode(message);
+              // behind nginx connection closed by the server cause missing data on heatmap
+              if (obj is Map && obj['kind'] == 'websocketdone') {
+                receivedDone = true;
+                if (!controller.isClosed) controller.close();
+                timer?.cancel();
+
+                // Echo websocketdone back, then close.
+                try {
+                  channel!.sink.add(contentCodec.encode(obj));
+                } catch (_) {}
+                channel!.sink.close(1000, '').catchError((_) {});
+              } else {
+                try {
+                  controller.add(decode(obj));
+                } catch (e) {
+                  try {
+                    controller.addError(ServiceError.fromJson(obj as Map));
+                  } catch (ee) {
+                    controller.addError(ServiceError.fromError(ee));
+                  }
+
+                  if (!controller.isClosed) controller.close();
+                  timer?.cancel();
+                  channel?.sink.close(1000, '').catchError((_) {});
+                }
+              }
+            }, onError: (e) {
+              timer?.cancel();
+              if (e is ServiceError) {
+                if (!controller.isClosed) controller.addError(e);
+              } else {
+                if (!controller.isClosed) {
+                  controller.addError(
+                      ServiceError(500, 'websocket.transport', e.toString())
+                        ..originalError = e);
+                }
+              }
+              if (!controller.isClosed) controller.close();
+              channel?.sink.close(1000, '').catchError((_) {});
+            }, onDone: () {
               timer?.cancel();
               sub?.cancel();
-
-              channel!.sink.add(contentCodec.encode(obj));
-
-              channel!.sink.close(1000, '');
-            } else {
-              try {
-                controller.add(decode(obj));
-              } catch (e) {
-                try {
-                  controller.addError(ServiceError.fromJson(obj as Map));
-                } catch (ee) {
-                  controller.addError(ServiceError.fromError(ee));
-                }
-
-                sub?.cancel();
-                controller.close();
-                timer?.cancel();
-                channel?.sink.close(1000, '');
+              if (!receivedDone && !controller.isClosed) {
+                controller.addError(ServiceError(
+                    500,
+                    'websocket.unexpected_close',
+                    'WebSocket closed without completing the handshake'));
               }
+              if (!controller.isClosed) {
+                controller.close();
+              }
+            });
+          }, (error, stack) {
+            // Catch stray SocketExceptions from IOWebSocketChannel internals
+            // during close handshake. These are benign transport teardown errors.
+            if (error is SocketException) {
+              // Silently ignore — the close handshake race is harmless.
+              return;
             }
-          }, onError: (e) {
-            sub?.cancel();
-            timer?.cancel();
-            // Wrap raw transport errors (e.g. SocketException) in ServiceError
-            // so consumers always see a structured error, not a raw exception.
-            if (e is ServiceError) {
-              controller.addError(e);
-            } else {
-              controller.addError(
-                  ServiceError(500, 'websocket.transport', e.toString())
-                    ..originalError = e);
-            }
-            controller.close();
-          }, onDone: () {
-            timer?.cancel();
-            sub?.cancel();
-            if (!receivedDone && !controller.isClosed) {
-              // WebSocket closed without the websocketdone handshake —
-              // the connection was lost or the server crashed.
-              controller.addError(ServiceError(
-                  500,
-                  'websocket.unexpected_close',
-                  'WebSocket closed without completing the handshake'));
-            }
+            // Re-surface unexpected errors to the controller so consumers see them.
             if (!controller.isClosed) {
+              controller.addError(
+                  ServiceError(500, 'websocket.zone', error.toString())
+                    ..originalError = error);
               controller.close();
             }
-          }, cancelOnError: true);
+          });
         },
         onCancel: () {
           timer?.cancel();
           sub?.cancel();
-          channel?.sink.close(1000, '');
+          channel?.sink.close(1000, '').catchError((_) {});
         });
 
     return controller.stream;

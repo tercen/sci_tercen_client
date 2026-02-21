@@ -1,6 +1,6 @@
 name: sci_tercen_context
 description: Tercen operator context library for Dart.
-version: 1.14.0
+version: 1.15.0
 publish_to: none
 
 environment:
@@ -9,7 +9,7 @@ environment:
 dependencies:
   sci_tercen_client:
     git:
-      ref: 1.14.0
+      ref: 1.15.0
       url: https://github.com/tercen/sci_tercen_client
       path: sci_tercen_client
 #  sci_tercen_client:
@@ -24,6 +24,6 @@ dev_dependencies:
   test: ^1.24.0
   sci_base:
     git:
-      ref: 1.14.0
+      ref: 1.15.0
       url: https://github.com/tercen/sci_tercen_client
       path: sci_base
