@@ -377,8 +377,7 @@ abstract class UserService implements api.Service<User> {
 }
 
 abstract class QueryService implements api.Service<PersistentObject> {
-  Stream<String> query(String jsonPath, int limit,
-      {api.AclContext? aclContext});
+  Stream<String> jq(String jq, int limit, {api.AclContext? aclContext});
   Future<List<PersistentObject>> findByOwnerAndKindAndDate(
       {required List keys,
       bool useFactory = false,

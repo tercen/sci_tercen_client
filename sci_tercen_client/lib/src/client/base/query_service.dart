@@ -73,12 +73,11 @@ class QueryServiceBase extends HttpClientService<PersistentObject>
         aclContext: aclContext);
   }
 
-  Stream<String> query(String jsonPath, int limit,
-      {service.AclContext? aclContext}) {
+  Stream<String> jq(String jq, int limit, {service.AclContext? aclContext}) {
     try {
-      var uri = Uri.parse("api/v1/query" + "/" + "query");
+      var uri = Uri.parse("api/v1/query" + "/" + "jq");
       var params = {};
-      params["jsonPath"] = jsonPath;
+      params["jq"] = jq;
       params["limit"] = limit;
       // String stream - TSON.decode returns the string directly
       var decode = (s) => s as String;
