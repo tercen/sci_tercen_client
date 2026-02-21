@@ -497,6 +497,8 @@ class Vocabulary {
   static const String groupId_DP = "groupId";
   static const String taskHash_DP = "taskHash";
   static const String channelId_DP = "channelId";
+  static const String stdOutFileId_DP = "stdOutFileId";
+  static const String stdErrFileId_DP = "stdErrFileId";
   static const String condition_DP = "condition";
   static const String linkType_DP = "linkType";
   static const String operatorKind_DP = "operatorKind";

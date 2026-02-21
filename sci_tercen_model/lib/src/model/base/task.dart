@@ -15,11 +15,19 @@ class TaskBase extends PersistentObject {
     Vocabulary.channelId_DP,
     Vocabulary.size_DP,
     Vocabulary.meta_OP,
-    Vocabulary.storageSize_DP
+    Vocabulary.storageSize_DP,
+    Vocabulary.stdOutFileId_DP,
+    Vocabulary.stdErrFileId_DP
   ];
-  static const List<String> REF_PROPERTY_NAMES = [Vocabulary.owner_DP];
+  static const List<String> REF_PROPERTY_NAMES = [
+    Vocabulary.owner_DP,
+    Vocabulary.stdOutFileId_DP,
+    Vocabulary.stdErrFileId_DP
+  ];
   static const List<base.RefId> REF_IDS = [
-    base.RefId("User", Vocabulary.owner_DP, isComposite: false)
+    base.RefId("User", Vocabulary.owner_DP, isComposite: false),
+    base.RefId("FileDocument", Vocabulary.stdOutFileId_DP, isComposite: true),
+    base.RefId("FileDocument", Vocabulary.stdErrFileId_DP, isComposite: true)
   ];
   final base.ListChanged<Pair> environment;
   State _state;
@@ -35,6 +43,8 @@ class TaskBase extends PersistentObject {
   int _size;
   final base.ListChanged<Pair> meta;
   double _storageSize;
+  String _stdOutFileId;
+  String _stdErrFileId;
 
   TaskBase()
       : _duration = 0.0,
@@ -43,6 +53,8 @@ class TaskBase extends PersistentObject {
         _channelId = "",
         _size = 0,
         _storageSize = 0.0,
+        _stdOutFileId = "",
+        _stdErrFileId = "",
         environment = base.ListChanged<Pair>(),
         _state = State(),
         _createdDate = Date(),
@@ -72,6 +84,12 @@ class TaskBase extends PersistentObject {
         _size = base.defaultValue(
             m[Vocabulary.size_DP] as int?, base.int_DefaultFactory),
         _storageSize = base.defaultDouble(m[Vocabulary.storageSize_DP] as num?),
+        _stdOutFileId = base.defaultValue(
+            m[Vocabulary.stdOutFileId_DP] as String?,
+            base.String_DefaultFactory),
+        _stdErrFileId = base.defaultValue(
+            m[Vocabulary.stdErrFileId_DP] as String?,
+            base.String_DefaultFactory),
         environment = base.ListChanged<Pair>.from(
             m[Vocabulary.environment_OP] as List?, PairBase.createFromJson),
         _state = (m[Vocabulary.state_OP] as Map?) == null
@@ -227,6 +245,30 @@ class TaskBase extends PersistentObject {
     }
   }
 
+  String get stdOutFileId => _stdOutFileId;
+
+  set stdOutFileId(String $o) {
+    if ($o == _stdOutFileId) return;
+    var $old = _stdOutFileId;
+    _stdOutFileId = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.stdOutFileId_DP, $old, _stdOutFileId));
+    }
+  }
+
+  String get stdErrFileId => _stdErrFileId;
+
+  set stdErrFileId(String $o) {
+    if ($o == _stdErrFileId) return;
+    var $old = _stdErrFileId;
+    _stdErrFileId = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.stdErrFileId_DP, $old, _stdErrFileId));
+    }
+  }
+
   State get state => _state;
 
   set state(State $o) {
@@ -342,6 +384,10 @@ class TaskBase extends PersistentObject {
         return meta;
       case Vocabulary.storageSize_DP:
         return storageSize;
+      case Vocabulary.stdOutFileId_DP:
+        return stdOutFileId;
+      case Vocabulary.stdErrFileId_DP:
+        return stdErrFileId;
       default:
         return super.get($name);
     }
@@ -367,6 +413,12 @@ class TaskBase extends PersistentObject {
         return;
       case Vocabulary.storageSize_DP:
         storageSize = $value as double;
+        return;
+      case Vocabulary.stdOutFileId_DP:
+        stdOutFileId = $value as String;
+        return;
+      case Vocabulary.stdErrFileId_DP:
+        stdErrFileId = $value as String;
         return;
       case Vocabulary.environment_OP:
         environment.setValues($value as Iterable<Pair>);
@@ -428,6 +480,8 @@ class TaskBase extends PersistentObject {
     m[Vocabulary.size_DP] = size;
     m[Vocabulary.meta_OP] = meta.toJson();
     m[Vocabulary.storageSize_DP] = storageSize;
+    m[Vocabulary.stdOutFileId_DP] = stdOutFileId;
+    m[Vocabulary.stdErrFileId_DP] = stdErrFileId;
     return m;
   }
 }
