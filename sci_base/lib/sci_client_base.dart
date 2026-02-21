@@ -108,6 +108,7 @@ abstract class HttpClientService<T extends base.PersistentBase>
   Stream<T> webSocketStream<T>(Uri uri, Map params, decode(object)) {
     WebSocketChannel? channel;
     late StreamController<T> controller;
+    bool receivedDone = false;
 
     var scheme = getServiceUri(uri).scheme == 'http' ? 'ws' : 'wss';
 
@@ -122,17 +123,20 @@ abstract class HttpClientService<T extends base.PersistentBase>
         onListen: () {
           channel = client.webSocketChannel(wsuri);
 
-//          channel.sink.add(contentCodec.encode(params));
-
           timer = Timer.periodic(Duration(seconds: 10), (t) {
-            channel!.sink.add('__ping__');
+            try {
+              channel!.sink.add('__ping__');
+            } catch (_) {
+              // Socket may already be closed; stop pinging.
+              t.cancel();
+            }
           });
 
           sub = channel!.stream.listen((message) {
             var obj = TSON.decode(message);
-            // hack
             // behind nginx connection closed by the server cause missing data on heatmap
             if (obj is Map && obj['kind'] == 'websocketdone') {
+              receivedDone = true;
               controller.close();
               timer?.cancel();
               sub?.cancel();
@@ -159,11 +163,30 @@ abstract class HttpClientService<T extends base.PersistentBase>
           }, onError: (e) {
             sub?.cancel();
             timer?.cancel();
-            controller.addError(e);
+            // Wrap raw transport errors (e.g. SocketException) in ServiceError
+            // so consumers always see a structured error, not a raw exception.
+            if (e is ServiceError) {
+              controller.addError(e);
+            } else {
+              controller.addError(
+                  ServiceError(500, 'websocket.transport', e.toString())
+                    ..originalError = e);
+            }
+            controller.close();
           }, onDone: () {
             timer?.cancel();
             sub?.cancel();
-            controller.close();
+            if (!receivedDone && !controller.isClosed) {
+              // WebSocket closed without the websocketdone handshake —
+              // the connection was lost or the server crashed.
+              controller.addError(ServiceError(
+                  500,
+                  'websocket.unexpected_close',
+                  'WebSocket closed without completing the handshake'));
+            }
+            if (!controller.isClosed) {
+              controller.close();
+            }
           }, cancelOnError: true);
         },
         onCancel: () {
