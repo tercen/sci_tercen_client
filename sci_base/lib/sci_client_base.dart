@@ -1,6 +1,7 @@
 import 'dart:async';
 import "dart:convert";
-import 'dart:io';
+import 'src/base/is_socket_exception_stub.dart'
+    if (dart.library.io) 'src/base/is_socket_exception_io.dart';
 
 import 'package:logging/logging.dart';
 import 'package:stack_trace/stack_trace.dart';
@@ -195,7 +196,7 @@ abstract class HttpClientService<T extends base.PersistentBase>
           }, (error, stack) {
             // Catch stray SocketExceptions from IOWebSocketChannel internals
             // during close handshake. These are benign transport teardown errors.
-            if (error is SocketException) {
+            if (isSocketException(error)) {
               // Silently ignore — the close handshake race is harmless.
               return;
             }
