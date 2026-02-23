@@ -471,14 +471,16 @@ abstract class HttpClientService<T extends base.PersistentBase>
     if (key1 == null) return false;
     if (key2 == null) return false;
 
+    if (key1 is bool && key2 is bool) return key1 == key2;
+
     if (key1.runtimeType != key2.runtimeType) return false;
 
     if (key1 is Comparable) {
       return key1.compareTo(key2) == 0;
     }
 
-    if (key1 is List<Comparable>) {
-      if (key1.length != key2.length) return false;
+    if (key1 is List) {
+      if (key1.length != (key2 as List).length) return false;
       for (var i = 0; i < key1.length; i++) {
         if (!_identicalKeys(key1[i], key2[i])) return false;
       }

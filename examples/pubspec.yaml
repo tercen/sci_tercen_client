@@ -1,0 +1,22 @@
+name: sci_tercen_client_examples
+description: Examples for sci_tercen_client
+publish_to: none
+
+environment:
+  sdk: ^3.3.0
+
+dependencies:
+  sci_tercen_client:
+    path: ../sci_tercen_client
+  sci_http_client:
+    path: ../sci_http_client
+
+dependency_overrides:
+  sci_tercen_client:
+    path: ../sci_tercen_client
+  sci_tercen_model:
+    path: ../sci_tercen_model
+  sci_base:
+    path: ../sci_base
+  sci_http_client:
+    path: ../sci_http_client

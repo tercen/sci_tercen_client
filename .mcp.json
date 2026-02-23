@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "tercen-sci-local": {
+      "type": "stdio",
+      "command": "tercenctl",
+      "args": [
+        "mcp",
+        "--transport",
+        "stdio"
+      ],
+      "env": {}
+    }
+  }
+}
