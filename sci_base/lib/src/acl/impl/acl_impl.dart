@@ -89,9 +89,10 @@ class AclContextImpl extends AclContext {
   Acl teamAcl;
 
   String? taskId;
+  bool readOnly;
 
   AclContextImpl(this.username, List<String>? roles, Acl? teamAcl, this.domain,
-      {this.taskId})
+      {this.taskId, this.readOnly = false})
       : teamAcl = teamAcl ?? AclImpl.memberShip(),
         roles = roles ?? [],
         userAgent = '';
@@ -103,14 +104,19 @@ class AclContextImpl extends AclContext {
         m["teamAcl"] == null
             ? AclImpl.memberShip()
             : AclImpl.fromJson(m["teamAcl"]),
-        m["domain"]);
+        m["domain"],
+        readOnly: m["readOnly"] == true);
   }
 
   @override
   AclContext copy() => AclContextImpl.fromJson(toJsonWithAcl());
 
   @override
+  bool get isReadOnly => readOnly;
+
+  @override
   bool get isAdmin {
+    if (readOnly) return false;
     if (username == Acl.ROOT) return true;
     if (roles.contains(Acl.ROOT)) return true;
     return false;
@@ -128,6 +134,7 @@ class AclContextImpl extends AclContext {
     var m = toJson();
     m['roles'] = roles;
     m['teamAcl'] = teamAcl.toJson();
+    if (readOnly) m['readOnly'] = true;
     return m;
   }
 

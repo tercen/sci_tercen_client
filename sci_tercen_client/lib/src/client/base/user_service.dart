@@ -441,6 +441,32 @@ class UserServiceBase extends HttpClientService<User>
     return answer as String;
   }
 
+  Future<String> createReadOnlyToken(String userId, int validityInSeconds,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/user" + "/" + "createReadOnlyToken");
+      var params = {};
+      params["userId"] = userId;
+      params["validityInSeconds"] = validityInSeconds;
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = (contentCodec.decode(response.body) as List).first;
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as String;
+  }
+
   Future<bool> isTokenValid(String token,
       {service.AclContext? aclContext}) async {
     var answer;

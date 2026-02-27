@@ -93,6 +93,7 @@ abstract class AclContext {
   set teamAcl(Acl a);
   bool get isAdmin;
   bool get isGuest;
+  bool get isReadOnly => false;
   bool get isAdminDelegate {
     if (roles.contains(Acl.ROOT_DELEGATE)) return true;
     return false;

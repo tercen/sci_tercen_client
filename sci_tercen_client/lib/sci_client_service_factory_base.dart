@@ -341,6 +341,8 @@ abstract class UserService implements api.Service<User> {
   Future<String> createTokenForTask(
       String userId, int validityInSeconds, String taskId,
       {api.AclContext? aclContext});
+  Future<String> createReadOnlyToken(String userId, int validityInSeconds,
+      {api.AclContext? aclContext});
   Future<bool> isTokenValid(String token, {api.AclContext? aclContext});
   Future<String> setTeamPrivilege(
       String username, Principal principal, Privilege privilege,
