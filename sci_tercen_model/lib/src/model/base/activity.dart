@@ -22,6 +22,7 @@ class ActivityBase extends PersistentObject {
     base.RefId("Project", Vocabulary.projectId_DP, isComposite: false),
     base.RefId("User", Vocabulary.userId_DP, isComposite: false)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _type;
   String _objectKind;
   Date _date;
@@ -250,6 +251,9 @@ class ActivityBase extends PersistentObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   Activity copy() => Activity.json(toJson());

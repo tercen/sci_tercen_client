@@ -4,6 +4,7 @@ class ChartLineBase extends ChartSize {
   static const List<String> PROPERTY_NAMES = [];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
 
   ChartLineBase();
   ChartLineBase.json(Map m) : super.json(m) {
@@ -29,6 +30,9 @@ class ChartLineBase extends ChartSize {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   ChartLine copy() => ChartLine.json(toJson());

@@ -10,6 +10,12 @@ class MetaFactorBase extends Factor {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [
+    base.StringEnumConstraint(Vocabulary.crosstabMapping_DP,
+        const ['x', 'y', 'row', 'column', 'colors', 'labels']),
+    base.StringEnumConstraint(
+        Vocabulary.cardinality_DP, const ['0..n', '1', '1..n'])
+  ];
   String _description;
   String _ontologyMapping;
   String _crosstabMapping;
@@ -154,6 +160,9 @@ class MetaFactorBase extends Factor {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   MetaFactor copy() => MetaFactor.json(toJson());

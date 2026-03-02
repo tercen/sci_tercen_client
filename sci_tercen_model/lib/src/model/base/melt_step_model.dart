@@ -10,6 +10,11 @@ class MeltStepModelBase extends StepModel {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [
+    base.StringEnumConstraint(
+        Vocabulary.factorType_DP, const ['string', 'double', 'int32']),
+    base.StringEnumConstraint(Vocabulary.gatherType_DP, const ['', 'no.na'])
+  ];
   final base.ListChanged<Factor> factors;
   String _namespace;
   String _selectionPattern;
@@ -149,6 +154,9 @@ class MeltStepModelBase extends StepModel {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   MeltStepModel copy() => MeltStepModel.json(toJson());

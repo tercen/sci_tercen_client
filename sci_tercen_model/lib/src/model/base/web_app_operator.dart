@@ -7,6 +7,7 @@ class WebAppOperatorBase extends GitOperator {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   bool _isViewOnly;
   String _entryType;
 
@@ -94,6 +95,9 @@ class WebAppOperatorBase extends GitOperator {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   WebAppOperator copy() => WebAppOperator.json(toJson());

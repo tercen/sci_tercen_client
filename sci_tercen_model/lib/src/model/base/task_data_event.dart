@@ -4,6 +4,7 @@ class TaskDataEventBase extends TaskEvent {
   static const List<String> PROPERTY_NAMES = [Vocabulary.bytes_DP];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   Uint8List _bytes;
 
   TaskDataEventBase() : _bytes = Uint8List(0);
@@ -65,6 +66,9 @@ class TaskDataEventBase extends TaskEvent {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   TaskDataEvent copy() => TaskDataEvent.json(toJson());

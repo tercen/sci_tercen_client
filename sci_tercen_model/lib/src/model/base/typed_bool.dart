@@ -4,6 +4,7 @@ class TypedBoolBase extends TypedValue {
   static const List<String> PROPERTY_NAMES = [Vocabulary.value_DP];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   bool _value;
 
   TypedBoolBase() : _value = true;
@@ -65,6 +66,9 @@ class TypedBoolBase extends TypedValue {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   TypedBool copy() => TypedBool.json(toJson());

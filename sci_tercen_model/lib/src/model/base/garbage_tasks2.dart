@@ -10,6 +10,7 @@ class GarbageTasks2Base extends GarbageObject {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _date;
   String _workflowId;
   final base.ListChangedBase<String> deletedTaskIds;
@@ -128,6 +129,9 @@ class GarbageTasks2Base extends GarbageObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   GarbageTasks2 copy() => GarbageTasks2.json(toJson());

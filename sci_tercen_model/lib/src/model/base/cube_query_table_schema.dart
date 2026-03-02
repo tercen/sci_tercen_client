@@ -10,6 +10,10 @@ class CubeQueryTableSchemaBase extends Schema {
   static const List<base.RefId> REF_IDS = [
     base.RefId("CubeQuery", Vocabulary.query_OP, isComposite: false)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [
+    base.StringEnumConstraint(Vocabulary.queryTableType_DP,
+        const ['column', 'row', 'x', 'y', 'qt', 'color_*'])
+  ];
   String _queryHash;
   String _queryTableType;
   CubeQuery _query;
@@ -123,6 +127,9 @@ class CubeQueryTableSchemaBase extends Schema {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   CubeQueryTableSchema copy() => CubeQueryTableSchema.json(toJson());

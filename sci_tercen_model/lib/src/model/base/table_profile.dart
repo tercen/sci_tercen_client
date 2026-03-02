@@ -7,6 +7,7 @@ class TableProfileBase extends Profile {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   int _nRows;
   int _nCols;
 
@@ -90,6 +91,9 @@ class TableProfileBase extends Profile {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   TableProfile copy() => TableProfile.json(toJson());

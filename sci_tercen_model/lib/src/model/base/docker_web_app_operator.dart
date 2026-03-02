@@ -4,6 +4,7 @@ class DockerWebAppOperatorBase extends WebAppOperator {
   static const List<String> PROPERTY_NAMES = [Vocabulary.container_DP];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _container;
 
   DockerWebAppOperatorBase() : _container = "";
@@ -66,6 +67,9 @@ class DockerWebAppOperatorBase extends WebAppOperator {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   DockerWebAppOperator copy() => DockerWebAppOperator.json(toJson());

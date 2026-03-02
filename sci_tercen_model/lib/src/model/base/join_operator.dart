@@ -8,6 +8,10 @@ class JoinOperatorBase extends SciObject {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [
+    base.StringEnumConstraint(
+        Vocabulary.joinType_DP, const ['', 'leftOuter', 'r.o.f', 'left'])
+  ];
   String _joinType;
   ColumnPair _leftPair;
   Relation _rightRelation;
@@ -124,6 +128,9 @@ class JoinOperatorBase extends SciObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   JoinOperator copy() => JoinOperator.json(toJson());

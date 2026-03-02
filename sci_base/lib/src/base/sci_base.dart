@@ -47,6 +47,16 @@ class RefId {
   const RefId(this.kind, this.name, {this.isComposite = false});
 }
 
+abstract class PropertyConstraint {
+  final String name;
+  const PropertyConstraint(this.name);
+}
+
+class StringEnumConstraint extends PropertyConstraint {
+  final List<String> values;
+  const StringEnumConstraint(super.name, this.values);
+}
+
 abstract class Base<T> extends EventSource implements ObjectProperties<T> {
   String? subKind;
 
@@ -132,6 +142,8 @@ abstract class Base<T> extends EventSource implements ObjectProperties<T> {
   }
 
   Iterable<RefId> refIds() => [];
+
+  Iterable<PropertyConstraint> constraints() => [];
 
   void changeRefIds(Map<String, String> newIds) {
     for (var name in getRefPropertyNames()) {

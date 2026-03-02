@@ -11,6 +11,11 @@ class GatherRelationBase extends Relation {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [
+    base.StringEnumConstraint(
+        Vocabulary.valueType_DP, const ['string', 'double', 'int32']),
+    base.StringEnumConstraint(Vocabulary.gatherType_DP, const ['', 'no.na'])
+  ];
   Relation _relation;
   final base.ListChangedBase<String> names;
   String _valueName;
@@ -175,6 +180,9 @@ class GatherRelationBase extends Relation {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   GatherRelation copy() => GatherRelation.json(toJson());

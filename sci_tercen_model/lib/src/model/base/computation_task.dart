@@ -16,6 +16,7 @@ class ComputationTaskBase extends CubeQueryTask {
     base.RefId("FileDocument", Vocabulary.fileResultId_DP, isComposite: true),
     base.RefId("Relation", Vocabulary.computedRelation_OP, isComposite: true)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _parentTaskId;
   String _fileResultId;
   Relation _computedRelation;
@@ -134,6 +135,9 @@ class ComputationTaskBase extends CubeQueryTask {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   ComputationTask copy() => ComputationTask.json(toJson());

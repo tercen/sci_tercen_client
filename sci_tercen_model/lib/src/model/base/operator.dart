@@ -11,6 +11,11 @@ class OperatorBase extends Document {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [
+    base.StringEnumConstraint(Vocabulary.capabilities_DP, const ['gpu']),
+    base.StringEnumConstraint(
+        Vocabulary.communicationProtocol_DP, const ['grpc'])
+  ];
   final base.ListChanged<Property> properties;
   OperatorSpec _operatorSpec;
   final base.ListChangedBase<String> capabilities;
@@ -190,6 +195,9 @@ class OperatorBase extends Document {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   Operator copy() => Operator.json(toJson());

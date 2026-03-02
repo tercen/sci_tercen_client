@@ -7,6 +7,7 @@ class EnumeratedPropertyBase extends StringProperty {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   bool _isSingleSelection;
   final base.ListChangedBase<String> values;
 
@@ -83,6 +84,9 @@ class EnumeratedPropertyBase extends StringProperty {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   EnumeratedProperty copy() => EnumeratedProperty.json(toJson());

@@ -9,6 +9,7 @@ class StepStateBase extends SciObject {
   static const List<base.RefId> REF_IDS = [
     base.RefId("Task", Vocabulary.taskId_DP, isComposite: true)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _taskId;
   State _taskState;
 
@@ -99,6 +100,9 @@ class StepStateBase extends SciObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   StepState copy() => StepState.json(toJson());

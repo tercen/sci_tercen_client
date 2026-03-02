@@ -10,6 +10,7 @@ class ZipSummaryBase extends SciObject {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   int _totalEntries;
   int _totalSize;
   int _totalCompressedSize;
@@ -157,6 +158,9 @@ class ZipSummaryBase extends SciObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   ZipSummary copy() => ZipSummary.json(toJson());

@@ -6,6 +6,7 @@ class RSourceLibraryBase extends RLibrary {
   static const List<base.RefId> REF_IDS = [
     base.RefId("FileDocument", Vocabulary.fileId_DP, isComposite: true)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _fileId;
 
   RSourceLibraryBase() : _fileId = "";
@@ -67,6 +68,9 @@ class RSourceLibraryBase extends RLibrary {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   RSourceLibrary copy() => RSourceLibrary.json(toJson());

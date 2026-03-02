@@ -14,6 +14,7 @@ class RDescriptionBase extends SciObject {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _Package;
   String _Version;
   String _Depends;
@@ -245,6 +246,9 @@ class RDescriptionBase extends SciObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   RDescription copy() => RDescription.json(toJson());

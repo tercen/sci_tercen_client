@@ -11,6 +11,7 @@ class UserSecretBase extends PersistentObject {
   static const List<base.RefId> REF_IDS = [
     base.RefId("User", Vocabulary.userId_DP, isComposite: false)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _userId;
   String _salt;
   String _hashPassword;
@@ -129,6 +130,9 @@ class UserSecretBase extends PersistentObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   UserSecret copy() => UserSecret.json(toJson());

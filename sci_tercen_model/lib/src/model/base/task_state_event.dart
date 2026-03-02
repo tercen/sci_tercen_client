@@ -4,6 +4,7 @@ class TaskStateEventBase extends TaskEvent {
   static const List<String> PROPERTY_NAMES = [Vocabulary.state_OP];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   State _state;
 
   TaskStateEventBase() : _state = State() {
@@ -72,6 +73,9 @@ class TaskStateEventBase extends TaskEvent {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   TaskStateEvent copy() => TaskStateEvent.json(toJson());

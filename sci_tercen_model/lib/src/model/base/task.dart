@@ -29,6 +29,7 @@ class TaskBase extends PersistentObject {
     base.RefId("FileDocument", Vocabulary.stdOutFileId_DP, isComposite: true),
     base.RefId("FileDocument", Vocabulary.stdErrFileId_DP, isComposite: true)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   final base.ListChanged<Pair> environment;
   State _state;
   Date _createdDate;
@@ -454,6 +455,9 @@ class TaskBase extends PersistentObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   Task copy() => Task.json(toJson());

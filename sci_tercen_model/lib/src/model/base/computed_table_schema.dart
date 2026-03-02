@@ -6,6 +6,7 @@ class ComputedTableSchemaBase extends Schema {
   static const List<base.RefId> REF_IDS = [
     base.RefId("CubeQuery", Vocabulary.query_OP, isComposite: false)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   CubeQuery _query;
 
   ComputedTableSchemaBase() : _query = CubeQuery() {
@@ -75,6 +76,9 @@ class ComputedTableSchemaBase extends Schema {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   ComputedTableSchema copy() => ComputedTableSchema.json(toJson());

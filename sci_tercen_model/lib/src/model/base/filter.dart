@@ -8,6 +8,9 @@ class FilterBase extends FilterTopExpr {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [
+    base.StringEnumConstraint(Vocabulary.logical_DP, const ['or', 'and'])
+  ];
   String _logical;
   bool _not;
   final base.ListChanged<FilterTopExpr> filterExprs;
@@ -107,6 +110,9 @@ class FilterBase extends FilterTopExpr {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   Filter copy() => Filter.json(toJson());

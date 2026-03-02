@@ -7,6 +7,7 @@ class GraphicalFactorBase extends SciObject {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   Factor _factor;
   Rectangle _rectangle;
 
@@ -103,6 +104,9 @@ class GraphicalFactorBase extends SciObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   GraphicalFactor copy() => GraphicalFactor.json(toJson());

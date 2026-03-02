@@ -21,6 +21,7 @@ class UlimitsBase extends base.Base {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   int _core_file_size;
   int _data_seg_size;
   int _scheduling_priority;
@@ -402,6 +403,9 @@ class UlimitsBase extends base.Base {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   Ulimits copy() => Ulimits.json(toJson());
   @override

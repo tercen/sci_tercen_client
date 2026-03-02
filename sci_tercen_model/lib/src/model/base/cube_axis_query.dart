@@ -15,6 +15,7 @@ class CubeAxisQueryBase extends base.Base {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   int _pointSize;
   String _chartType;
   Factor _yAxis;
@@ -249,6 +250,9 @@ class CubeAxisQueryBase extends base.Base {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   CubeAxisQuery copy() => CubeAxisQuery.json(toJson());
   @override

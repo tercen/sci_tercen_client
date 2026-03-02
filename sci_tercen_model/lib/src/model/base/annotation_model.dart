@@ -11,6 +11,7 @@ class AnnotationModelBase extends SciObject {
   static const List<base.RefId> REF_IDS = [
     base.RefId("CubeQueryTask", Vocabulary.taskId_DP, isComposite: true)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   final base.ListChanged<GraphicalFactor> factors;
   final base.ListChanged<GraphicalFactor> annotationFactors;
   Relation _relation;
@@ -126,6 +127,9 @@ class AnnotationModelBase extends SciObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   AnnotationModel copy() => AnnotationModel.json(toJson());

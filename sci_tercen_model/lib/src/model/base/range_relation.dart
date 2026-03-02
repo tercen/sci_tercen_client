@@ -8,6 +8,7 @@ class RangeRelationBase extends Relation {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   Relation _relation;
   int _start;
   int _len;
@@ -119,6 +120,9 @@ class RangeRelationBase extends Relation {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   RangeRelation copy() => RangeRelation.json(toJson());

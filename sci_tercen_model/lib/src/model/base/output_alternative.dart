@@ -7,6 +7,7 @@ class OutputAlternativeBase extends base.Base {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _condition;
   OperatorJoinSpec _joinSpec;
 
@@ -98,6 +99,9 @@ class OutputAlternativeBase extends base.Base {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   OutputAlternative copy() => OutputAlternative.json(toJson());
   @override

@@ -7,6 +7,7 @@ class CrosstabSpecBase extends OperatorInputSpec {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   final base.ListChanged<MetaFactor> metaFactors;
   final base.ListChanged<AxisSpec> axis;
 
@@ -74,6 +75,9 @@ class CrosstabSpecBase extends OperatorInputSpec {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   CrosstabSpec copy() => CrosstabSpec.json(toJson());

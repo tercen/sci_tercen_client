@@ -1,0 +1,3 @@
+dependency_overrides:
+  sci_base:
+    path: ../sci_base

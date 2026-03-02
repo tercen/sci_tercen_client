@@ -4,6 +4,7 @@ class StringColorElementBase extends ColorElement {
   static const List<String> PROPERTY_NAMES = [Vocabulary.stringValue_DP];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _stringValue;
 
   StringColorElementBase() : _stringValue = "";
@@ -67,6 +68,9 @@ class StringColorElementBase extends ColorElement {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   StringColorElement copy() => StringColorElement.json(toJson());

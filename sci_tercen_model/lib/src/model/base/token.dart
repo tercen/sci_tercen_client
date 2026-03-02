@@ -11,6 +11,7 @@ class TokenBase extends SciObject {
   static const List<base.RefId> REF_IDS = [
     base.RefId("User", Vocabulary.userId_DP, isComposite: false)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _userId;
   Date _expiry;
   String _token;
@@ -143,6 +144,9 @@ class TokenBase extends SciObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   Token copy() => Token.json(toJson());

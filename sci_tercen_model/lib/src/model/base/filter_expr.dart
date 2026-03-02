@@ -9,6 +9,18 @@ class FilterExprBase extends FilterTopExpr {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [
+    base.StringEnumConstraint(Vocabulary.filterOp_DP, const [
+      'equals',
+      'notequals',
+      'greater',
+      'less',
+      'greatereq',
+      'lesseq',
+      'match',
+      'in polygon'
+    ])
+  ];
   String _filterOp;
   String _stringValue;
   Factor _factor;
@@ -135,6 +147,9 @@ class FilterExprBase extends FilterTopExpr {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   FilterExpr copy() => FilterExpr.json(toJson());

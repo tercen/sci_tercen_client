@@ -4,6 +4,7 @@ class PatchRecordListAddBase extends PatchRecordType {
   static const List<String> PROPERTY_NAMES = [Vocabulary.value_OP];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   final base.ListChanged<TypedValue> value;
 
   PatchRecordListAddBase() : value = base.ListChanged<TypedValue>() {
@@ -59,6 +60,9 @@ class PatchRecordListAddBase extends PatchRecordType {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   PatchRecordListAdd copy() => PatchRecordListAdd.json(toJson());

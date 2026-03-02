@@ -14,6 +14,7 @@ class PatchRecordsBase extends Event {
   static const List<base.RefId> REF_IDS = [
     base.RefId("IdObject", Vocabulary.oI_DP, isComposite: false)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _u;
   String _cI;
   String _oI;
@@ -194,6 +195,9 @@ class PatchRecordsBase extends Event {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   PatchRecords copy() => PatchRecords.json(toJson());

@@ -12,6 +12,7 @@ class CreateGitOperatorTaskBase extends Task {
   static const List<base.RefId> REF_IDS = [
     base.RefId("Operator", Vocabulary.operatorId_DP, isComposite: false)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   Url _url;
   String _version;
   String _operatorId;
@@ -166,6 +167,9 @@ class CreateGitOperatorTaskBase extends Task {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   CreateGitOperatorTask copy() => CreateGitOperatorTask.json(toJson());

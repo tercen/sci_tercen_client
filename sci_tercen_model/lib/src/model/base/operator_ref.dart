@@ -14,6 +14,7 @@ class OperatorRefBase extends SciObject {
   static const List<base.RefId> REF_IDS = [
     base.RefId("Operator", Vocabulary.operatorId_DP, isComposite: false)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _name;
   String _version;
   String _operatorId;
@@ -206,6 +207,9 @@ class OperatorRefBase extends SciObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   OperatorRef copy() => OperatorRef.json(toJson());

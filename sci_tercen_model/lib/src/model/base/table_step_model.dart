@@ -9,6 +9,7 @@ class TableStepModelBase extends StepModel {
   static const List<base.RefId> REF_IDS = [
     base.RefId("Relation", Vocabulary.relation_OP, isComposite: false)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   Relation _relation;
   String _filterSelector;
 
@@ -100,6 +101,9 @@ class TableStepModelBase extends StepModel {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   TableStepModel copy() => TableStepModel.json(toJson());

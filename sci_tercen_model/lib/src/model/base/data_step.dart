@@ -11,6 +11,7 @@ class DataStepBase extends CrossTabStep {
   static const List<base.RefId> REF_IDS = [
     base.RefId("Relation", Vocabulary.computedRelation_OP, isComposite: true)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   Relation _computedRelation;
   String _parentDataStepId;
 
@@ -102,6 +103,9 @@ class DataStepBase extends CrossTabStep {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   DataStep copy() => DataStep.json(toJson());

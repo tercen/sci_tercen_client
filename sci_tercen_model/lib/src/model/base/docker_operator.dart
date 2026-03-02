@@ -4,6 +4,7 @@ class DockerOperatorBase extends GitOperator {
   static const List<String> PROPERTY_NAMES = [Vocabulary.container_DP];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _container;
 
   DockerOperatorBase() : _container = "";
@@ -65,6 +66,9 @@ class DockerOperatorBase extends GitOperator {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   DockerOperator copy() => DockerOperator.json(toJson());

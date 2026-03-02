@@ -13,6 +13,7 @@ class SchemaBase extends ProjectDocument {
   static const List<base.RefId> REF_IDS = [
     base.RefId("Relation", Vocabulary.relation_OP, isComposite: true)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   int _nRows;
   final base.ListChanged<ColumnSchema> columns;
   String _dataDirectory;
@@ -183,6 +184,9 @@ class SchemaBase extends ProjectDocument {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   Schema copy() => Schema.json(toJson());

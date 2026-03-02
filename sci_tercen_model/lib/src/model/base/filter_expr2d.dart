@@ -7,6 +7,7 @@ class FilterExpr2dBase extends FilterExpr {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   Factor _factor2;
   final base.ListChanged<PreProcessor> preProcessors2;
 
@@ -88,6 +89,9 @@ class FilterExpr2dBase extends FilterExpr {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   FilterExpr2d copy() => FilterExpr2d.json(toJson());

@@ -14,6 +14,7 @@ class CSVTaskBase extends ProjectTask {
   static const List<base.RefId> REF_IDS = [
     base.RefId("FileDocument", Vocabulary.fileDocumentId_DP, isComposite: true)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _fileDocumentId;
   String _schemaId;
   String _valueName;
@@ -206,6 +207,9 @@ class CSVTaskBase extends ProjectTask {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   CSVTask copy() => CSVTask.json(toJson());

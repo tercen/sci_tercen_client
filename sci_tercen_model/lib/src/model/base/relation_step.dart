@@ -4,6 +4,7 @@ class RelationStepBase extends ModelStep {
   static const List<String> PROPERTY_NAMES = [];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
 
   RelationStepBase();
   RelationStepBase.json(Map m) : super.json(m) {
@@ -49,6 +50,9 @@ class RelationStepBase extends ModelStep {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   RelationStep copy() => RelationStep.json(toJson());

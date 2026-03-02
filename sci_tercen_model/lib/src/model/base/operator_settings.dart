@@ -9,6 +9,7 @@ class OperatorSettingsBase extends SciObject {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _namespace;
   OperatorRef _operatorRef;
   final base.ListChanged<Pair> environment;
@@ -137,6 +138,9 @@ class OperatorSettingsBase extends SciObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   OperatorSettings copy() => OperatorSettings.json(toJson());

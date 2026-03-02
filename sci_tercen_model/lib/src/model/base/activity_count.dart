@@ -9,6 +9,7 @@ class ActivityCountBase extends base.Base {
   static const List<base.RefId> REF_IDS = [
     base.RefId("PersistentObject", Vocabulary.objectId_DP, isComposite: false)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _objectId;
   int _count;
 
@@ -92,6 +93,9 @@ class ActivityCountBase extends base.Base {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   ActivityCount copy() => ActivityCount.json(toJson());
   @override

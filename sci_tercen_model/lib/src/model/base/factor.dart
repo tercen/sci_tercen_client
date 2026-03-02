@@ -7,6 +7,10 @@ class FactorBase extends SciObject {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [
+    base.StringEnumConstraint(
+        Vocabulary.type_DP, const ['string', 'double', 'int32'])
+  ];
   String _name;
   String _type;
 
@@ -96,6 +100,9 @@ class FactorBase extends SciObject {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   Factor copy() => Factor.json(toJson());

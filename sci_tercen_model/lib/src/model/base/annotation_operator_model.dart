@@ -7,6 +7,7 @@ class AnnotationOperatorModelBase extends OperatorModel {
   ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   Filters _filters;
   final base.ListChanged<AnnotationModel> annotationModels;
 
@@ -89,6 +90,9 @@ class AnnotationOperatorModelBase extends OperatorModel {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   AnnotationOperatorModel copy() => AnnotationOperatorModel.json(toJson());

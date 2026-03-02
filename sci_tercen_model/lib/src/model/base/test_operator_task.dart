@@ -9,6 +9,7 @@ class TestOperatorTaskBase extends ProjectTask {
   static const List<base.RefId> REF_IDS = [
     base.RefId("Operator", Vocabulary.operatorId_DP, isComposite: false)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   String _operatorId;
   bool _testRequired;
 
@@ -93,6 +94,9 @@ class TestOperatorTaskBase extends ProjectTask {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   TestOperatorTask copy() => TestOperatorTask.json(toJson());

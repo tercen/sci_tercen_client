@@ -15,6 +15,7 @@ class CubeQueryTaskBase extends ProjectTask {
     base.RefId("CubeQueryTableSchema", Vocabulary.schemaIds_DP,
         isComposite: true)
   ];
+  static const List<base.PropertyConstraint> CONSTRAINTS = [];
   CubeQuery _query;
   bool _removeOnGC;
   final base.ListChangedBase<String> schemaIds;
@@ -122,6 +123,9 @@ class CubeQueryTaskBase extends ProjectTask {
       super.getPropertyNames().followedBy(PROPERTY_NAMES);
   @override
   Iterable<base.RefId> refIds() => super.refIds().followedBy(REF_IDS);
+  @override
+  Iterable<base.PropertyConstraint> constraints() =>
+      super.constraints().followedBy(CONSTRAINTS);
 
   @override
   CubeQueryTask copy() => CubeQueryTask.json(toJson());
