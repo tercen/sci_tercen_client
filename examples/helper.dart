@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:sci_tercen_client/sci_client.dart' as sci;
 import 'package:sci_tercen_client/sci_client_base.dart';
 import 'package:sci_http_client/http_auth_client.dart';
+import 'package:sci_tercen_client/src/sci_client_extensions.dart';
 
 Future<ServiceFactoryBase> initFactory() async {
   var uri = Platform.environment['TERCEN_URI'] ?? 'http://127.0.0.1:5400';

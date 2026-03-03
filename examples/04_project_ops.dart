@@ -1,5 +1,6 @@
 import 'package:sci_tercen_client/sci_client.dart' as sci;
 import 'helper.dart';
+import 'package:sci_tercen_client/src/sci_client_extensions.dart';
 
 void main() async {
   var factory = await initFactory();
