@@ -89,8 +89,8 @@ class ColumnPairBase extends SciObject {
     } else {
       m.remove(Vocabulary.SUBKIND);
     }
-    m[Vocabulary.lColumns_DP] = lColumns;
-    m[Vocabulary.rColumns_DP] = rColumns;
+    m[Vocabulary.lColumns_DP] = lColumns.toJson();
+    m[Vocabulary.rColumns_DP] = rColumns.toJson();
     return m;
   }
 }

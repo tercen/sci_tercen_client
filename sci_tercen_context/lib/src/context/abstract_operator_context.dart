@@ -439,7 +439,7 @@ abstract class AbstractOperatorContext {
   /// Without these, the TSON encoder produces wrong binary markers and the
   /// Tercen pipeline cannot register output columns as available factors.
   void _normalizeColumnValues(OperatorResult result) {
-    for (final table in result.tables) {
+    void normalizeTable(Table table) {
       for (final col in table.columns) {
         final cv = col.cValues;
         if (cv is I32Values) {
@@ -462,6 +462,17 @@ abstract class AbstractOperatorContext {
       // Set table.nRows from first column if unset.
       if (table.nRows == 0 && table.columns.isNotEmpty) {
         table.nRows = table.columns.first.nRows;
+      }
+    }
+
+    for (final table in result.tables) {
+      normalizeTable(table);
+    }
+    // Also normalize tables inside JoinOperators (InMemoryRelation).
+    for (final jop in result.joinOperators) {
+      final rel = jop.rightRelation;
+      if (rel is InMemoryRelation) {
+        normalizeTable(rel.inMemoryTable);
       }
     }
   }
