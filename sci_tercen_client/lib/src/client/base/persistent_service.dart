@@ -162,4 +162,29 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
     }
     return answer as List<PersistentObject>;
   }
+
+  Future<dynamic> patchObject(PatchRecords patch,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/po" + "/" + "patchObject");
+      var params = {};
+      params["patch"] = patch.toJson();
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = null;
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as dynamic;
+  }
 }

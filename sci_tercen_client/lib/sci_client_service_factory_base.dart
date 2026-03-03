@@ -148,6 +148,7 @@ abstract class PersistentService implements api.Service<PersistentObject> {
   Future<List<PersistentObject>> getObjects(
       String startId, String endId, int limit, bool useFactory,
       {api.AclContext? aclContext});
+  Future<dynamic> patchObject(PatchRecords patch, {api.AclContext? aclContext});
   Future<List<PersistentObject>> findDeleted(
       {required List keys,
       bool useFactory = false,
