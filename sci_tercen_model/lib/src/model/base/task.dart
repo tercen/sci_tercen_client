@@ -57,7 +57,7 @@ class TaskBase extends PersistentObject {
         _stdOutFileId = "",
         _stdErrFileId = "",
         environment = base.ListChanged<Pair>(),
-        _state = State(),
+        _state = InitState(),
         _createdDate = Date(),
         _lastModifiedDate = Date(),
         _runDate = Date(),

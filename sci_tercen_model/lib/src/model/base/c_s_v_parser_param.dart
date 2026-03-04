@@ -20,9 +20,9 @@ class CSVParserParamBase extends SciObject {
   String _comment;
 
   CSVParserParamBase()
-      : _separator = "",
-        _encoding = "",
-        _quote = "",
+      : _separator = ",",
+        _encoding = "utf-8",
+        _quote = "\"",
         _hasHeaders = true,
         _allowMalformed = true,
         _comment = "";
