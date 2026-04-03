@@ -480,6 +480,8 @@ abstract class TeamService implements api.Service<Team> {
       {required List keys,
       bool useFactory = false,
       api.AclContext? aclContext});
+  Future<List<Team>> findTeamByMember(String userId,
+      {api.AclContext? aclContext});
 }
 
 abstract class ProjectService implements api.Service<Project> {

@@ -73,6 +73,33 @@ class TeamServiceBase extends HttpClientService<Team>
     return answer as ResourceSummary;
   }
 
+  Future<List<Team>> findTeamByMember(String userId,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/team" + "/" + "findTeamByMember");
+      var params = {};
+      params["userId"] = userId;
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = (contentCodec.decode(response.body) as List)
+            .map((m) => TeamBase.fromJson(m as Map))
+            .toList();
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as List<Team>;
+  }
+
   Future<dynamic> transferOwnership(List<String> teamIds, String newOwner,
       {service.AclContext? aclContext}) async {
     var answer;
