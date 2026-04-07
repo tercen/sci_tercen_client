@@ -9,7 +9,7 @@ Future<ServiceFactoryBase> initFactory() async {
   var token = Platform.environment['TERCEN_TOKEN'];
   if (token == null) throw 'TERCEN_TOKEN env var required';
 
-  var authClient = HttpAuthClient('Bearer $token');
+  var authClient = HttpAuthClient(token);
   var factory = ServiceFactoryBase();
   await factory.initializeWith(Uri.parse(uri), authClient);
   return factory;

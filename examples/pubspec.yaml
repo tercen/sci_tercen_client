@@ -10,6 +10,7 @@ dependencies:
     path: ../sci_tercen_client
   sci_http_client:
     path: ../sci_http_client
+  stack_trace: ^1.11.0
 
 dependency_overrides:
   sci_tercen_client:
