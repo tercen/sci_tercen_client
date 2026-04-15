@@ -176,17 +176,17 @@ String _stepKindToShape(String kind) => switch (kind) {
     };
 
 String _stepKindToIcon(String kind) => switch (kind) {
-      'TableStep' => 'table_chart',
-      'DataStep' => 'hub',
+      'TableStep' => 'table',
+      'DataStep' => 'cubes',
       'MeltStep' => 'shuffle',
-      'JoinStep' => 'call_merge',
-      'ViewStep' => 'visibility',
-      'InStep' => 'input',
-      'OutStep' => 'output',
-      'ExportStep' => 'insert_drive_file',
-      'WizardStep' => 'auto_fix_high',
-      'GroupStep' => 'account_tree',
-      _ => 'widgets',
+      'JoinStep' => 'code-merge',
+      'ViewStep' => 'eye',
+      'InStep' => 'right-to-bracket',
+      'OutStep' => 'right-from-bracket',
+      'ExportStep' => 'right-from-bracket',
+      'WizardStep' => 'wand-magic-sparkles',
+      'GroupStep' => 'sitemap',
+      _ => 'cubes',
     };
 
 String _taskStateToColor(String taskState) => switch (taskState) {
