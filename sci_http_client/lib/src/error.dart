@@ -41,6 +41,16 @@ class ServiceError {
 
   ServiceError.notFound(String error, [String? reason])
       : this(404, error, reason);
+
+  /// 429 Too Many Requests — back-pressure from the scheduler when a
+  /// task cannot be queued (all matching pools at max_nodes). The
+  /// `retryAfterSeconds` hint is surfaced to clients as the `Retry-After`
+  /// HTTP response header (shelf layer reads it from `reasonObject`).
+  ServiceError.tooManyRequests(String error,
+      {required int retryAfterSeconds, String? reason})
+      : this.fromObject(
+            429, error, {'retryAfterSeconds': retryAfterSeconds}, reason);
+
   ServiceError.userAbort(String error) : this(-1, error, "User abort");
 
   @override
@@ -60,9 +70,20 @@ class ServiceError {
   bool get isUnauthorizedError => statusCode == 401;
   bool get isConflictError => statusCode == 409;
   bool get isNotFoundError => statusCode == 404;
+  bool get isTooManyRequestsError => statusCode == 429;
   bool get isUnknownError => statusCode == 500;
   bool get isUserAbortError => statusCode == -1;
   bool get isTimeoutError => statusCode == 504;
+
+  /// Retry-After hint in seconds for 429 responses. Set by
+  /// [ServiceError.tooManyRequests] via `reasonObject['retryAfterSeconds']`.
+  /// Returns `null` for other error types.
+  int? get retryAfterSeconds {
+    final r = reasonObject;
+    if (r == null) return null;
+    final v = r['retryAfterSeconds'];
+    return v is int ? v : null;
+  }
 
   String get statusCodeDescription {
     String text;
@@ -74,6 +95,8 @@ class ServiceError {
       text = "Conflict";
     } else if (isUnauthorizedError) {
       text = "Not authorized";
+    } else if (isTooManyRequestsError) {
+      text = "System busy";
     } else if (isUnknownError) {
       text = "Unexpected error : $error";
     } else {
