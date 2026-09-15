@@ -14,6 +14,16 @@ dependencies:
 #  sci_http_client:
 #    path: ../sci_http_client
 
+# Path overrides keep this multi-package repo self-coherent: each package
+# builds against the sibling packages in this checkout instead of the last
+# published git ref (which lags main between release tags). Safe to commit:
+# these packages are distributed via git refs (never published to pub.dev),
+# and dependency_overrides apply only in the declaring checkout — consumers
+# resolve their own dependency graph, unaffected.
+dependency_overrides:
+  sci_http_client:
+    path: ../sci_http_client
+
 dev_dependencies:
   lints: ^3.0.0
   test: ^1.24.0

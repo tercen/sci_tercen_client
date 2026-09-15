@@ -2,3 +2,6 @@
 _local
 .dart_tool/
 nul
+
+# pubspec.lock: resolution is checkout-relative (path overrides); libraries do not pin
+pubspec.lock
