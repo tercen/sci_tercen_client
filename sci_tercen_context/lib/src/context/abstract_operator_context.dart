@@ -421,9 +421,12 @@ abstract class AbstractOperatorContext {
       throw StateError('saveTableStream: no task associated with context');
     }
 
-    // 1. Stage: upload the encoded stream as a hidden schema. The upload
-    // endpoint buffers multipart bodies, so the encoded stream is passed as
-    // a single chunk (operator-side memory stays page-bounded).
+    // 1. Stage: upload the encoded stream as a hidden schema. Encoding
+    // materialises the WHOLE stream in memory (Arrow binary, not the TSON
+    // blow-up — bounded by table size, and the 512 MiB staging cap is the
+    // accepted envelope; the upload endpoint buffers multipart bodies, so
+    // streaming it as true multipart would not change operator-side peak
+    // memory today). True multipart streaming is deferred with E7.
     final bytes = await encodeTablePagesToIpc(pages, maxPageBytes: maxPageBytes);
     final fileDoc = FileDocument();
     fileDoc.name = name.isEmpty ? '${t.id}.staged' : name;

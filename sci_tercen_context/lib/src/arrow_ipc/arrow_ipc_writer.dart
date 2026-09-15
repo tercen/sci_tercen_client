@@ -243,6 +243,11 @@ void _writeRecordBatch(
     }
   }
 
+  // Body tail: pad to 8 so the NEXT message starts on an 8-byte boundary
+  // (Arrow IPC framing); bodyLength counts the padded body.
+  final tail = (-body.length) % 8;
+  if (tail > 0) body.add(Uint8List(tail));
+
   final fbb = FbBuilder();
   final nodesVecD = fbb.writeLongPairVector(nodes);
   final buffersVecD = fbb.writeLongPairVector(buffers);

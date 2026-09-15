@@ -157,8 +157,12 @@ class FbBuilder {
   /// Writes a string (`[len:u32][data][0x00]`) and returns its position.
   int writeString(String s) {
     final data = utf8.encode(s);
-    // Pad up front (above the object) so the length field lands 4-aligned.
-    final pad = (-(data.length + 1 + 4)) % 4;
+    // Pad up front (above the object, between the NUL terminator and
+    // previously built content) so the length field lands 4-aligned
+    // relative to the buffer end — from whatever position the builder is
+    // sitting at (an odd-field-count endTable leaves it 2 mod 4). Padding
+    // below the length, between it and the data, would corrupt the string.
+    final pad = (-(_rev.length + data.length + 1 + 4)) % 4;
     for (var i = 0; i < pad; i++) {
       _rev.add(0);
     }
@@ -173,6 +177,7 @@ class FbBuilder {
   /// Writes a vector of offsets to previously built objects and returns the
   /// vector's position.
   int writeOffsetVector(List<int> targets) {
+    _align(4); // elements and the count are u32s — align wherever we sit
     for (var i = targets.length - 1; i >= 0; i--) {
       _u32(_rev.length + 4 - targets[i]);
     }
@@ -183,9 +188,10 @@ class FbBuilder {
   /// Writes a vector of inline 16-byte structs, each a pair of 64-bit LE
   /// integers (`[first][second]`), and returns the vector's position. Used
   /// for Arrow's `FieldNode` and `Buffer` struct vectors — elements are
-  /// 16 bytes wide, so they are 8-aligned relative to the buffer end with
-  /// no padding.
+  /// 16 bytes wide, so with the vector 8-aligned they need no per-element
+  /// padding.
   int writeLongPairVector(List<(int, int)> pairs) {
+    _align(8); // the count (u32) then 16-byte elements: 8-aligned elements
     for (var i = pairs.length - 1; i >= 0; i--) {
       _i64(pairs[i].$2);
       _i64(pairs[i].$1);
@@ -200,10 +206,18 @@ class FbBuilder {
 
   /// Terminates the builder with the root offset and returns the bytes.
   ///
-  /// The caller pads the result to an 8-byte boundary AFTER these bytes
-  /// (Arrow pads the metadata block so the message body stays aligned);
-  /// leading padding would hide the root offset from the reader.
+  /// Pads so the FINISHED buffer — root offset included — is a multiple of
+  /// the maximum alignment (8). The builder aligns fields relative to the
+  /// buffer END, while readers place them relative to the buffer START;
+  /// the two agree only when the total length is 8-aligned. The pad sits
+  /// between the root offset and the content: offsets are end-relative and
+  /// unaffected by it. (Padding before the root would hide the root offset
+  /// from the reader; padding after the buffer would leave every internal
+  /// anchor off by `pad % 8`.)
   List<int> takeBytes(int rootD) {
+    while ((_rev.length + 4) % 8 != 0) {
+      _rev.add(0);
+    }
     _u32(_rev.length + 4 - rootD);
     return _rev.reversed.toList(growable: false);
   }

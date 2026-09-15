@@ -23,16 +23,30 @@ class _Reader {
       : b = bytes is Uint8List ? bytes : Uint8List.fromList(bytes);
 
   int u8(int off) => b[off];
-  int u16(int off) => ByteData.sublistView(b, off, off + 2)
-      .getUint16(0, Endian.little);
-  int u32(int off) => ByteData.sublistView(b, off, off + 4)
-      .getUint32(0, Endian.little);
-  int i32(int off) => ByteData.sublistView(b, off, off + 4)
-      .getInt32(0, Endian.little);
-  int i64(int off) => ByteData.sublistView(b, off, off + 8)
-      .getInt64(0, Endian.little);
-  double f64(int off) => ByteData.sublistView(b, off, off + 8)
-      .getFloat64(0, Endian.little);
+  int u16(int off) {
+    if (off % 2 != 0) throw StateError('unaligned u16 read at offset $off');
+    return ByteData.sublistView(b, off, off + 2).getUint16(0, Endian.little);
+  }
+
+  int u32(int off) {
+    if (off % 4 != 0) throw StateError('unaligned u32 read at offset $off');
+    return ByteData.sublistView(b, off, off + 4).getUint32(0, Endian.little);
+  }
+
+  int i32(int off) {
+    if (off % 4 != 0) throw StateError('unaligned i32 read at offset $off');
+    return ByteData.sublistView(b, off, off + 4).getInt32(0, Endian.little);
+  }
+
+  int i64(int off) {
+    if (off % 8 != 0) throw StateError('unaligned i64 read at offset $off');
+    return ByteData.sublistView(b, off, off + 8).getInt64(0, Endian.little);
+  }
+
+  double f64(int off) {
+    if (off % 8 != 0) throw StateError('unaligned f64 read at offset $off');
+    return ByteData.sublistView(b, off, off + 8).getFloat64(0, Endian.little);
+  }
 
   // --- FlatBuffers table access ---
 
@@ -95,6 +109,10 @@ class _Reader {
     final out = <_Message>[];
     var pos = 0;
     while (pos < b.length) {
+      // Arrow IPC requires every encapsulated message (and the EOS marker)
+      // to start on an 8-byte boundary; a drifted phase means some earlier
+      // body skipped its tail padding.
+      expect(pos % 8, 0, reason: 'message starts 8-aligned (at $pos)');
       expect(u32(pos), 0xFFFFFFFF, reason: 'continuation marker at $pos');
       final metaLen = i32(pos + 4);
       if (metaLen == 0) break; // end-of-stream
