@@ -63,12 +63,17 @@ class FbBuilder {
     _minFieldEndD = 1 << 60;
   }
 
-  void _record(int field, int startD) {
+  void _record(int field, int startD, int width) {
     while (_slots.length <= field) {
       _slots.add(null);
     }
     _slots[field] = startD;
-    if (startD < _minFieldEndD) _minFieldEndD = startD;
+    // The vtable's tableSize must cover each field's END (its furthest
+    // byte from the table start), not just where the fields start — so
+    // track the minimum end distance, i.e. the field reaching closest to
+    // the buffer end.
+    final endD = startD - width;
+    if (endD < _minFieldEndD) _minFieldEndD = endD;
   }
 
   /// Adds a bool field (1 byte, no default elision).
@@ -78,7 +83,7 @@ class FbBuilder {
   void addUint8(int field, int v) {
     final d = _rev.length + 1;
     _u8(v);
-    _record(field, d);
+    _record(field, d, 1);
   }
 
   /// Adds a 2-byte scalar field (endianness, precision, ...).
@@ -86,7 +91,7 @@ class FbBuilder {
     _align(2);
     final d = _rev.length + 2;
     _u16(v);
-    _record(field, d);
+    _record(field, d, 2);
   }
 
   /// Adds a 4-byte scalar field (Int.bitWidth, ...).
@@ -94,7 +99,7 @@ class FbBuilder {
     _align(4);
     final d = _rev.length + 4;
     _u32(v);
-    _record(field, d);
+    _record(field, d, 4);
   }
 
   /// Adds an 8-byte scalar field (bodyLength, RecordBatch.length, ...).
@@ -102,7 +107,7 @@ class FbBuilder {
     _align(8);
     final d = _rev.length + 8;
     _i64(v);
-    _record(field, d);
+    _record(field, d, 8);
   }
 
   /// Adds an offset field pointing at a previously built object ([targetD]
@@ -111,7 +116,7 @@ class FbBuilder {
     _align(4);
     final d = _rev.length + 4;
     _u32(d - targetD);
-    _record(field, d);
+    _record(field, d, 4);
   }
 
   /// Finishes the table and returns its distance-from-end for referencing.
@@ -134,7 +139,9 @@ class FbBuilder {
       final d = _slots[i];
       _u16(d == null ? 0 : tableD - d);
     }
-    _u16(_minFieldEndD == (1 << 60) ? 4 : tableD - _minFieldEndD); // table size
+    // tableSize = the object size: distance from the table start to the
+    // lowest field end (4 = the soffset slot alone, for an empty table).
+    _u16(_minFieldEndD == (1 << 60) ? 4 : tableD - _minFieldEndD);
     _u16(4 + 2 * nFields); // vtable size
     final vtD = _rev.length;
 
