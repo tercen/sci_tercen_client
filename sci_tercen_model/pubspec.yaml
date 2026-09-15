@@ -20,6 +20,16 @@ dependencies:
 #  sci_base:
 #    path: ../sci_base
 
+# Path overrides keep this multi-package repo self-coherent: each package
+# builds against the sibling packages in this checkout instead of the last
+# published git ref (which lags main between release tags). pub publish
+# strips dependency_overrides, so publishing is unaffected.
+dependency_overrides:
+  sci_base:
+    path: ../sci_base
+  sci_http_client:
+    path: ../sci_http_client
+
 dev_dependencies:
   lints: ^3.0.0
   test: ^1.24.0

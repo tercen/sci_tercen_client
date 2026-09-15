@@ -1,0 +1,56 @@
+name: "client CI"
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  analyze-and-test:
+    name: "analyze + test"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - package: sci_base
+            tests: true
+          - package: sci_http_client
+            tests: false # test file is an empty scaffold (no main body)
+          - package: sci_tercen_model
+            tests: false # test file is an empty scaffold (no main body)
+          - package: sci_tercen_client
+            tests: true
+          - package: sci_tercen_context
+            tests: true
+            strict_analyze: true # zero issues (hand-written package)
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "3.10.7"
+
+      - name: "pub get"
+        working-directory: ${{ matrix.package }}
+        run: dart pub get
+
+      # Generated packages (sci_tercen_model, sci_tercen_client) carry a
+      # standing lint baseline; generated regions are excluded from cleanup
+      # by policy. Their gate is "no errors": infos and warnings are
+      # non-fatal, errors (compile-breaking) fail the job via exit code.
+      - name: "analyze (errors gate)"
+        if: ${{ !matrix.strict_analyze }}
+        working-directory: ${{ matrix.package }}
+        run: dart analyze --no-fatal-warnings
+
+      - name: "analyze (zero issues)"
+        if: ${{ matrix.strict_analyze }}
+        working-directory: ${{ matrix.package }}
+        run: dart analyze --fatal-infos
+
+      - name: "dart test"
+        if: ${{ matrix.tests }}
+        working-directory: ${{ matrix.package }}
+        run: dart test

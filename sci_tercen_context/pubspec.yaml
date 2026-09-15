@@ -19,6 +19,20 @@ dependencies:
       url: https://github.com/tercen/dtson
       ref: 1.5.1
 
+# Path overrides keep this multi-package repo self-coherent: each package
+# builds against the sibling packages in this checkout instead of the last
+# published git ref (which lags main between release tags). pub publish
+# strips dependency_overrides, so publishing is unaffected.
+dependency_overrides:
+  sci_tercen_model:
+    path: ../sci_tercen_model
+  sci_tercen_client:
+    path: ../sci_tercen_client
+  sci_base:
+    path: ../sci_base
+  sci_http_client:
+    path: ../sci_http_client
+
 dev_dependencies:
   lints: ^3.0.0
   test: ^1.24.0
