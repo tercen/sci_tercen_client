@@ -14,7 +14,7 @@ class MetaFactorBase extends Factor {
     base.StringEnumConstraint(Vocabulary.crosstabMapping_DP,
         const ['x', 'y', 'row', 'column', 'colors', 'labels']),
     base.StringEnumConstraint(
-        Vocabulary.cardinality_DP, const ['0..n', '1', '1..n'])
+        Vocabulary.cardinality_DP, const ['0..n', '0..1', '1', '1..n'])
   ];
   String _description;
   String _ontologyMapping;

@@ -1,11 +1,13 @@
 part of sci_client_base;
 
 class ServiceFactoryBase implements api.ServiceFactory {
-  late CranLibraryService cranLibraryService;
+  late AdminService adminService;
+  late UsageService usageService;
   late WorkerService workerService;
   late GarbageCollectorService garbageCollectorService;
   late FileService fileService;
   late LockService lockService;
+  late CranLibraryService cranLibraryService;
   late SubscriptionPlanService subscriptionPlanService;
   late PersistentService persistentService;
   late ActivityService activityService;
@@ -24,11 +26,13 @@ class ServiceFactoryBase implements api.ServiceFactory {
   late DocumentService documentService;
   late OperatorService operatorService;
   ServiceFactoryBase() {
-    cranLibraryService = new CranLibraryService()..factory = this;
+    adminService = new AdminService()..factory = this;
+    usageService = new UsageService()..factory = this;
     workerService = new WorkerService()..factory = this;
     garbageCollectorService = new GarbageCollectorService()..factory = this;
     fileService = new FileService()..factory = this;
     lockService = new LockService()..factory = this;
+    cranLibraryService = new CranLibraryService()..factory = this;
     subscriptionPlanService = new SubscriptionPlanService()..factory = this;
     persistentService = new PersistentService()..factory = this;
     activityService = new ActivityService()..factory = this;
@@ -50,11 +54,13 @@ class ServiceFactoryBase implements api.ServiceFactory {
   Future initialize() async {}
   Future initializeWith(Uri uri, [HttpClient? client]) async {
     if (client == null) client = new HttpClient();
-    await cranLibraryService.initialize(uri, client);
+    await adminService.initialize(uri, client);
+    await usageService.initialize(uri, client);
     await workerService.initialize(uri, client);
     await garbageCollectorService.initialize(uri, client);
     await fileService.initialize(uri, client);
     await lockService.initialize(uri, client);
+    await cranLibraryService.initialize(uri, client);
     await subscriptionPlanService.initialize(uri, client);
     await persistentService.initialize(uri, client);
     await activityService.initialize(uri, client);

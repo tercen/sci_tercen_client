@@ -17,7 +17,9 @@ class TaskBase extends PersistentObject {
     Vocabulary.meta_OP,
     Vocabulary.storageSize_DP,
     Vocabulary.stdOutFileId_DP,
-    Vocabulary.stdErrFileId_DP
+    Vocabulary.stdErrFileId_DP,
+    Vocabulary.clonedFromTaskId_DP,
+    Vocabulary.removeOnGC_DP
   ];
   static const List<String> REF_PROPERTY_NAMES = [
     Vocabulary.owner_DP,
@@ -46,6 +48,8 @@ class TaskBase extends PersistentObject {
   double _storageSize;
   String _stdOutFileId;
   String _stdErrFileId;
+  String _clonedFromTaskId;
+  bool _removeOnGC;
 
   TaskBase()
       : _duration = 0.0,
@@ -56,8 +60,10 @@ class TaskBase extends PersistentObject {
         _storageSize = 0.0,
         _stdOutFileId = "",
         _stdErrFileId = "",
+        _clonedFromTaskId = "",
+        _removeOnGC = true,
         environment = base.ListChanged<Pair>(),
-        _state = InitState(),
+        _state = State(),
         _createdDate = Date(),
         _lastModifiedDate = Date(),
         _runDate = Date(),
@@ -91,6 +97,11 @@ class TaskBase extends PersistentObject {
         _stdErrFileId = base.defaultValue(
             m[Vocabulary.stdErrFileId_DP] as String?,
             base.String_DefaultFactory),
+        _clonedFromTaskId = base.defaultValue(
+            m[Vocabulary.clonedFromTaskId_DP] as String?,
+            base.String_DefaultFactory),
+        _removeOnGC = base.defaultValue(
+            m[Vocabulary.removeOnGC_DP] as bool?, base.bool_DefaultFactory),
         environment = base.ListChanged<Pair>.from(
             m[Vocabulary.environment_OP] as List?, PairBase.createFromJson),
         _state = (m[Vocabulary.state_OP] as Map?) == null
@@ -270,6 +281,30 @@ class TaskBase extends PersistentObject {
     }
   }
 
+  String get clonedFromTaskId => _clonedFromTaskId;
+
+  set clonedFromTaskId(String $o) {
+    if ($o == _clonedFromTaskId) return;
+    var $old = _clonedFromTaskId;
+    _clonedFromTaskId = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.clonedFromTaskId_DP, $old, _clonedFromTaskId));
+    }
+  }
+
+  bool get removeOnGC => _removeOnGC;
+
+  set removeOnGC(bool $o) {
+    if ($o == _removeOnGC) return;
+    var $old = _removeOnGC;
+    _removeOnGC = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.removeOnGC_DP, $old, _removeOnGC));
+    }
+  }
+
   State get state => _state;
 
   set state(State $o) {
@@ -389,6 +424,10 @@ class TaskBase extends PersistentObject {
         return stdOutFileId;
       case Vocabulary.stdErrFileId_DP:
         return stdErrFileId;
+      case Vocabulary.clonedFromTaskId_DP:
+        return clonedFromTaskId;
+      case Vocabulary.removeOnGC_DP:
+        return removeOnGC;
       default:
         return super.get($name);
     }
@@ -420,6 +459,12 @@ class TaskBase extends PersistentObject {
         return;
       case Vocabulary.stdErrFileId_DP:
         stdErrFileId = $value as String;
+        return;
+      case Vocabulary.clonedFromTaskId_DP:
+        clonedFromTaskId = $value as String;
+        return;
+      case Vocabulary.removeOnGC_DP:
+        removeOnGC = $value as bool;
         return;
       case Vocabulary.environment_OP:
         environment.setValues($value as Iterable<Pair>);
@@ -486,6 +531,8 @@ class TaskBase extends PersistentObject {
     m[Vocabulary.storageSize_DP] = storageSize;
     m[Vocabulary.stdOutFileId_DP] = stdOutFileId;
     m[Vocabulary.stdErrFileId_DP] = stdErrFileId;
+    m[Vocabulary.clonedFromTaskId_DP] = clonedFromTaskId;
+    m[Vocabulary.removeOnGC_DP] = removeOnGC;
     return m;
   }
 }

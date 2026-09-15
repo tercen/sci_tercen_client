@@ -1,23 +1,34 @@
 part of sci_model_base;
 
 class PatchRecordSetBase extends PatchRecordType {
-  static const List<String> PROPERTY_NAMES = [Vocabulary.value_OP];
+  static const List<String> PROPERTY_NAMES = [
+    Vocabulary.value_OP,
+    Vocabulary.oldValue_OP
+  ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
   static const List<base.PropertyConstraint> CONSTRAINTS = [];
   TypedValue _value;
+  TypedValue _oldValue;
 
-  PatchRecordSetBase() : _value = TypedValue() {
+  PatchRecordSetBase()
+      : _value = TypedValue(),
+        _oldValue = TypedValue() {
     _value.parent = this;
+    _oldValue.parent = this;
   }
 
   PatchRecordSetBase.json(Map m)
       : _value = (m[Vocabulary.value_OP] as Map?) == null
             ? TypedValue()
             : TypedValueBase.fromJson(m[Vocabulary.value_OP] as Map),
+        _oldValue = (m[Vocabulary.oldValue_OP] as Map?) == null
+            ? TypedValue()
+            : TypedValueBase.fromJson(m[Vocabulary.oldValue_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.PatchRecordSet_CLASS, m);
     _value.parent = this;
+    _oldValue.parent = this;
   }
 
   static PatchRecordSet createFromJson(Map m) => PatchRecordSetBase.fromJson(m);
@@ -47,11 +58,27 @@ class PatchRecordSetBase extends PatchRecordType {
     }
   }
 
+  TypedValue get oldValue => _oldValue;
+
+  set oldValue(TypedValue $o) {
+    if ($o == _oldValue) return;
+    _oldValue.parent = null;
+    $o.parent = this;
+    var $old = _oldValue;
+    _oldValue = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.oldValue_OP, $old, _oldValue));
+    }
+  }
+
   @override
   dynamic get(String $name) {
     switch ($name) {
       case Vocabulary.value_OP:
         return value;
+      case Vocabulary.oldValue_OP:
+        return oldValue;
       default:
         return super.get($name);
     }
@@ -62,6 +89,9 @@ class PatchRecordSetBase extends PatchRecordType {
     switch ($name) {
       case Vocabulary.value_OP:
         value = $value as TypedValue;
+        return;
+      case Vocabulary.oldValue_OP:
+        oldValue = $value as TypedValue;
         return;
       default:
         super.set($name, $value);
@@ -89,6 +119,7 @@ class PatchRecordSetBase extends PatchRecordType {
       m.remove(Vocabulary.SUBKIND);
     }
     m[Vocabulary.value_OP] = value.toJson();
+    m[Vocabulary.oldValue_OP] = oldValue.toJson();
     return m;
   }
 }

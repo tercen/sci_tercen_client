@@ -12,22 +12,4 @@ class GarbageCollectorServiceBase extends HttpClientService<GarbageObject>
     if (useFactory) return GarbageObjectBase.fromJson(m);
     return new GarbageObject.json(m);
   }
-
-  Future<List<GarbageObject>> findGarbageTasks2ByDate(
-      {startKey,
-      endKey,
-      int limit = 200,
-      int skip = 0,
-      bool descending = true,
-      bool useFactory = false,
-      service.AclContext? aclContext}) {
-    return findStartKeys("findGarbageTasks2ByDate",
-        startKey: startKey,
-        endKey: endKey,
-        limit: limit,
-        skip: skip,
-        descending: descending,
-        useFactory: useFactory,
-        aclContext: aclContext);
-  }
 }

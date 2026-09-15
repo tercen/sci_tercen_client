@@ -5,9 +5,15 @@ import 'package:sci_tercen_client/sci_client_service_factory.dart';
 import 'package:tson/string_list.dart';
 import 'package:tson/tson.dart' as tson;
 
+import '../arrow_ipc/arrow_ipc_writer.dart';
 import '../helpers/async_lazy.dart';
 import '../helpers/column_filter.dart';
 import '../helpers/operator_property.dart';
+
+/// A join passed to [AbstractOperatorContext.saveRelationStream]. Any right
+/// relation may reference a staged stream result — schemas carrying the
+/// `tercen.staged_result` marker of the saving task (see [saveTableStream]).
+typedef StagedJoin = JoinOperator;
 
 /// Abstract operator context providing R/Python-style data access to Tercen.
 ///
@@ -384,6 +390,88 @@ abstract class AbstractOperatorContext {
     fileDoc.acl.owner = owner;
     fileDoc.metadata.contentType = 'application/octet-stream';
     return serviceFactory.fileService.upload(fileDoc, stream);
+  }
+
+  // ============================================================
+  // Streamed save: stage then reference (P2, design §2.2)
+  // ============================================================
+
+  /// Metadata key marking a schema as the staged result of a task.
+  static const stagedResultMetaKey = 'tercen.staged_result';
+
+  /// Content type the engine's Arrow importer checks (design §2.3 quirk:
+  /// the string says "file" although this is an IPC *stream*).
+  static const _arrowContentType = 'application/vnd.apache.arrow.file';
+
+  /// Save a table as pages of an Arrow IPC stream (streamed save).
+  ///
+  /// Instead of materialising the whole table as TSON, the pages are encoded
+  /// as an Arrow IPC stream (schema message, one record batch per page,
+  /// re-chunked so no batch exceeds [maxPageBytes]), uploaded as a hidden
+  /// staging table, marked with [stagedResultMetaKey], and then referenced
+  /// through [saveRelation] — the server clones the staged schema into the
+  /// task's result, converts it like an in-memory result, and soft-deletes
+  /// the staging original.
+  ///
+  /// This is three generated calls; there is no new endpoint.
+  Future<void> saveTableStream(Stream<Table> pages,
+      {int maxPageBytes = kDefaultMaxPageBytes, String name = ''}) async {
+    final t = task;
+    if (t == null) {
+      throw StateError('saveTableStream: no task associated with context');
+    }
+
+    // 1. Stage: upload the encoded stream as a hidden schema. Encoding
+    // materialises the WHOLE stream in memory (Arrow binary, not the TSON
+    // blow-up — bounded by table size, and the 512 MiB staging cap is the
+    // accepted envelope; the upload endpoint buffers multipart bodies, so
+    // streaming it as true multipart would not change operator-side peak
+    // memory today). True multipart streaming is deferred with E7.
+    final bytes = await encodeTablePagesToIpc(pages, maxPageBytes: maxPageBytes);
+    final fileDoc = FileDocument();
+    fileDoc.name = name.isEmpty ? '${t.id}.staged' : name;
+    fileDoc.projectId = t is ProjectTask ? t.projectId : '';
+    fileDoc.acl.owner = t.owner;
+    fileDoc.isHidden = true;
+    fileDoc.metadata.contentType = _arrowContentType;
+    final staged = await serviceFactory.tableSchemaService
+        .uploadTable(fileDoc, Stream<List>.fromIterable([bytes]));
+
+    // 2. Mark: lets the server treat S as this task's staged result (and
+    // lets the GC recognise an orphaned staging table).
+    staged.addMeta(stagedResultMetaKey, t.id);
+    staged.rev = await serviceFactory.tableSchemaService.update(staged);
+
+    // 3. Reference: the existing save path (clone, convert, soft-delete S).
+    final join = JoinOperator()
+      ..rightRelation = (TableRelation()..id = staged.id);
+    return saveRelation([join]);
+  }
+
+  /// Save joins whose right relations may reference staged stream results
+  /// (the [saveRelation] twin).
+  ///
+  /// Detection is server-side: any referenced schema carrying
+  /// [stagedResultMetaKey] for this task is cloned, converted and
+  /// soft-deleted like a [saveTableStream] result. There is no new endpoint.
+  Future<void> saveRelationStream(List<StagedJoin> joins) {
+    return saveRelation(joins);
+  }
+
+  /// Iterates [TableSchemaServiceBase.selectRelationPage] to exhaustion.
+  ///
+  /// Yields every page as it arrives; the empty next cursor is the
+  /// end-of-pages marker.
+  Stream<SelectPage> selectPages(Relation relation, List<String> cnames,
+      {int maxBytes = kDefaultMaxPageBytes}) async* {
+    var cursor = '';
+    while (true) {
+      final page = await serviceFactory.tableSchemaService
+          .selectRelationPage(relation, cnames, cursor, maxBytes);
+      yield page;
+      if (page.nextCursor.isEmpty) return;
+      cursor = page.nextCursor;
+    }
   }
 
   // ============================================================

@@ -10,6 +10,7 @@ export 'package:sci_tercen_client/sci_client.dart';
 export 'package:sci_tercen_client/sci_client_service_factory.dart'
     show ServiceFactoryBase;
 
+export 'src/arrow_ipc/arrow_ipc_writer.dart';
 export 'src/context/abstract_operator_context.dart';
 export 'src/context/operator_context.dart';
 export 'src/context/operator_context_dev.dart';

@@ -8,7 +8,9 @@ class PatchRecordsBase extends Event {
     Vocabulary.oR_DP,
     Vocabulary.oK_DP,
     Vocabulary.s_DP,
-    Vocabulary.rs_OP
+    Vocabulary.rs_OP,
+    Vocabulary.message_DP,
+    Vocabulary.snapshot_OP
   ];
   static const List<String> REF_PROPERTY_NAMES = [Vocabulary.oI_DP];
   static const List<base.RefId> REF_IDS = [
@@ -22,6 +24,8 @@ class PatchRecordsBase extends Event {
   String _oK;
   int _s;
   final base.ListChanged<PatchRecord> rs;
+  String _message;
+  PersistentObject _snapshot;
 
   PatchRecordsBase()
       : _u = "",
@@ -30,8 +34,11 @@ class PatchRecordsBase extends Event {
         _oR = "",
         _oK = "",
         _s = 0,
-        rs = base.ListChanged<PatchRecord>() {
+        _message = "",
+        rs = base.ListChanged<PatchRecord>(),
+        _snapshot = PersistentObject() {
     rs.parent = this;
+    _snapshot.parent = this;
   }
 
   PatchRecordsBase.json(Map m)
@@ -47,11 +54,17 @@ class PatchRecordsBase extends Event {
             m[Vocabulary.oK_DP] as String?, base.String_DefaultFactory),
         _s = base.defaultValue(
             m[Vocabulary.s_DP] as int?, base.int_DefaultFactory),
+        _message = base.defaultValue(
+            m[Vocabulary.message_DP] as String?, base.String_DefaultFactory),
         rs = base.ListChanged<PatchRecord>.from(
             m[Vocabulary.rs_OP] as List?, PatchRecordBase.createFromJson),
+        _snapshot = (m[Vocabulary.snapshot_OP] as Map?) == null
+            ? PersistentObject()
+            : PersistentObjectBase.fromJson(m[Vocabulary.snapshot_OP] as Map),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.PatchRecords_CLASS, m);
     rs.parent = this;
+    _snapshot.parent = this;
   }
 
   static PatchRecords createFromJson(Map m) => PatchRecordsBase.fromJson(m);
@@ -139,6 +152,32 @@ class PatchRecordsBase extends Event {
     }
   }
 
+  String get message => _message;
+
+  set message(String $o) {
+    if ($o == _message) return;
+    var $old = _message;
+    _message = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.message_DP, $old, _message));
+    }
+  }
+
+  PersistentObject get snapshot => _snapshot;
+
+  set snapshot(PersistentObject $o) {
+    if ($o == _snapshot) return;
+    _snapshot.parent = null;
+    $o.parent = this;
+    var $old = _snapshot;
+    _snapshot = $o;
+    if (hasListener) {
+      sendChangeEvent(base.PropertyChangedEvent(
+          this, Vocabulary.snapshot_OP, $old, _snapshot));
+    }
+  }
+
   @override
   dynamic get(String $name) {
     switch ($name) {
@@ -156,6 +195,10 @@ class PatchRecordsBase extends Event {
         return s;
       case Vocabulary.rs_OP:
         return rs;
+      case Vocabulary.message_DP:
+        return message;
+      case Vocabulary.snapshot_OP:
+        return snapshot;
       default:
         return super.get($name);
     }
@@ -182,8 +225,14 @@ class PatchRecordsBase extends Event {
       case Vocabulary.s_DP:
         s = $value as int;
         return;
+      case Vocabulary.message_DP:
+        message = $value as String;
+        return;
       case Vocabulary.rs_OP:
         rs.setValues($value as Iterable<PatchRecord>);
+        return;
+      case Vocabulary.snapshot_OP:
+        snapshot = $value as PersistentObject;
         return;
       default:
         super.set($name, $value);
@@ -217,6 +266,8 @@ class PatchRecordsBase extends Event {
     m[Vocabulary.oK_DP] = oK;
     m[Vocabulary.s_DP] = s;
     m[Vocabulary.rs_OP] = rs.toJson();
+    m[Vocabulary.message_DP] = message;
+    m[Vocabulary.snapshot_OP] = snapshot.toJson();
     return m;
   }
 }

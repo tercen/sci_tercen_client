@@ -14,10 +14,11 @@ class Vocabulary {
   static const String ResourceSummary_CLASS = "ResourceSummary";
   static const String BillingInfo_CLASS = "BillingInfo";
   static const String PatchRecords_CLASS = "PatchRecords";
+  static const String PatchResult_CLASS = "PatchResult";
   static const String Property_CLASS = "Property";
   static const String GarbageTasks_CLASS = "GarbageTasks";
-  static const String Version_CLASS = "Version";
   static const String Filters_CLASS = "Filters";
+  static const String Version_CLASS = "Version";
   static const String ChartHeatmap_CLASS = "ChartHeatmap";
   static const String I32Values_CLASS = "I32Values";
   static const String StatisticNode_CLASS = "StatisticNode";
@@ -134,6 +135,7 @@ class Vocabulary {
   static const String PatchRecordListInsert_CLASS = "PatchRecordListInsert";
   static const String PatchRecordSet_CLASS = "PatchRecordSet";
   static const String ModelStep_CLASS = "ModelStep";
+  static const String SelectPage_CLASS = "SelectPage";
   static const String TableSummary_CLASS = "TableSummary";
   static const String TaskEvent_CLASS = "TaskEvent";
   static const String Point_CLASS = "Point";
@@ -266,12 +268,15 @@ class Vocabulary {
   static const String oR_DP = "oR";
   static const String oK_DP = "oK";
   static const String s_DP = "s";
+  static const String message_DP = "message";
+  static const String warnings_DP = "warnings";
   static const String name_DP = "name";
   static const String description_DP = "description";
   static const String workflowId_DP = "workflowId";
   static const String deletedTaskIds_DP = "deletedTaskIds";
   static const String addedTaskIds_DP = "addedTaskIds";
   static const String deletedStepIds_DP = "deletedStepIds";
+  static const String removeNaN_DP = "removeNaN";
   static const String major_DP = "major";
   static const String minor_DP = "minor";
   static const String patch_DP = "patch";
@@ -279,7 +284,6 @@ class Vocabulary {
   static const String date_DP = "date";
   static const String commit_DP = "commit";
   static const String features_DP = "features";
-  static const String removeNaN_DP = "removeNaN";
   static const String values_DP = "values";
   static const String qtHash_DP = "qtHash";
   static const String columnHash_DP = "columnHash";
@@ -298,7 +302,6 @@ class Vocabulary {
   static const String version_DP = "version";
   static const String coefficient_DP = "coefficient";
   static const String exponent_DP = "exponent";
-  static const String message_DP = "message";
   static const String nRows_DP = "nRows";
   static const String container_DP = "container";
   static const String owner_DP = "owner";
@@ -360,7 +363,6 @@ class Vocabulary {
   static const String teamId_DP = "teamId";
   static const String projectName_DP = "projectName";
   static const String isPublic_DP = "isPublic";
-  static const String removeOnGC_DP = "removeOnGC";
   static const String schemaIds_DP = "schemaIds";
   static const String countryCode_DP = "countryCode";
   static const String vatNumber_DP = "vatNumber";
@@ -455,6 +457,10 @@ class Vocabulary {
   static const String queryHash_DP = "queryHash";
   static const String queryTableType_DP = "queryTableType";
   static const String index_DP = "index";
+  static const String nextCursor_DP = "nextCursor";
+  static const String oversized_DP = "oversized";
+  static const String rows_DP = "rows";
+  static const String certainty_DP = "certainty";
   static const String nr_DP = "nr";
   static const String nc_DP = "nc";
   static const String x_DP = "x";
@@ -483,7 +489,6 @@ class Vocabulary {
   static const String inputDataUri_DP = "inputDataUri";
   static const String outputDataUri_DP = "outputDataUri";
   static const String columns_DP = "columns";
-  static const String rows_DP = "rows";
   static const String colors_DP = "colors";
   static const String labels_DP = "labels";
   static const String yAxis_DP = "yAxis";
@@ -499,6 +504,8 @@ class Vocabulary {
   static const String channelId_DP = "channelId";
   static const String stdOutFileId_DP = "stdOutFileId";
   static const String stdErrFileId_DP = "stdErrFileId";
+  static const String clonedFromTaskId_DP = "clonedFromTaskId";
+  static const String removeOnGC_DP = "removeOnGC";
   static const String condition_DP = "condition";
   static const String linkType_DP = "linkType";
   static const String operatorKind_DP = "operatorKind";
@@ -507,6 +514,7 @@ class Vocabulary {
   static const String appDesignType_DP = "appDesignType";
   static const String lColumns_DP = "lColumns";
   static const String rColumns_DP = "rColumns";
+  static const String force_DP = "force";
   static const String filterOp_DP = "filterOp";
   static const String isValid_DP = "isValid";
   static const String displayName_DP = "displayName";
@@ -557,11 +565,13 @@ class Vocabulary {
 
   static const String extent_OP = "extent";
   static const String topLeft_OP = "topLeft";
+  static const String items_OP = "items";
   static const String relation_OP = "relation";
   static const String filters_OP = "filters";
   static const String taxId_OP = "taxId";
   static const String address_OP = "address";
   static const String rs_OP = "rs";
+  static const String snapshot_OP = "snapshot";
   static const String namedFilters_OP = "namedFilters";
   static const String meta_OP = "meta";
   static const String colColumns_OP = "colColumns";
@@ -646,6 +656,8 @@ class Vocabulary {
   static const String operatorModel_OP = "operatorModel";
   static const String colorList_OP = "colorList";
   static const String stringColorElements_OP = "stringColorElements";
+  static const String oldValue_OP = "oldValue";
+  static const String table_OP = "table";
   static const String cValues_OP = "cValues";
   static const String tableSummary_OP = "tableSummary";
   static const String computedTableSummary_OP = "computedTableSummary";

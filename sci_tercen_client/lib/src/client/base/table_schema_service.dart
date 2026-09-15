@@ -306,4 +306,65 @@ class TableSchemaServiceBase extends HttpClientService<Schema>
     }
     return answer as Stream<List<int>>;
   }
+
+  Future<SelectPage> selectRelationPage(
+      Relation relation, List<String> cnames, String cursor, int maxBytes,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/schema" + "/" + "selectRelationPage");
+      var params = {};
+      params["relation"] = relation.toJson();
+      params["cnames"] = cnames;
+      params["cursor"] = cursor;
+      params["maxBytes"] = maxBytes;
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer =
+            SelectPageBase.fromJson(contentCodec.decode(response.body) as Map);
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as SelectPage;
+  }
+
+  Stream<List<int>> selectRelationStream(
+      Relation relation, List<String> cnames, String cursor,
+      {service.AclContext? aclContext}) {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/schema" + "/" + "selectRelationStream");
+      var params = {};
+      params["relation"] = relation.toJson();
+      params["cnames"] = cnames;
+      params["cursor"] = cursor;
+      var resFut = client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      resFut = resFut.then((response) {
+        if (response.statusCode != 200) onResponseError(response);
+        return response;
+      });
+
+      var resFut2 = resFut.then((response) => new Stream.fromIterable(
+          [new Uint8List.view(response.body as ByteBuffer)]));
+      answer = new async.LazyStream(() => resFut2).cast<List<int>>();
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as Stream<List<int>>;
+  }
 }

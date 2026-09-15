@@ -1,21 +1,31 @@
 part of sci_model_base;
 
 class PatchRecordListRemoveBase extends PatchRecordType {
-  static const List<String> PROPERTY_NAMES = [Vocabulary.indexes_DP];
+  static const List<String> PROPERTY_NAMES = [
+    Vocabulary.indexes_DP,
+    Vocabulary.items_OP
+  ];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
   static const List<base.PropertyConstraint> CONSTRAINTS = [];
   final base.ListChangedBase<int> indexes;
+  final base.ListChanged<TypedValue> items;
 
-  PatchRecordListRemoveBase() : indexes = base.ListChangedBase<int>() {
+  PatchRecordListRemoveBase()
+      : indexes = base.ListChangedBase<int>(),
+        items = base.ListChanged<TypedValue>() {
     indexes.parent = this;
+    items.parent = this;
   }
 
   PatchRecordListRemoveBase.json(Map m)
       : indexes = base.ListChangedBase<int>(m[Vocabulary.indexes_DP] as List?),
+        items = base.ListChanged<TypedValue>.from(
+            m[Vocabulary.items_OP] as List?, TypedValueBase.createFromJson),
         super.json(m) {
     subKind = base.subKindForClass(Vocabulary.PatchRecordListRemove_CLASS, m);
     indexes.parent = this;
+    items.parent = this;
   }
 
   static PatchRecordListRemove createFromJson(Map m) =>
@@ -38,6 +48,8 @@ class PatchRecordListRemoveBase extends PatchRecordType {
     switch ($name) {
       case Vocabulary.indexes_DP:
         return indexes;
+      case Vocabulary.items_OP:
+        return items;
       default:
         return super.get($name);
     }
@@ -48,6 +60,9 @@ class PatchRecordListRemoveBase extends PatchRecordType {
     switch ($name) {
       case Vocabulary.indexes_DP:
         indexes.setValues($value as Iterable<int>);
+        return;
+      case Vocabulary.items_OP:
+        items.setValues($value as Iterable<TypedValue>);
         return;
       default:
         super.set($name, $value);
@@ -75,6 +90,7 @@ class PatchRecordListRemoveBase extends PatchRecordType {
       m.remove(Vocabulary.SUBKIND);
     }
     m[Vocabulary.indexes_DP] = indexes;
+    m[Vocabulary.items_OP] = items.toJson();
     return m;
   }
 }

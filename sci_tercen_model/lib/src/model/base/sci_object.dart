@@ -303,12 +303,14 @@ class SciObjectBase extends base.Base {
         return ResourceSummary.json(m);
       case Vocabulary.BillingInfo_CLASS:
         return BillingInfo.json(m);
+      case Vocabulary.PatchResult_CLASS:
+        return PatchResult.json(m);
       case Vocabulary.Property_CLASS:
         return Property.json(m);
-      case Vocabulary.Version_CLASS:
-        return Version.json(m);
       case Vocabulary.Filters_CLASS:
         return Filters.json(m);
+      case Vocabulary.Version_CLASS:
+        return Version.json(m);
       case Vocabulary.CubeQuery_CLASS:
         return CubeQuery.json(m);
       case Vocabulary.Feature_CLASS:
@@ -385,6 +387,8 @@ class SciObjectBase extends base.Base {
         return Labels.json(m);
       case Vocabulary.OperatorSettings_CLASS:
         return OperatorSettings.json(m);
+      case Vocabulary.SelectPage_CLASS:
+        return SelectPage.json(m);
       case Vocabulary.TableSummary_CLASS:
         return TableSummary.json(m);
       case Vocabulary.Point_CLASS:

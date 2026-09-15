@@ -13,32 +13,6 @@ class QueryServiceBase extends HttpClientService<PersistentObject>
     return new PersistentObject.json(m);
   }
 
-  Future<List<PersistentObject>> findByOwnerAndKindAndDate(
-      {required List keys,
-      bool useFactory = false,
-      service.AclContext? aclContext}) {
-    return findKeys("findByOwnerAndKindAndDate",
-        keys: keys, useFactory: useFactory, aclContext: aclContext);
-  }
-
-  Future<List<PersistentObject>> findByOwnerAndProjectAndKindAndDate(
-      {startKey,
-      endKey,
-      int limit = 200,
-      int skip = 0,
-      bool descending = true,
-      bool useFactory = false,
-      service.AclContext? aclContext}) {
-    return findStartKeys("findByOwnerAndProjectAndKindAndDate",
-        startKey: startKey,
-        endKey: endKey,
-        limit: limit,
-        skip: skip,
-        descending: descending,
-        useFactory: useFactory,
-        aclContext: aclContext);
-  }
-
   Future<List<PersistentObject>> findByOwnerAndKind(
       {required List keys,
       bool useFactory = false,

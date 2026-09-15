@@ -163,7 +163,7 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
     return answer as List<PersistentObject>;
   }
 
-  Future<dynamic> patchObject(PatchRecords patch,
+  Future<PatchResult> patchObject(PatchRecords patch,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
@@ -178,13 +178,71 @@ class PersistentServiceBase extends HttpClientService<PersistentObject>
       if (response.statusCode != 200) {
         onResponseError(response);
       } else {
-        answer = null;
+        answer =
+            PatchResultBase.fromJson(contentCodec.decode(response.body) as Map);
       }
     } on ServiceError {
       rethrow;
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as dynamic;
+    return answer as PatchResult;
+  }
+
+  Future<PersistentObject> getObjectAtVersion(String objectId, int version,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/po" + "/" + "getObjectAtVersion");
+      var params = {};
+      params["objectId"] = objectId;
+      params["version"] = version;
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = PersistentObjectBase.fromJson(
+            contentCodec.decode(response.body) as Map);
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as PersistentObject;
+  }
+
+  Future<List<PatchRecords>> getObjectHistory(
+      String objectId, int limit, int offset,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/po" + "/" + "getObjectHistory");
+      var params = {};
+      params["objectId"] = objectId;
+      params["limit"] = limit;
+      params["offset"] = offset;
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = (contentCodec.decode(response.body) as List)
+            .map((m) => PatchRecordsBase.fromJson(m as Map))
+            .toList();
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as List<PatchRecords>;
   }
 }

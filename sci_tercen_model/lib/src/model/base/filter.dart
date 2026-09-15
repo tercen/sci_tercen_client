@@ -17,7 +17,7 @@ class FilterBase extends FilterTopExpr {
 
   FilterBase()
       : _logical = "",
-        _not = false,
+        _not = true,
         filterExprs = base.ListChanged<FilterTopExpr>() {
     filterExprs.parent = this;
   }
