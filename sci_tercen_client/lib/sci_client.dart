@@ -7,11 +7,13 @@ import "package:sci_tercen_model/sci_model.dart";
 import "package:sci_http_client/error.dart";
 import "package:sci_http_client/http_auth_client.dart" as httpauth;
 
-part 'src/client/impl/cran_library_service.dart';
+part 'src/client/impl/admin_service.dart';
+part 'src/client/impl/usage_service.dart';
 part 'src/client/impl/worker_service.dart';
 part 'src/client/impl/garbage_collector_service.dart';
 part 'src/client/impl/file_service.dart';
 part 'src/client/impl/lock_service.dart';
+part 'src/client/impl/cran_library_service.dart';
 part 'src/client/impl/subscription_plan_service.dart';
 part 'src/client/impl/persistent_service.dart';
 part 'src/client/impl/activity_service.dart';

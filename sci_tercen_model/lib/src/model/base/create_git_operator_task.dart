@@ -6,7 +6,8 @@ class CreateGitOperatorTaskBase extends Task {
     Vocabulary.version_DP,
     Vocabulary.operatorId_DP,
     Vocabulary.gitToken_DP,
-    Vocabulary.testRequired_DP
+    Vocabulary.testRequired_DP,
+    Vocabulary.force_DP
   ];
   static const List<String> REF_PROPERTY_NAMES = [Vocabulary.operatorId_DP];
   static const List<base.RefId> REF_IDS = [
@@ -18,12 +19,14 @@ class CreateGitOperatorTaskBase extends Task {
   String _operatorId;
   String _gitToken;
   bool _testRequired;
+  bool _force;
 
   CreateGitOperatorTaskBase()
       : _version = "",
         _operatorId = "",
         _gitToken = "",
         _testRequired = true,
+        _force = true,
         _url = Url() {
     _url.parent = this;
   }
@@ -37,6 +40,8 @@ class CreateGitOperatorTaskBase extends Task {
             m[Vocabulary.gitToken_DP] as String?, base.String_DefaultFactory),
         _testRequired = base.defaultValue(
             m[Vocabulary.testRequired_DP] as bool?, base.bool_DefaultFactory),
+        _force = base.defaultValue(
+            m[Vocabulary.force_DP] as bool?, base.bool_DefaultFactory),
         _url = (m[Vocabulary.url_OP] as Map?) == null
             ? Url()
             : UrlBase.fromJson(m[Vocabulary.url_OP] as Map),
@@ -107,6 +112,18 @@ class CreateGitOperatorTaskBase extends Task {
     }
   }
 
+  bool get force => _force;
+
+  set force(bool $o) {
+    if ($o == _force) return;
+    var $old = _force;
+    _force = $o;
+    if (hasListener) {
+      sendChangeEvent(
+          base.PropertyChangedEvent(this, Vocabulary.force_DP, $old, _force));
+    }
+  }
+
   Url get url => _url;
 
   set url(Url $o) {
@@ -134,6 +151,8 @@ class CreateGitOperatorTaskBase extends Task {
         return gitToken;
       case Vocabulary.testRequired_DP:
         return testRequired;
+      case Vocabulary.force_DP:
+        return force;
       default:
         return super.get($name);
     }
@@ -153,6 +172,9 @@ class CreateGitOperatorTaskBase extends Task {
         return;
       case Vocabulary.testRequired_DP:
         testRequired = $value as bool;
+        return;
+      case Vocabulary.force_DP:
+        force = $value as bool;
         return;
       case Vocabulary.url_OP:
         url = $value as Url;
@@ -187,6 +209,7 @@ class CreateGitOperatorTaskBase extends Task {
     m[Vocabulary.operatorId_DP] = operatorId;
     m[Vocabulary.gitToken_DP] = gitToken;
     m[Vocabulary.testRequired_DP] = testRequired;
+    m[Vocabulary.force_DP] = force;
     return m;
   }
 }

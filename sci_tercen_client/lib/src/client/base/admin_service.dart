@@ -1,25 +1,24 @@
 part of sci_client_base;
 
-class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
-    implements api.SubscriptionPlanService {
+class AdminServiceBase extends HttpClientService<PersistentObject>
+    implements api.AdminService {
   late ServiceFactoryBase factory;
 
-  Uri get uri => Uri.parse("api/v1/subscription");
-  String get serviceName => "SubscriptionPlan";
+  Uri get uri => Uri.parse("api/v1/admin");
+  String get serviceName => "PersistentObject";
 
-  Map toJson(SubscriptionPlan object) => object.toJson();
-  SubscriptionPlan fromJson(Map m, {bool useFactory = true}) {
-    if (useFactory) return SubscriptionPlanBase.fromJson(m);
-    return new SubscriptionPlan.json(m);
+  Map toJson(PersistentObject object) => object.toJson();
+  PersistentObject fromJson(Map m, {bool useFactory = true}) {
+    if (useFactory) return PersistentObjectBase.fromJson(m);
+    return new PersistentObject.json(m);
   }
 
-  Future<List<SubscriptionPlan>> getSubscriptionPlans(String userId,
+  Future<List<Pair>> getSchedulerStatus(
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/subscription" + "/" + "getSubscriptionPlans");
+      var uri = Uri.parse("api/v1/admin" + "/" + "getSchedulerStatus");
       var params = {};
-      params["userId"] = userId;
       var response = await client.post(getServiceUri(uri),
           headers: getHeaderForAclContext(
               contentCodec.contentTypeHeader, aclContext),
@@ -29,7 +28,7 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
         onResponseError(response);
       } else {
         answer = (contentCodec.decode(response.body) as List)
-            .map((m) => SubscriptionPlanBase.fromJson(m as Map))
+            .map((m) => PairBase.fromJson(m as Map))
             .toList();
       }
     } on ServiceError {
@@ -37,16 +36,14 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as List<SubscriptionPlan>;
+    return answer as List<Pair>;
   }
 
-  Future<List<Plan>> getPlans(String userId,
-      {service.AclContext? aclContext}) async {
+  Future<List<Pair>> getConfigSummary({service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/subscription" + "/" + "getPlans");
+      var uri = Uri.parse("api/v1/admin" + "/" + "getConfigSummary");
       var params = {};
-      params["userId"] = userId;
       var response = await client.post(getServiceUri(uri),
           headers: getHeaderForAclContext(
               contentCodec.contentTypeHeader, aclContext),
@@ -56,7 +53,7 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
         onResponseError(response);
       } else {
         answer = (contentCodec.decode(response.body) as List)
-            .map((m) => PlanBase.fromJson(m as Map))
+            .map((m) => PairBase.fromJson(m as Map))
             .toList();
       }
     } on ServiceError {
@@ -64,21 +61,14 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as List<Plan>;
+    return answer as List<Pair>;
   }
 
-  Future<SubscriptionPlan> createSubscriptionPlan(
-      String userId, String plan, String successUrl, String cancelUrl,
-      {service.AclContext? aclContext}) async {
+  Future<String> getGcStatus({service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri =
-          Uri.parse("api/v1/subscription" + "/" + "createSubscriptionPlan");
+      var uri = Uri.parse("api/v1/admin" + "/" + "getGcStatus");
       var params = {};
-      params["userId"] = userId;
-      params["plan"] = plan;
-      params["successUrl"] = successUrl;
-      params["cancelUrl"] = cancelUrl;
       var response = await client.post(getServiceUri(uri),
           headers: getHeaderForAclContext(
               contentCodec.contentTypeHeader, aclContext),
@@ -87,27 +77,21 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       if (response.statusCode != 200) {
         onResponseError(response);
       } else {
-        answer = SubscriptionPlanBase.fromJson(
-            contentCodec.decode(response.body) as Map);
+        answer = (contentCodec.decode(response.body) as List).first;
       }
     } on ServiceError {
       rethrow;
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as SubscriptionPlan;
+    return answer as String;
   }
 
-  Future<dynamic> setSubscriptionPlanStatus(
-      String subscriptionPlanId, String status,
-      {service.AclContext? aclContext}) async {
+  Future<String> triggerGcRun({service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri =
-          Uri.parse("api/v1/subscription" + "/" + "setSubscriptionPlanStatus");
+      var uri = Uri.parse("api/v1/admin" + "/" + "triggerGcRun");
       var params = {};
-      params["subscriptionPlanId"] = subscriptionPlanId;
-      params["status"] = status;
       var response = await client.post(getServiceUri(uri),
           headers: getHeaderForAclContext(
               contentCodec.contentTypeHeader, aclContext),
@@ -116,26 +100,23 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       if (response.statusCode != 200) {
         onResponseError(response);
       } else {
-        answer = null;
+        answer = (contentCodec.decode(response.body) as List).first;
       }
     } on ServiceError {
       rethrow;
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as dynamic;
+    return answer as String;
   }
 
-  Future<SubscriptionPlan> updatePaymentMethod(
-      String subscriptionPlanId, String successUrl, String cancelUrl,
+  Future<String> getStorageReport(String domain,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/subscription" + "/" + "updatePaymentMethod");
+      var uri = Uri.parse("api/v1/admin" + "/" + "getStorageReport");
       var params = {};
-      params["subscriptionPlanId"] = subscriptionPlanId;
-      params["successUrl"] = successUrl;
-      params["cancelUrl"] = cancelUrl;
+      params["domain"] = domain;
       var response = await client.post(getServiceUri(uri),
           headers: getHeaderForAclContext(
               contentCodec.contentTypeHeader, aclContext),
@@ -144,27 +125,23 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       if (response.statusCode != 200) {
         onResponseError(response);
       } else {
-        answer = SubscriptionPlanBase.fromJson(
-            contentCodec.decode(response.body) as Map);
+        answer = (contentCodec.decode(response.body) as List).first;
       }
     } on ServiceError {
       rethrow;
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as SubscriptionPlan;
+    return answer as String;
   }
 
-  Future<dynamic> setUpdatePaymentMethodStatus(
-      String subscriptionPlanId, String status,
+  Future<String> findActivities(int limit,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse(
-          "api/v1/subscription" + "/" + "setUpdatePaymentMethodStatus");
+      var uri = Uri.parse("api/v1/admin" + "/" + "findActivities");
       var params = {};
-      params["subscriptionPlanId"] = subscriptionPlanId;
-      params["status"] = status;
+      params["limit"] = limit;
       var response = await client.post(getServiceUri(uri),
           headers: getHeaderForAclContext(
               contentCodec.contentTypeHeader, aclContext),
@@ -173,23 +150,22 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       if (response.statusCode != 200) {
         onResponseError(response);
       } else {
-        answer = null;
+        answer = (contentCodec.decode(response.body) as List).first;
       }
     } on ServiceError {
       rethrow;
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as dynamic;
+    return answer as String;
   }
 
-  Future<dynamic> cancelSubscription(String subscriptionPlanId,
-      {service.AclContext? aclContext}) async {
+  Future<String> listUsers(int limit, {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/subscription" + "/" + "cancelSubscription");
+      var uri = Uri.parse("api/v1/admin" + "/" + "listUsers");
       var params = {};
-      params["subscriptionPlanId"] = subscriptionPlanId;
+      params["limit"] = limit;
       var response = await client.post(getServiceUri(uri),
           headers: getHeaderForAclContext(
               contentCodec.contentTypeHeader, aclContext),
@@ -198,24 +174,24 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       if (response.statusCode != 200) {
         onResponseError(response);
       } else {
-        answer = null;
+        answer = (contentCodec.decode(response.body) as List).first;
       }
     } on ServiceError {
       rethrow;
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as dynamic;
+    return answer as String;
   }
 
-  Future<dynamic> upgradeSubscription(String subscriptionPlanId, String plan,
+  Future<List<String>> grantRole(String username, String role,
       {service.AclContext? aclContext}) async {
     var answer;
     try {
-      var uri = Uri.parse("api/v1/subscription" + "/" + "upgradeSubscription");
+      var uri = Uri.parse("api/v1/admin" + "/" + "grantRole");
       var params = {};
-      params["subscriptionPlanId"] = subscriptionPlanId;
-      params["plan"] = plan;
+      params["username"] = username;
+      params["role"] = role;
       var response = await client.post(getServiceUri(uri),
           headers: getHeaderForAclContext(
               contentCodec.contentTypeHeader, aclContext),
@@ -224,13 +200,39 @@ class SubscriptionPlanServiceBase extends HttpClientService<SubscriptionPlan>
       if (response.statusCode != 200) {
         onResponseError(response);
       } else {
-        answer = null;
+        answer = (contentCodec.decode(response.body) as List).cast<String>();
       }
     } on ServiceError {
       rethrow;
     } catch (e, st) {
       onError(e, st);
     }
-    return answer as dynamic;
+    return answer as List<String>;
+  }
+
+  Future<List<String>> revokeRole(String username, String role,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/admin" + "/" + "revokeRole");
+      var params = {};
+      params["username"] = username;
+      params["role"] = role;
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = (contentCodec.decode(response.body) as List).cast<String>();
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as List<String>;
   }
 }

@@ -1,14 +1,22 @@
 part of sci_model_base;
 
 class PatchRecordListClearBase extends PatchRecordType {
-  static const List<String> PROPERTY_NAMES = [];
+  static const List<String> PROPERTY_NAMES = [Vocabulary.items_OP];
   static const List<String> REF_PROPERTY_NAMES = [];
   static const List<base.RefId> REF_IDS = [];
   static const List<base.PropertyConstraint> CONSTRAINTS = [];
+  final base.ListChanged<TypedValue> items;
 
-  PatchRecordListClearBase();
-  PatchRecordListClearBase.json(Map m) : super.json(m) {
+  PatchRecordListClearBase() : items = base.ListChanged<TypedValue>() {
+    items.parent = this;
+  }
+
+  PatchRecordListClearBase.json(Map m)
+      : items = base.ListChanged<TypedValue>.from(
+            m[Vocabulary.items_OP] as List?, TypedValueBase.createFromJson),
+        super.json(m) {
     subKind = base.subKindForClass(Vocabulary.PatchRecordListClear_CLASS, m);
+    items.parent = this;
   }
 
   static PatchRecordListClear createFromJson(Map m) =>
@@ -25,6 +33,27 @@ class PatchRecordListClearBase extends PatchRecordType {
 
   @override
   String get kind => Vocabulary.PatchRecordListClear_CLASS;
+
+  @override
+  dynamic get(String $name) {
+    switch ($name) {
+      case Vocabulary.items_OP:
+        return items;
+      default:
+        return super.get($name);
+    }
+  }
+
+  @override
+  set(String $name, dynamic $value) {
+    switch ($name) {
+      case Vocabulary.items_OP:
+        items.setValues($value as Iterable<TypedValue>);
+        return;
+      default:
+        super.set($name, $value);
+    }
+  }
 
   @override
   Iterable<String> getPropertyNames() =>
@@ -46,6 +75,7 @@ class PatchRecordListClearBase extends PatchRecordType {
     } else {
       m.remove(Vocabulary.SUBKIND);
     }
+    m[Vocabulary.items_OP] = items.toJson();
     return m;
   }
 }

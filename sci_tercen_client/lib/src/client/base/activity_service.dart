@@ -13,6 +13,24 @@ class ActivityServiceBase extends HttpClientService<Activity>
     return new Activity.json(m);
   }
 
+  Future<List<Activity>> findActivityByDate(
+      {startKey,
+      endKey,
+      int limit = 200,
+      int skip = 0,
+      bool descending = true,
+      bool useFactory = false,
+      service.AclContext? aclContext}) {
+    return findStartKeys("findActivityByDate",
+        startKey: startKey,
+        endKey: endKey,
+        limit: limit,
+        skip: skip,
+        descending: descending,
+        useFactory: useFactory,
+        aclContext: aclContext);
+  }
+
   Future<List<Activity>> findByUserAndDate(
       {startKey,
       endKey,

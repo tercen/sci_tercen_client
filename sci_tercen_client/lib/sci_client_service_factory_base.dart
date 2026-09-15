@@ -5,11 +5,13 @@ import 'package:sci_base/sci_service.dart' as api;
 abstract class ServiceFactoryBase {
   static ServiceFactoryBase? CURRENT;
   factory ServiceFactoryBase() => CURRENT!;
-  CranLibraryService get cranLibraryService;
+  AdminService get adminService;
+  UsageService get usageService;
   WorkerService get workerService;
   GarbageCollectorService get garbageCollectorService;
   FileService get fileService;
   LockService get lockService;
+  CranLibraryService get cranLibraryService;
   SubscriptionPlanService get subscriptionPlanService;
   PersistentService get persistentService;
   ActivityService get activityService;
@@ -29,22 +31,24 @@ abstract class ServiceFactoryBase {
   OperatorService get operatorService;
 }
 
-abstract class CranLibraryService implements api.Service<RLibrary> {
-  Stream<List<int>> packagesGz(String repoName, {api.AclContext? aclContext});
-  Stream<List<int>> packagesRds(String repoName, {api.AclContext? aclContext});
-  Stream<List<int>> packages(String repoName, {api.AclContext? aclContext});
-  Stream<List<int>> archive(String repoName, String package, String filename,
+abstract class AdminService implements api.Service<PersistentObject> {
+  Future<List<Pair>> getSchedulerStatus({api.AclContext? aclContext});
+  Future<List<Pair>> getConfigSummary({api.AclContext? aclContext});
+  Future<String> getGcStatus({api.AclContext? aclContext});
+  Future<String> triggerGcRun({api.AclContext? aclContext});
+  Future<String> getStorageReport(String domain, {api.AclContext? aclContext});
+  Future<String> findActivities(int limit, {api.AclContext? aclContext});
+  Future<String> listUsers(int limit, {api.AclContext? aclContext});
+  Future<List<String>> grantRole(String username, String role,
       {api.AclContext? aclContext});
-  Stream<List<int>> package(String repoName, String package,
+  Future<List<String>> revokeRole(String username, String role,
       {api.AclContext? aclContext});
-  Future<List<RLibrary>> findByOwnerNameVersion(
-      {startKey,
-      endKey,
-      int limit = 200,
-      int skip = 0,
-      bool descending = true,
-      bool useFactory = false,
-      api.AclContext? aclContext});
+}
+
+abstract class UsageService implements api.Service<PersistentObject> {
+  Future<String> getUsageReport(
+      String scope, String from, String to, String bucket,
+      {api.AclContext? aclContext});
 }
 
 abstract class WorkerService implements api.Service<Task> {
@@ -58,16 +62,7 @@ abstract class WorkerService implements api.Service<Task> {
   Future<List<Table>> getTaskStats(String taskId, {api.AclContext? aclContext});
 }
 
-abstract class GarbageCollectorService implements api.Service<GarbageObject> {
-  Future<List<GarbageObject>> findGarbageTasks2ByDate(
-      {startKey,
-      endKey,
-      int limit = 200,
-      int skip = 0,
-      bool descending = true,
-      bool useFactory = false,
-      api.AclContext? aclContext});
-}
+abstract class GarbageCollectorService implements api.Service<GarbageObject> {}
 
 abstract class FileService implements api.Service<FileDocument> {
   Future<FileDocument> upload(FileDocument file, Stream<List> bytes,
@@ -107,6 +102,24 @@ abstract class LockService implements api.Service<Lock> {
   Future<dynamic> releaseLock(Lock lock, {api.AclContext? aclContext});
 }
 
+abstract class CranLibraryService implements api.Service<RLibrary> {
+  Stream<List<int>> packagesGz(String repoName, {api.AclContext? aclContext});
+  Stream<List<int>> packagesRds(String repoName, {api.AclContext? aclContext});
+  Stream<List<int>> packages(String repoName, {api.AclContext? aclContext});
+  Stream<List<int>> archive(String repoName, String package, String filename,
+      {api.AclContext? aclContext});
+  Stream<List<int>> package(String repoName, String package,
+      {api.AclContext? aclContext});
+  Future<List<RLibrary>> findByOwnerNameVersion(
+      {startKey,
+      endKey,
+      int limit = 200,
+      int skip = 0,
+      bool descending = true,
+      bool useFactory = false,
+      api.AclContext? aclContext});
+}
+
 abstract class SubscriptionPlanService
     implements api.Service<SubscriptionPlan> {
   Future<List<SubscriptionPlan>> getSubscriptionPlans(String userId,
@@ -128,14 +141,6 @@ abstract class SubscriptionPlanService
       {api.AclContext? aclContext});
   Future<dynamic> upgradeSubscription(String subscriptionPlanId, String plan,
       {api.AclContext? aclContext});
-  Future<List<SubscriptionPlan>> findByOwner(
-      {required List keys,
-      bool useFactory = false,
-      api.AclContext? aclContext});
-  Future<List<SubscriptionPlan>> findSubscriptionPlanByCheckoutSessionId(
-      {required List keys,
-      bool useFactory = false,
-      api.AclContext? aclContext});
 }
 
 abstract class PersistentService implements api.Service<PersistentObject> {
@@ -148,7 +153,13 @@ abstract class PersistentService implements api.Service<PersistentObject> {
   Future<List<PersistentObject>> getObjects(
       String startId, String endId, int limit, bool useFactory,
       {api.AclContext? aclContext});
-  Future<dynamic> patchObject(PatchRecords patch, {api.AclContext? aclContext});
+  Future<PatchResult> patchObject(PatchRecords patch,
+      {api.AclContext? aclContext});
+  Future<PersistentObject> getObjectAtVersion(String objectId, int version,
+      {api.AclContext? aclContext});
+  Future<List<PatchRecords>> getObjectHistory(
+      String objectId, int limit, int offset,
+      {api.AclContext? aclContext});
   Future<List<PersistentObject>> findDeleted(
       {required List keys,
       bool useFactory = false,
@@ -160,6 +171,14 @@ abstract class PersistentService implements api.Service<PersistentObject> {
 }
 
 abstract class ActivityService implements api.Service<Activity> {
+  Future<List<Activity>> findActivityByDate(
+      {startKey,
+      endKey,
+      int limit = 200,
+      int skip = 0,
+      bool descending = true,
+      bool useFactory = false,
+      api.AclContext? aclContext});
   Future<List<Activity>> findByUserAndDate(
       {startKey,
       endKey,
@@ -225,6 +244,12 @@ abstract class TableSchemaService implements api.Service<Schema> {
       {api.AclContext? aclContext});
   Stream<List<int>> selectCSV(String tableId, List<String> cnames, int offset,
       int limit, String separator, bool quote, String encoding,
+      {api.AclContext? aclContext});
+  Future<SelectPage> selectRelationPage(
+      Relation relation, List<String> cnames, String cursor, int maxBytes,
+      {api.AclContext? aclContext});
+  Stream<List<int>> selectRelationStream(
+      Relation relation, List<String> cnames, String cursor,
       {api.AclContext? aclContext});
   Future<List<Schema>> findSchemaByDataDirectory(
       {startKey,
@@ -381,18 +406,6 @@ abstract class UserService implements api.Service<User> {
 
 abstract class QueryService implements api.Service<PersistentObject> {
   Stream<String> jq(String jq, int limit, {api.AclContext? aclContext});
-  Future<List<PersistentObject>> findByOwnerAndKindAndDate(
-      {required List keys,
-      bool useFactory = false,
-      api.AclContext? aclContext});
-  Future<List<PersistentObject>> findByOwnerAndProjectAndKindAndDate(
-      {startKey,
-      endKey,
-      int limit = 200,
-      int skip = 0,
-      bool descending = true,
-      bool useFactory = false,
-      api.AclContext? aclContext});
   Future<List<PersistentObject>> findByOwnerAndKind(
       {required List keys,
       bool useFactory = false,
@@ -476,12 +489,12 @@ abstract class TeamService implements api.Service<Team> {
       {api.AclContext? aclContext});
   Future<dynamic> transferOwnership(List<String> teamIds, String newOwner,
       {api.AclContext? aclContext});
+  Future<List<Team>> findTeamByMember(String userId,
+      {api.AclContext? aclContext});
   Future<List<Team>> findTeamByOwner(
       {required List keys,
       bool useFactory = false,
       api.AclContext? aclContext});
-  Future<List<Team>> findTeamByMember(String userId,
-      {api.AclContext? aclContext});
 }
 
 abstract class ProjectService implements api.Service<Project> {

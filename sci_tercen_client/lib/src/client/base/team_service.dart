@@ -73,6 +73,32 @@ class TeamServiceBase extends HttpClientService<Team>
     return answer as ResourceSummary;
   }
 
+  Future<dynamic> transferOwnership(List<String> teamIds, String newOwner,
+      {service.AclContext? aclContext}) async {
+    var answer;
+    try {
+      var uri = Uri.parse("api/v1/team" + "/" + "transferOwnership");
+      var params = {};
+      params["teamIds"] = teamIds;
+      params["newOwner"] = newOwner;
+      var response = await client.post(getServiceUri(uri),
+          headers: getHeaderForAclContext(
+              contentCodec.contentTypeHeader, aclContext),
+          responseType: contentCodec.responseType,
+          body: contentCodec.encode(params));
+      if (response.statusCode != 200) {
+        onResponseError(response);
+      } else {
+        answer = null;
+      }
+    } on ServiceError {
+      rethrow;
+    } catch (e, st) {
+      onError(e, st);
+    }
+    return answer as dynamic;
+  }
+
   Future<List<Team>> findTeamByMember(String userId,
       {service.AclContext? aclContext}) async {
     var answer;
@@ -98,31 +124,5 @@ class TeamServiceBase extends HttpClientService<Team>
       onError(e, st);
     }
     return answer as List<Team>;
-  }
-
-  Future<dynamic> transferOwnership(List<String> teamIds, String newOwner,
-      {service.AclContext? aclContext}) async {
-    var answer;
-    try {
-      var uri = Uri.parse("api/v1/team" + "/" + "transferOwnership");
-      var params = {};
-      params["teamIds"] = teamIds;
-      params["newOwner"] = newOwner;
-      var response = await client.post(getServiceUri(uri),
-          headers: getHeaderForAclContext(
-              contentCodec.contentTypeHeader, aclContext),
-          responseType: contentCodec.responseType,
-          body: contentCodec.encode(params));
-      if (response.statusCode != 200) {
-        onResponseError(response);
-      } else {
-        answer = null;
-      }
-    } on ServiceError {
-      rethrow;
-    } catch (e, st) {
-      onError(e, st);
-    }
-    return answer as dynamic;
   }
 }
